@@ -42,6 +42,16 @@
   </url>
   
   <url>
+    <loc>https://nickjantz.com/cyber-security/</loc>
+    <lastmod>2022-11-07</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nickjantz.com/drones/</loc>
+    <lastmod>2022-11-07</lastmod>
+  </url>
+  
+  <url>
     <loc>https://nickjantz.com/</loc>
     <lastmod>2022-11-07</lastmod>
   </url>
@@ -67,17 +77,27 @@
   </url>
   
   <url>
-    <loc>https://nickjantz.com/tags/number-2/</loc>
-    <lastmod>2022-11-07</lastmod>
-  </url>
-  
-  <url>
     <loc>https://nickjantz.com/tags/posts-with-two-tags/</loc>
     <lastmod>2022-11-07</lastmod>
   </url>
   
   <url>
+    <loc>https://nickjantz.com/tags/number-2/</loc>
+    <lastmod>2022-11-07</lastmod>
+  </url>
+  
+  <url>
     <loc>https://nickjantz.com/tags/triathlon/</loc>
+    <lastmod>2022-11-07</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nickjantz.com/triathlon/</loc>
+    <lastmod>2022-11-07</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nickjantz.com/web-dev/</loc>
     <lastmod>2022-11-07</lastmod>
   </url>
 </urlset>
