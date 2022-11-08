@@ -11,8 +11,12 @@ eleventyNavigation:
 I am a person that writes stuff.
 
 
+{% for key, value in races %}
+<h2>{{ key }}</h2>
 <ul>
-{%- for race in races[2008] %}
+{%- for race in value %}
   <li>{{ race.raceName }}</li>
 {%- endfor %}
 </ul>
+{% endfor %}
+

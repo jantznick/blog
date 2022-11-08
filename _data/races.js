@@ -1,5 +1,5 @@
 module.exports = {
-    2008: [
+    '2008': [
         {
             raceName: 'Firecracker Triathlon',
             type: 'triathlon',
@@ -14,7 +14,7 @@ module.exports = {
             date: '09/10/2008'
         }
     ],
-    2009: [
+    '2009': [
         {
             raceName: 'Firecracker Triathlon',
             type: 'triathlon',
