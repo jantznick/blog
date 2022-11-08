@@ -8,8 +8,7 @@ eleventyNavigation:
   order: 4
 ---
 
-I am a person that writes stuff.
-
+I am a person that writes stuff about Triathlons.
 
 {% for key, value in races %}
 <h2>{{ key }}</h2>
