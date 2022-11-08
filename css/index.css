@@ -293,6 +293,12 @@ a[href].post-tag:focus {
   justify-content: space-between;
 }
 
+#page-content {
+  width: 100%; 
+  display: flex;
+  justify-content: center;
+}
+
 @media only screen and (max-width: 768px) {
   main {
     width: 100%;

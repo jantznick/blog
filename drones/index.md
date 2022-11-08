@@ -2,6 +2,7 @@
 layout: layouts/page.njk
 title: Drones
 templateClass: tmpl-page
+key: drones
 eleventyNavigation:
   key: Drones
   order: 5

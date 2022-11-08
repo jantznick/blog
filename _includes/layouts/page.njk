@@ -4,14 +4,34 @@ templateClass: tmpl-page
 ---
 <h1>{{ title }}</h1>
 
+{# OLD: #}
 {# <time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time>
 {%- for tag in tags | filterTagList %}
 {%- set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
 <a href="{{ tagUrl | url }}" class="post-tag">{{ tag }}</a>
 {%- endfor %} #}
 
-{{ content | safe }}
 
+<div id="page-content">
+  {{ content | safe }}
+</div>
+
+
+
+{%- if key %}
+{% set postslist = collections[key] %}
+{% include "postslist.njk" %}
+{%- endif %}
+
+{# GOOD: #}
+{# <ul class="nav">
+{%- for post in collections[key] %}
+  <li>{{ post.data.title }}</li>
+{%- endfor %}
+</ul> #}
+
+
+{# OLD: #}
 {# {%- if collections.posts %}
 {%- set nextPost = collections.posts | getNextCollectionItem(page) %}
 {%- set previousPost = collections.posts | getPreviousCollectionItem(page) %}
@@ -22,4 +42,4 @@ templateClass: tmpl-page
   {%- if previousPost %}<li>Previous: <a href="{{ previousPost.url | url }}">{{ previousPost.data.title }}</a></li>{% endif %}
 </ul>
 {%- endif %}
-{%- endif %} #}
+{%- endif %}  #}

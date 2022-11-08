@@ -2,6 +2,7 @@
 layout: layouts/page.njk
 title: Triathlon
 templateClass: tmpl-page
+key: triathlon
 eleventyNavigation:
   key: Triathlon
   order: 4
