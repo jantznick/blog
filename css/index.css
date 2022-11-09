@@ -299,6 +299,41 @@ a[href].post-tag:focus {
   justify-content: center;
 }
 
+time {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#post-footer {
+  width: 100%;
+}
+
+.footer-pagination {
+  display: flex;
+  justify-content: space-between;
+  padding-inline-start: 1em;
+}
+
+.flex-filler {
+  list-style-type: none;
+}
+
+li.next {
+  list-style-type: "\2B05 ";
+}
+
+li.previous {
+  list-style-type: none;
+}
+
+li.previous::after {
+  content: " \27A1";
+}
+
+#expander {
+  display: none;
+}
 @media only screen and (max-width: 768px) {
   main {
     width: 100%;
@@ -306,10 +341,32 @@ a[href].post-tag:focus {
   a.home{
     display:none;
   }
-}
+  time{
+    justify-content: start;
+  }
+  .nav-item {
+    width: 100%;
+    margin: .25em 0;
+  }
+  i.bi {
+    font-size: 2em;
+    display: flex;
+    justify-content: end;
+    margin-right: 1em;
+  }
+  .display-none {
+    display: none;
+  }
+  #expander {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+  }
 
-time {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  ul.nav {
+      display: flex;
+      justify-content: end;
+      width: 100%;
+      flex-wrap: wrap;
+  }
 }
