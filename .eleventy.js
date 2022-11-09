@@ -64,16 +64,17 @@ module.exports = function(eleventyConfig) {
   // Customize Markdown library and settings:
   let markdownLibrary = markdownIt({
     html: true,
-    linkify: true
-  }).use(markdownItAnchor, {
-    permalink: markdownItAnchor.permalink.ariaHidden({
-      placement: "after",
-      class: "direct-link",
-      symbol: "#"
-    }),
-    level: [1,2,3,4],
-    slugify: eleventyConfig.getFilter("slugify")
-  });
+    // linkify: true
+  })
+  // .use(markdownItAnchor, {
+  //   permalink: markdownItAnchor.permalink.ariaHidden({
+  //     placement: "after",
+  //     class: "direct-link",
+  //     symbol: "#"
+  //   }),
+  //   level: [1,2,3,4],
+  //   slugify: eleventyConfig.getFilter("slugify")
+  // });
   eleventyConfig.setLibrary("md", markdownLibrary);
 
   // Override Browsersync defaults (used only with --serve)

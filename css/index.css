@@ -307,3 +307,9 @@ a[href].post-tag:focus {
     display:none;
   }
 }
+
+time {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

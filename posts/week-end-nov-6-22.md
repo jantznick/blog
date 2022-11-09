@@ -6,21 +6,20 @@ tags:
   - triathlon
 layout: layouts/post.njk
 ---
-Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
 
-Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.
+## Triathlon Training Week of October 31st - November 6th 2022
 
-## Section Header
+Tough week. Still recovering from the difficulties of my 20 minute FTP test as well as adding in running did not give my legs much time to recover for workouts.
 
-Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.
+Starting next week going into a run block until the F3 half marathon at the end of January. I will begin by just adding mileage until I am regularly around 30-40 miles per week without a huge effort. At that point I will begin to slowly add tempo runs and track workouts as they fit. 
 
-```diff-js
-// this is a command
-function myCommand() {
-+	let counter = 0;
-+	counter++;
-}
+Following this week I have decided to ease up my expectations and shoot for more focused session with the following schedule:
+Monday: Run
+Tuesday: Bike
+Wednesday: Run
+Thursday: Bike
+Friday: Run
+Saturday: Run & Bike
+Sunday: Run & Bike
 
-// Test with a line break above this line.
-console.log('Test');
-```
+This will lower my stress of trying to get 2 workouts in, but cut back on my rest days. Hoping that the runs on Monday, Wednesday or Friday can be considered rest.
