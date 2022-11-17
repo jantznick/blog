@@ -5,12 +5,23 @@
 	
 	<link href="https://nickjantz.com/feed/feed.xml" rel="self"/>
 	<link href="https://nickjantz.com/"/>
-	<updated>2022-11-07T00:00:00Z</updated>
+	<updated>2022-11-14T00:00:00Z</updated>
 	<id>https://nickjantz.com/</id>
 	<author>
 		<name>Nick Jantz</name>
 		<email>thenickjantz@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title>Week ending November 13th 2022</title>
+		<link href="https://nickjantz.com/posts/week-end-nov-13-22/"/>
+		<updated>2022-11-14T00:00:00Z</updated>
+		<id>https://nickjantz.com/posts/week-end-nov-13-22/</id>
+		<content type="html">&lt;h2&gt;Triathlon Training Week of October 31st - November 6th 2022&lt;/h2&gt;
+&lt;p&gt;Due to a rough weekend ended up taking off Monday/Tuesday which derailed my single workout mon-fri plan. Attempted to recover that with a big Thurs/Sat/Sun.
+Did first 2.5 hour ride on Sunday and attempted a run off it to feel out the legs. It felt (relatively) great at the start but eventually the body just said no.&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Week ending November 6th 2022</title>

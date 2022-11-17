@@ -10,6 +10,12 @@
     "url": "https://nickjantz.com/about-me/"
   },
   "items": [{
+      "id": "https://nickjantz.com/posts/week-end-nov-13-22/",
+      "url": "https://nickjantz.com/posts/week-end-nov-13-22/",
+      "title": "Week ending November 13th 2022",
+      "content_html": "<h2>Triathlon Training Week of October 31st - November 6th 2022</h2>\n<p>Due to a rough weekend ended up taking off Monday/Tuesday which derailed my single workout mon-fri plan. Attempted to recover that with a big Thurs/Sat/Sun.\nDid first 2.5 hour ride on Sunday and attempted a run off it to feel out the legs. It felt (relatively) great at the start but eventually the body just said no.</p>\n",
+      "date_published": "2022-11-14T00:00:00Z"
+    },{
       "id": "https://nickjantz.com/posts/week-end-nov-6-22/",
       "url": "https://nickjantz.com/posts/week-end-nov-6-22/",
       "title": "Week ending November 6th 2022",
