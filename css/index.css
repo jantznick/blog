@@ -305,6 +305,10 @@ time {
   justify-content: center;
 }
 
+time.postlist-date {
+  width: unset;
+}
+
 #post-footer {
   width: 100%;
 }
@@ -369,4 +373,9 @@ li.previous::after {
       width: 100%;
       flex-wrap: wrap;
   }
+}
+
+.tmpl-post img {
+  width: 100%;
+  max-width: unset;
 }
