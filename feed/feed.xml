@@ -5,12 +5,23 @@
 	
 	<link href="https://nickjantz.com/feed/feed.xml" rel="self"/>
 	<link href="https://nickjantz.com/"/>
-	<updated>2022-11-14T00:00:00Z</updated>
+	<updated>2022-12-17T00:00:00Z</updated>
 	<id>https://nickjantz.com/</id>
 	<author>
 		<name>Nick Jantz</name>
 		<email>thenickjantz@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title>Adding data to a dataset using external APIs</title>
+		<link href="https://nickjantz.com/posts/adding-data-with-external-apis/"/>
+		<updated>2022-12-17T00:00:00Z</updated>
+		<id>https://nickjantz.com/posts/adding-data-with-external-apis/</id>
+		<content type="html">&lt;h2&gt;Background&lt;/h2&gt;
+&lt;p&gt;This is going to be a pretty short post, but one that I think will come in handy for a lot of people. A lot of times when getting data from 3rd parties they don&#39;t always include data you may want to analyze. Or maybe you&#39;re doing an analysis and just wanted to poke a little deeper. That is what happened to me and I wanted to share about it.&lt;/p&gt;
+&lt;p&gt;I was recently downloading some data sets from the &lt;a href=&quot;https://opendata.cityofnewyork.us/&quot;&gt;NYC data portal&lt;/a&gt; and wanted to go a little bit deeper into analyzing the types of taxis in NYC.&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Week ending November 13th 2022</title>
