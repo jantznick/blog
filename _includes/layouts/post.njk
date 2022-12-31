@@ -10,7 +10,9 @@ templateClass: tmpl-post
 <a href="{{ tagUrl | url }}" class="post-tag">{{ tag }}</a>
 {%- endfor %} #}
 
+<div id="post-content">
 {{ content | safe }}
+</div>
 
 <div id='post-footer'>
 {%- if collections.posts %}
