@@ -9,7 +9,7 @@ layout: layouts/post.njk
 
 In my learning data science I like to work with publicly available datasets. There are quite a few places to get this, but one that I keep going back to are some of the open data sets from [Chicago](https://data.cityofchicago.org/) and [New York](https://opendata.cityofnewyork.us/). They just have great documentation and easy to download sets of data. The problem is they're often on the larger size and can take up a lot of computing resources for something like a Jupyter notebook where you may be working a lot when first learning.
 
-Luckily, you can go ahead and make mini versions of these datasets and then use them for any exploratory purposes before running full scripts on them, if you so choose. Here I will show you my approach to doing that. I realize there's ways to do this possibly by doing something like `ECHO head dataset.json > mini-dataset.json` but for purposes of learning I wanted to test my python skills.
+Luckily, you can go ahead and make mini versions of these datasets and then use them for any exploratory purposes before running full scripts on them, if you so choose. Here I will show you my approach to doing that. I realize there's ways to do this possibly by doing something like `ECHO head dataset.json > mini-dataset.json` but for purposes of learning I wanted to test my python skills. *Edit note: see bottom of page for a simple 1 liner in bash*
 
 My goal was to take all my data files, stored in a single folder and make versions of them starting with mini-*** to make them easier to work with. Maybe only 100-200 rows long.
 
@@ -44,4 +44,9 @@ files = [file for file in os.listdir() if file.endswith('.csv')]
 for file in files:
   read_file = pd.read_csv(f"data/{file}")
   read_file[:150].to_csv(f"mini-{file}")
+```
+
+As mentioned above the 1 liner in bash to achieve the same:
+```
+for FILE in *.csv; do head -n 151 $FILE > "mini-$FILE"; done
 ```
