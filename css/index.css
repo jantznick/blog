@@ -178,6 +178,7 @@ a.home {
 /* Posts list */
 ol.postlist {
   width: 75%;
+  margin: 0 12.5%;
 }
 .postlist {
   list-style: none;
