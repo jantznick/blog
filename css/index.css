@@ -71,7 +71,7 @@ main {
   width: 75%;
   margin: 0 auto;
   display:flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 main h1 {
@@ -178,7 +178,6 @@ a.home {
 /* Posts list */
 ol.postlist {
   width: 75%;
-  margin: 0 12.5%;
 }
 .postlist {
   list-style: none;
@@ -294,10 +293,16 @@ a[href].post-tag:focus {
   justify-content: space-between;
 }
 
+#post-content {
+  margin-top: 1.5em;
+}
+
 #page-content {
   width: 100%; 
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 1.5em;
 }
 
 time {
@@ -312,6 +317,7 @@ time.postlist-date {
 
 #post-footer {
   width: 100%;
+  margin-top: 1.5em;
 }
 
 .footer-pagination {
@@ -340,8 +346,17 @@ li.previous::after {
   display: none;
 }
 @media only screen and (max-width: 768px) {
+  header {
+    justify-content: space-between;
+  }
   main {
     width: 100%;
+  }
+  .home{
+    width: unset;
+    justify-content: flex-start;
+    align-items: center;
+    flex-grow: 1;
   }
   a.home{
     display:none;
@@ -352,6 +367,8 @@ li.previous::after {
   .nav-item {
     width: 100%;
     margin: .25em 0;
+    display: flex;
+    justify-content: center;
   }
   i.bi {
     font-size: 2em;
@@ -363,16 +380,22 @@ li.previous::after {
     display: none;
   }
   #expander {
-    width: 100%;
     display: flex;
     justify-content: end;
+    align-items: center;
   }
 
   ul.nav {
-      display: flex;
-      justify-content: end;
-      width: 100%;
-      flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+    margin-left: unset;
+    margin-top: unset;
+  }
+
+  ol.postlist {
+    width: 100%;
   }
 }
 
