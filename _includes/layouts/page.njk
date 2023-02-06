@@ -16,30 +16,12 @@ templateClass: tmpl-page
   {{ content | safe }}
 </div>
 
-
-
 {%- if key %}
+<h2 style="width:100%;margin-bottom:0;">Posts:</h2>
 {% set postslist = collections[key] %}
 {% include "postslist.njk" %}
 {%- endif %}
 
-{# GOOD: #}
-{# <ul class="nav">
-{%- for post in collections[key] %}
-  <li>{{ post.data.title }}</li>
-{%- endfor %}
-</ul> #}
 
 
-{# OLD: #}
-{# {%- if collections.posts %}
-{%- set nextPost = collections.posts | getNextCollectionItem(page) %}
-{%- set previousPost = collections.posts | getPreviousCollectionItem(page) %}
-{%- if nextPost or previousPost %}
-<hr>
-<ul>
-  {%- if nextPost %}<li>Next: <a href="{{ nextPost.url | url }}">{{ nextPost.data.title }}</a></li>{% endif %}
-  {%- if previousPost %}<li>Previous: <a href="{{ previousPost.url | url }}">{{ previousPost.data.title }}</a></li>{% endif %}
-</ul>
-{%- endif %}
-{%- endif %}  #}
+
