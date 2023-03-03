@@ -345,6 +345,12 @@ li.previous::after {
 #expander {
   display: none;
 }
+
+#jupyter-notebook {
+  border: 1px solid #eee;
+  margin-top:1em;
+}
+
 @media only screen and (max-width: 768px) {
   header {
     justify-content: space-between;

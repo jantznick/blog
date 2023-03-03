@@ -10,6 +10,12 @@
     "url": "https://nickjantz.com/about-me/"
   },
   "items": [{
+      "id": "https://nickjantz.com/posts/kona-data-part-1/",
+      "url": "https://nickjantz.com/posts/kona-data-part-1/",
+      "title": "Kona Run Data Analysis Part 1",
+      "content_html": "<h2>Background</h2>\n<p>Entalpi, the company that works with Gustav Iden and Kristian Blummenfelt recently released some raw data from the run at Kona 2022.</p>\n<p>I am going to be taking a basic look at some of the data released in a series of Jupyter Notebooks as a way of further my skills.</p>\n<p>Data and more info can be found on their Github here:\n<a href=\"https://github.com/entalpi-no/kona-2022\">https://github.com/entalpi-no/kona-2022</a></p>\n",
+      "date_published": "2023-03-02T00:00:00Z"
+    },{
       "id": "https://nickjantz.com/posts/interesting-maker-blog-article/",
       "url": "https://nickjantz.com/posts/interesting-maker-blog-article/",
       "title": "Article about taking over a failed IOT company",

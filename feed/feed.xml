@@ -5,12 +5,25 @@
 	
 	<link href="https://nickjantz.com/feed/feed.xml" rel="self"/>
 	<link href="https://nickjantz.com/"/>
-	<updated>2023-01-12T00:00:00Z</updated>
+	<updated>2023-03-02T00:00:00Z</updated>
 	<id>https://nickjantz.com/</id>
 	<author>
 		<name>Nick Jantz</name>
 		<email>thenickjantz@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title>Kona Run Data Analysis Part 1</title>
+		<link href="https://nickjantz.com/posts/kona-data-part-1/"/>
+		<updated>2023-03-02T00:00:00Z</updated>
+		<id>https://nickjantz.com/posts/kona-data-part-1/</id>
+		<content type="html">&lt;h2&gt;Background&lt;/h2&gt;
+&lt;p&gt;Entalpi, the company that works with Gustav Iden and Kristian Blummenfelt recently released some raw data from the run at Kona 2022.&lt;/p&gt;
+&lt;p&gt;I am going to be taking a basic look at some of the data released in a series of Jupyter Notebooks as a way of further my skills.&lt;/p&gt;
+&lt;p&gt;Data and more info can be found on their Github here:
+&lt;a href=&quot;https://github.com/entalpi-no/kona-2022&quot;&gt;https://github.com/entalpi-no/kona-2022&lt;/a&gt;&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Article about taking over a failed IOT company</title>
