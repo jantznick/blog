@@ -10,6 +10,12 @@
     "url": "https://nickjantz.com/about-me/"
   },
   "items": [{
+      "id": "https://nickjantz.com/posts/supabase-flask/",
+      "url": "https://nickjantz.com/posts/supabase-flask/",
+      "title": "Protecting a Flask API with Supabase",
+      "content_html": "<h2>Background</h2>\n<p>I am working on a side project that involves user authorization and authentication. In the past I have used <a href=\"http://www.passportjs.org/\">PassportJS</a>. While this has been great in the past there's some scenarios where it isn't the greatest. In this case I am using the OpenAI API which I've implemented in Python. Using Passport would require NodeJS and I don't want to cross the two languages as part of my backend.</p>\n<p>For this case I've decided to use <a href=\"https://supabase.com/\">Supabase</a>. It's an alternative to Firebase, and while it has grown to have a lot of features, what I'm interested in is using it as an auth provider. The Python library for it is only community supported, but it does have enough features to use as a basic auth wrapper. Mixed with some features of flask it will work just fine for my needs.</p>\n",
+      "date_published": "2023-03-02T00:00:00Z"
+    },{
       "id": "https://nickjantz.com/posts/kona-data-part-1/",
       "url": "https://nickjantz.com/posts/kona-data-part-1/",
       "title": "Kona Run Data Analysis Part 1",

@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Article about taking over a failed IOT company</title>
-    <meta name="description" content="An article I found interesting about taking over a failed IOT company">
+    <title>Protecting a Flask API with Supabase</title>
+    <meta name="description" content="Protecting a Flask API with Supabase">
 
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/prism-base16-monokai.dark.css">
@@ -49,23 +49,20 @@
     <main class="tmpl-post">
 
 
-      <h1>Article about taking over a failed IOT company</h1>
+      <h1>Protecting a Flask API with Supabase</h1>
 
 
 
 <div id="post-content">
-<p>I recently came across this post about taking over a dead IOT company that really intrigued me.</p>
-<p>https://blog.kchung.co/taking-over-a-dead-iot-company/</p>
-<p>The first reason I got into Development was through wanting to learn how to code after picking up a raspberry pi and a simple LED matrix from Alibaba. I had recently stumbled across the CTA open API and wanted to make essentially the exact same thing that this company tried to do. I even remember seeing this product on Facebook and Instagram ads and thinking, should I just buy this product instead of doing it myself.</p>
-<p>I even at one point had a dream of making a similar product and selling it, almost identically to using a raspberry pi in the frame to control an led matrix.</p>
-<p>I mainly wanted to share because I think the author takes an honest look at what happened not just from a tech perspective but also from a business perspective. It can be tough work running a product company that has to provide ongoing support and an API to devices in the world long after they're sold. For every company like this that actually ended up getting started and selling physical products, there's definitely about 100 entrepreneurs that had an idea but didn't take it all the way to sales because they couldn't figure out how to continue providing the service expected long after the physical product is in the customers hands.</p>
+<h2>Background</h2>
+<p>I am working on a side project that involves user authorization and authentication. In the past I have used <a href="http://www.passportjs.org/">PassportJS</a>. While this has been great in the past there's some scenarios where it isn't the greatest. In this case I am using the OpenAI API which I've implemented in Python. Using Passport would require NodeJS and I don't want to cross the two languages as part of my backend.</p>
+<p>For this case I've decided to use <a href="https://supabase.com/">Supabase</a>. It's an alternative to Firebase, and while it has grown to have a lot of features, what I'm interested in is using it as an auth provider. The Python library for it is only community supported, but it does have enough features to use as a basic auth wrapper. Mixed with some features of flask it will work just fine for my needs.</p>
 
 </div>
 
 <div id='post-footer'>
 <hr>
-<ul class='footer-pagination'><li class="next">Next: <a href="/posts/kona-data-part-1/">Kona Run Data Analysis Part 1</a></li>
-  <li class="previous">Previous: <a href="/posts/learning-with-large-datasets/">Learning with Large Datasets</a></li>
+<ul class='footer-pagination'><li class='flex-filler'></li><li class="previous">Previous: <a href="/posts/kona-data-part-1/">Kona Run Data Analysis Part 1</a></li>
   
 </ul>
 </div>
@@ -74,6 +71,6 @@
 
     <footer></footer>
 
-    <!-- Current page: /posts/interesting-maker-blog-article/ -->
+    <!-- Current page: /posts/supabase-flask/ -->
   </body>
 </html>
