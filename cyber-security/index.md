@@ -8,4 +8,4 @@ eleventyNavigation:
   order: 7
 ---
 
-I am a person that writes stuff.
+I am a person that does(?) cyber security.
