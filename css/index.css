@@ -409,3 +409,10 @@ li.previous::after {
   width: 100%;
   max-width: unset;
 }
+
+.post-tags {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}

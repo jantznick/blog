@@ -5,12 +5,30 @@
 	
 	<link href="https://nickjantz.com/feed/feed.xml" rel="self"/>
 	<link href="https://nickjantz.com/"/>
-	<updated>2023-03-02T00:00:00Z</updated>
+	<updated>2024-01-27T00:00:00Z</updated>
 	<id>https://nickjantz.com/</id>
 	<author>
 		<name>Nick Jantz</name>
 		<email>thenickjantz@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title>Ukulele Chord Magic Terminology</title>
+		<link href="https://nickjantz.com/posts/ukulele/terminology/"/>
+		<updated>2024-01-27T00:00:00Z</updated>
+		<id>https://nickjantz.com/posts/ukulele/terminology/</id>
+		<content type="html">&lt;h2&gt;Background&lt;/h2&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>Ukulele Chord Magic</title>
+		<link href="https://nickjantz.com/posts/ukulele/magic-part-1/"/>
+		<updated>2024-01-27T00:00:00Z</updated>
+		<id>https://nickjantz.com/posts/ukulele/magic-part-1/</id>
+		<content type="html">&lt;h2&gt;Background&lt;/h2&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Protecting a Flask API with Supabase</title>

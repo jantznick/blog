@@ -10,6 +10,18 @@
     "url": "https://nickjantz.com/about-me/"
   },
   "items": [{
+      "id": "https://nickjantz.com/posts/ukulele/terminology/",
+      "url": "https://nickjantz.com/posts/ukulele/terminology/",
+      "title": "Ukulele Chord Magic Terminology",
+      "content_html": "<h2>Background</h2>\n",
+      "date_published": "2024-01-27T00:00:00Z"
+    },{
+      "id": "https://nickjantz.com/posts/ukulele/magic-part-1/",
+      "url": "https://nickjantz.com/posts/ukulele/magic-part-1/",
+      "title": "Ukulele Chord Magic",
+      "content_html": "<h2>Background</h2>\n",
+      "date_published": "2024-01-27T00:00:00Z"
+    },{
       "id": "https://nickjantz.com/posts/supabase-flask/",
       "url": "https://nickjantz.com/posts/supabase-flask/",
       "title": "Protecting a Flask API with Supabase",
