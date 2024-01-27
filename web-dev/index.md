@@ -8,4 +8,4 @@ eleventyNavigation:
   order: 6
 ---
 
-I am a person that writes stuff.
+I am a person that makes websites.

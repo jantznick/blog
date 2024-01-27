@@ -2,7 +2,7 @@
 layout: layouts/page.njk
 title: Ukulele
 templateClass: tmpl-page
-key: cyber-security
+key: ukulele
 eleventyNavigation:
   key: Ukulele
   order: 7

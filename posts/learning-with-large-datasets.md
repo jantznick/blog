@@ -3,7 +3,7 @@ title: Learning with Large Datasets
 description: 
 date: 2022-12-30
 tags:
-  - data
+  - data-analysis
 layout: layouts/post.njk
 ---
 

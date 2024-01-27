@@ -2,7 +2,7 @@
 layout: layouts/page.njk
 title: Data Analysis
 templateClass: tmpl-page
-key: data
+key: data-analysis
 eleventyNavigation:
   key: Data Analysis
   order: 5

@@ -3,7 +3,7 @@ title: Kona Run Data Analysis Part 1
 description: Kona Run Data Analysis Part 1
 date: 2023-03-02
 tags:
-  - data
+  - data-analysis
 layout: layouts/data.njk
 ---
 
