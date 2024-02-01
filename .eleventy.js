@@ -12,7 +12,7 @@ module.exports = function(eleventyConfig) {
   // Copy the `img`, `js` and `css` folders to the output
   eleventyConfig.addPassthroughCopy("img");
   eleventyConfig.addPassthroughCopy("css");
-  eleventyConfig.addPassthroughCopy("sw.js");
+  eleventyConfig.addPassthroughCopy("js");
   eleventyConfig.addPassthroughCopy("CNAME");
 
   // Add plugins
