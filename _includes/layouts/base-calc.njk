@@ -7,6 +7,7 @@
     <meta name="description" content="{{ description or metadata.description }}">
 
     <link rel="stylesheet" href="{{ '/css/index.css' | url }}">
+
   </head>
   <body>
     <main{% if templateClass %} class="{{ templateClass }}"{% endif %}>
@@ -18,5 +19,6 @@
     <footer></footer>
 
     <!-- Current page: {{ page.url | url }} -->
+    <script src="/js/sw.js"></script>
   </body>
 </html>
