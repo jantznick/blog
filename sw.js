@@ -1,17 +1,3 @@
-if ('serviceWorker' in navigator) {
-	console.log('serviceworker')
-	console.log(window)
-	globalThis.window.addEventListener('load', () => {
-		navigator.serviceWorker.register('/sw.js').then((registration) => {
-			console.log("Service Worker registration successful: ")
-			console.log(registration)
-		}, (err) => {
-			console.log("Registration failed")
-			console.log(err)
-		})
-	})
-}
-
 let cache_name = 'mexico-v5'
 
 let urls_to_cache = [
