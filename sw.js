@@ -1,4 +1,6 @@
 if ('serviceWorker' in navigator) {
+	console.log('serviceworker')
+	console.log(window)
 	globalThis.window.addEventListener('load', () => {
 		navigator.serviceWorker.register('/sw.js').then((registration) => {
 			console.log("Service Worker registration successful: ")
