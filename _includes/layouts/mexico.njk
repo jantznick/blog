@@ -1,0 +1,42 @@
+---
+layout: layouts/base-calc.njk
+templateClass: tmpl-calc
+---
+<h1>{{ title }}</h1>
+<style>
+#calculator * {
+    width: 100%;
+    margin: .5em 0;
+    font-size: 2rem;
+}
+</style>
+
+{{ content | safe }}
+
+<div id='calculator'>
+    <label for="exchange">Exchange Rate</label>
+    <input name="exchange" id="exchange" type="text" value="17.14" oninput=getNewValue()>
+
+    <label for="changetype">Change Type</label>
+
+    <select name="changetype" id="changetype" onchange=getNewValue()>
+        <option value="topeso">To Peso</option>
+        <option value="todollar">To Dollar</option>
+    </select>
+
+    <label for="value"><span id="currency">Dollars</span> Value</label>
+    <input name="value" id="value" type="text" oninput=getNewValue()>
+
+    <div>Exchange Rate: <span id="rate"></div>
+</div>
+
+<script>
+const getNewValue = () => {
+    document.getElementById('currency').innerText = document.getElementById('changetype').value === 'topeso' ? 'Dollars' : 'Pesos'
+    const rate = Number(document.getElementById('exchange').value)
+    const exchangeRate = document.getElementById('changetype').value === 'topeso' ? rate : 1/rate
+
+    document.getElementById('rate').innerText = Number(document.getElementById('value').value) * exchangeRate
+}
+
+</script>
