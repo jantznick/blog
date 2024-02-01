@@ -1,0 +1,11 @@
+{
+    "name": "Currency Converter",
+    "icons": [
+      {
+        "src": "img/512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "display": "standalone"
+  }
