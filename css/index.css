@@ -295,6 +295,7 @@ a[href].post-tag:focus {
 
 #post-content {
   margin-top: 1.5em;
+  width:100%
 }
 
 #page-content {
