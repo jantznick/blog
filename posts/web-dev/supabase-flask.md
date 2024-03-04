@@ -2,7 +2,7 @@
 title: Protecting a Flask API with Supabase
 description: Protecting a Flask API with Supabase
 date: 2023-03-02
-tags:
+tags: web-dev
 layout: layouts/post.njk
 ---
 
