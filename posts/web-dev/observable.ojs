@@ -1,0 +1,23 @@
+---
+title: Putting Observable Charts in Eleventy Blogs
+description: Putting Observable Charts in Eleventy Blogs
+date: 2024-03-04
+tags: web-dev
+layout: layouts/post.njk
+---
+
+md`
+Sample of getting [Observable](https://observablehq.com/) working with a static blog.
+`
+
+viewof radius = Inputs.range([0, 100], {
+  step: 1,
+  value: 50,
+  label: "Radius"
+})
+
+htl.html`
+    <svg width=220 height=220 viewBox="-10 -10 220 220">
+        <circle cx=100 cy=100 r=${radius} stroke-width=2 stroke="var(--color-base)" />
+    </svg>
+`
