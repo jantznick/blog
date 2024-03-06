@@ -16,8 +16,3 @@ I am going to be taking a basic look at some of the data released in a series of
 
 Data and more info can be found on their Github here:
 [https://github.com/entalpi-no/kona-2022](https://github.com/entalpi-no/kona-2022)
-
-## Continuation
-
-In this notebook we're looking at calculating gradient between various points on the run and seeing how that affects an athletes pace.
-
