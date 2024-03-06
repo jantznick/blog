@@ -15,7 +15,8 @@ templateClass: tmpl-post
 {{ content | safe }}
 
 <div id='jupyter-notebook'>
-{% include "data-posts/{{ data-template }}.njk" %}
+{%- set dataPage %}data-posts/{{ datatemplate }}.njk{% endset %}
+{% include dataPage %}
 </div>
 
 </div>
