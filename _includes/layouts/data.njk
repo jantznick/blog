@@ -9,11 +9,13 @@ templateClass: tmpl-post
 <a href="{{ tagUrl | url }}" class="post-tag">{{ tag }}</a>
 {%- endfor %} #}
 
+<link rel="stylesheet" href="{{ '/css/jupyter.css' | url }}">
+
 <div id="post-content">
 {{ content | safe }}
 
 <div id='jupyter-notebook'>
-{% include "data-posts/kona-part-1.njk" %}
+{% include "data-posts/{{ data-template }}.njk" %}
 </div>
 
 </div>
