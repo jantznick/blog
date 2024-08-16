@@ -17,7 +17,7 @@ templateClass: tmpl-page
 </div>
 
 {%- if key %}
-<h2 style="width:100%;margin-bottom:0;">Posts:</h2>
+<h2 style="width:100%;">Posts:</h2>
 {% set postslist = collections[key] %}
 {% include "postslist.njk" %}
 {%- endif %}

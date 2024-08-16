@@ -6,6 +6,6 @@ eleventyNavigation:
 ---
 {% set postslist = collections.posts %}
 {% set postslistCounter = collections.posts | length %}
-<h1>All {{ postslistCounter }} Posts</h1>
+<h1 style="margin-bottom: 0.75em">All {{ postslistCounter }} Posts</h1>
 
 {% include "postslist.njk" %}
