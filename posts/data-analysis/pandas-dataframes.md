@@ -1,7 +1,7 @@
 ---
-title: Introduction to Pandas
-description: A brief introduction to reading csv datasets and getting basic info about the data set using pandas
-date: 2025-01-01
+title: Introduction to Pandas Data Frames
+description: A brief introduction to reading csv datasets into Pandas data frames
+date: 2025-01-02
 tags:
   - data-analysis
 layout: layouts/post.njk
@@ -18,12 +18,12 @@ Pandas is a Python library designed for data manipulation and analysis. At the c
 1. **DataFrames**: Two-dimensional tabular data structures (like spreadsheets) consisting of columns and rows.
 2. **Series**: One-dimensional arrays.
 
-A DataFrame, the focus of this post, is like an enhanced spreadsheet in Python, making it an essential tool for data analytics and handling datasets.
+A DataFrame, the focus of this post, is just a collection of series put together. Any manipulations of series can be done to individual columns of a data frame
 
 ### Basic Features of a Pandas DataFrame:
 - Stored as a 2D structure with labeled rows and columns.
 - Supports heterogeneous data types (e.g., numeric, text, datetime).
-- Comes packed with **hundreds of built-in methods** for data cleaning and analysis.
+- Comes packed with hundreds of built-in methods for data cleaning and analysis.
 
 ---
 
@@ -33,16 +33,16 @@ The journey begins with importing data into a Pandas DataFrame. The `read_csv()`
 
 ### Example: Importing Datasets
 Let's work with two sample datasets:
-1. **States Dataset** (`states.csv`): A small dataset containing U.S. states, abbreviations, and codes.
-2. **House Sales Dataset** (`HouseSales.csv`): A large dataset with home sales data from King County, Washington, featuring information like price, bedrooms, bathrooms, and square footage.
+1. **States Dataset** [hosted here](/data-sources/states.csv): A small dataset containing U.S. states, abbreviations, and codes.
+2. **House Sales Dataset** [hosted here](/data-sources/housing.csv): A large dataset with home sales data featuring information like price, bedrooms, bathrooms, and square footage.
 
 ```python
 # Step 1: Import the Pandas library
 import pandas as pd
 
 # Step 2: Read the datasets into DataFrames
-states = pd.read_csv('data/states.csv')
-houses = pd.read_csv('data/HouseSales.csv')
+states = pd.read_csv('states.csv')
+houses = pd.read_csv('housing.csv')
 
 # Step 3: Preview the data (optional)
 print(states.head())  # View the first 5 rows of the smaller dataset
@@ -77,6 +77,7 @@ Index(['id', 'date', 'price', 'bedrooms', 'bathrooms', ..., 'view', 'grade', 'sq
 If your dataset contains a lot of columns, Pandas truncates the output with `...`, but all columns are still accessible.
 
 For smaller datasets, such as `states`, the output will show all column names:
+
 ```python
 # View column names in the states DataFrame
 print(states.columns)  # Output: ['state', 'abbreviation', 'code']
