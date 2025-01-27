@@ -8,7 +8,7 @@ eleventyNavigation:
   order: 4
 ---
 
-I am a person that does triathlons.
+I am a person that does triathlons and other endurance sports. Blog posts and/or clarification for many of these coming soon.
 
 <table id="myTable" class="display" style="width:100%">
 	<thead>
@@ -17,7 +17,7 @@ I am a person that does triathlons.
 			<th>Location</th>
 			<th>Date</th>
 			<th>Time</th>
-			<th>Result</th>
+			<th>Overall Place</th>
 			<th>Notes</th>
 			<th>Blog Post</th>
 			<th>Distance</th>
@@ -25,53 +25,63 @@ I am a person that does triathlons.
 	</thead>
 </table>
 
-<!-- jQuery for datatables -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
-<!-- Date Parsing for Datatables -->
-<script src="https://cdn.datatables.net/plug-ins/2.2.1/sorting/datetime-moment.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
-
-<!-- Datatables CDN -->
-<link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.css" />
-  
-<script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
+<link href="https://cdn.datatables.net/v/dt/jq-3.7.0/moment-2.29.4/dt-2.2.1/rg-1.5.1/datatables.min.css" rel="stylesheet">
+ 
+<script src="https://cdn.datatables.net/v/dt/jq-3.7.0/moment-2.29.4/dt-2.2.1/rg-1.5.1/datatables.min.js"></script>
 
 <script>
-	// $.fn.dataTable.moment = function ( format, locale ) {
-	// 	var types = $.fn.dataTable.ext.type;
-	
-	// 	// Add type detection
-	// 	types.detect.unshift( function ( d ) {
-	// 		return moment( d, format, locale, true ).isValid() ?
-	// 			'moment-'+format :
-	// 			null;
-	// 	} );
-	
-	// 	// Add sorting method - use an integer for the sorting
-	// 	types.order[ 'moment-'+format+'-pre' ] = function ( d ) {
-	// 		return moment( d, format, locale, true ).unix();
-	// 	};
-	// };
-
 	let table = new DataTable('#myTable', {
-		// drawCallback: function () {
-		// 	$.fn.dataTable.moment( 'M D YYYY' );
-		// },
-		ajax: 'http://localhost:8080/data-sources/race_history.json',
+		ajax: '/data-sources/race_history.json',
 		columns: [
-			{data: "race_name"},
-			{data: "location"},
-			{data: "date"},
-			{data: "time"},
-			{data: "result"},
-			{data: "notes"},
-			{data: "blog_post"},
-			{data: "distance"},
+			{
+				data: "race_name",
+				sortable: false
+			},
+			{
+				data: "location",
+				sortable: false
+			},
+			{
+				data: "date",
+				render: function(data, type) {
+					return type === 'sort' ? moment(new Date(data)).format('YYYY-MM-DD') : moment(new Date(data)).format('MMM Do');
+				}
+			},
+			{
+				data: "time",
+				sortable: false
+			},
+			{
+				data: "result",
+				render: function(data, type) {
+					return type === 'sort' ? eval(data) :  data + " (Top " + Math.round(eval(data) * 100) + "%)"
+				},
+				sortable: false
+			},
+			{
+				data: "notes",
+				sortable: false
+			},
+			{
+				data: "blog_post",
+				sortable: false
+			},
+			{
+				data: "distance",
+				sortable: false
+			},
 		],
 		pageLength: 50,
 		searching: false,
 		paging: false,
-		order: [[2, 'desc']]
+		order: [[2, 'desc']],
+		responsive: true,
+		info: false,
+		rowGroup: {
+			dataSrc: (row) => {
+				return moment(new Date(row.date)).format('YYYY')
+			}
+		}
 	});
+	// table.columns.adjust().draw();
 </script>
