@@ -410,7 +410,7 @@ li.previous::after {
 }
 
 .tmpl-post img {
-  width: 100%;
+  width: 50%;
   max-width: unset;
 }
 
