@@ -1,0 +1,464 @@
+{
+	"data": [
+	{
+		"race_name": "Firecracker Triathlon",
+		"location": "St. Joe MI",
+		"date": "7/6/2008",
+		"time": "6:30/39:06/27:08/T-5:08/Total-1:17:52",
+		"result": "239/381",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Niles Triathlon",
+		"location": "Niles MI",
+		"date": "8/30/2008",
+		"time": "18:04/1:11:36/56:59/Total-2:26:39",
+		"result": "48/98",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Firecracker Triathlon",
+		"location": "St. Joe MI",
+		"date": "7/5/2009",
+		"time": "6:44/37:38/20:43/T-2:40/Total-1:07:42",
+		"result": "44/302",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Steelhead 70.3",
+		"location": "St. Joe MI",
+		"date": "8/1/2009",
+		"time": "34:42/2:41:40/2:07:53/T-4:28/Total-5:28:41",
+		"result": "461/1690",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Ironman Wisconsin",
+		"location": "Madison WI",
+		"date": "9/13/2009",
+		"time": "1:15:29/6:07:54/5:52:45/T-10:52/Total-13:26:59",
+		"result": "1200/2176",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Kilometers for Cam 5k",
+		"location": "St. Joe MI",
+		"date": "9/26/2009",
+		"time": "19:11",
+		"result": "2/226",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "St. Anthonys Triathlon",
+		"location": "St. Petersberg FL",
+		"date": "4/24/2010",
+		"time": "25:54/1:15:11/41:02/T-3:40/Total-2:25:46",
+		"result": "340/3198",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Evergreen Triathlon",
+		"location": "Normal IL",
+		"date": "1/1/2010",
+		"time": "DNF Bike",
+		"result": "0",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Kilometers for Cam 5k",
+		"location": "St. Joe MI",
+		"date": "9/25/2010",
+		"time": "18:23",
+		"result": "3/110",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Detroit Marathon",
+		"location": "Detroit MI",
+		"date": "10/17/2010",
+		"time": "3:21:55",
+		"result": "258/3258",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Grand Mere Grind 10k Trail Run",
+		"location": "Stevensville MI",
+		"date": "11/7/2010",
+		"time": "52:42",
+		"result": "6/91",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Spud Run 5k",
+		"location": "St. Joe MI",
+		"date": "3/26/2011",
+		"time": "20:58",
+		"result": "2/36",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Kalamazoo Half Marathon",
+		"location": "Kalamazoo MI",
+		"date": "5/8/2011",
+		"time": "1:39:23",
+		"result": "125/2066",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Howell Independence Aquathlon",
+		"location": "Howell MI",
+		"date": "7/3/2011",
+		"time": "33:03",
+		"result": "9/114",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Kilometers for Cam 5k",
+		"location": "St. Joe MI",
+		"date": "9/24/2011",
+		"time": "19:10",
+		"result": "2/173",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Run for the Buds 5k",
+		"location": "St. Joe MI",
+		"date": "5/4/2013",
+		"time": "18:37",
+		"result": "7/238",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Fifth Third River Bank Run 25k",
+		"location": "Grand Rapids MI",
+		"date": "5/11/2013",
+		"time": "1:48:12",
+		"result": "298/5376",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Lory's Place Run Walk Rock",
+		"location": "St. Joe MI",
+		"date": "5/18/2013",
+		"time": "33:53",
+		"result": "432/586",
+		"notes": "with a friend",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "F3 Half Marathon",
+		"location": "Chicago IL",
+		"date": "1/25/2014",
+		"time": "1:48:01",
+		"result": "209/1367",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Motor City Triathlon",
+		"location": "Detroit MI",
+		"date": "6/15/2014",
+		"time": "23:16/1:01:05/42:28/T-1:43/Total-2:08:31",
+		"result": "11/155",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "3 Disciplines Festival of Races Half Iron",
+		"location": "Tawas MI",
+		"date": "9/6/2014",
+		"time": "35:19/2:45:26/2:24:52/T-4:03/Total-5:49:38",
+		"result": "41/100",
+		"notes": "Bike brake broke",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Ice Fest 5k Chocolate Run",
+		"location": "St Joe MI",
+		"date": "2/7/2015",
+		"time": "25:14",
+		"result": "30/172",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Run for the Buds 5k",
+		"location": "St Joe MI",
+		"date": "5/2/2015",
+		"time": "20:52",
+		"result": "15/191",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Lory's Place Run Walk Rock",
+		"location": "St. Joe MI",
+		"date": "5/16/2015",
+		"time": "20:18",
+		"result": "18/581",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Howell Independence Aquathlon",
+		"location": "Howell MI",
+		"date": "7/5/2015",
+		"time": "23:01",
+		"result": "4/74",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Sister Lakes Triathlon",
+		"location": "Sister Lakes MI",
+		"date": "7/18/2015",
+		"time": "17:23/55:22/43:51/T-1:25/Total-1:57:58",
+		"result": "3/121",
+		"notes": "Short Bike",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Detroit Marathon",
+		"location": "Detroit MI",
+		"date": "10/18/2015",
+		"time": "4:32:42",
+		"result": "1913/3802",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Ice Fest 5k",
+		"location": "St. Joe MI",
+		"date": "2/6/2016",
+		"time": "21:06",
+		"result": "7/189",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Bad Bunny 5k",
+		"location": "Shelby Township MI",
+		"date": "3/20/2016",
+		"time": "22:49",
+		"result": "3/152",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Sister Lakes Triathlon",
+		"location": "Sister Lakes MI",
+		"date": "7/16/2016",
+		"time": "18:50/1:18:41/59:09/T-1:54/Total-2:38:32",
+		"result": "52/120",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Ice Fest 5k Chocolate Run",
+		"location": "St Joe MI",
+		"date": "5/4/2017",
+		"time": "23:05",
+		"result": "22/220",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Ice Fest 5k",
+		"location": "St Joe MI",
+		"date": "2/3/2018",
+		"time": "24:24",
+		"result": "14/211",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Race to Wrigley",
+		"location": "Chicago IL",
+		"date": "5/6/2018",
+		"time": "35:07",
+		"result": "3110/8509",
+		"notes": "with friend",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Steelhead 70.3",
+		"location": "St Joe MI",
+		"date": "8/12/2018",
+		"time": "38:34/2:52:42/2:32:30/Total-6:09:47",
+		"result": "686/1508",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Chicago Half Marathon",
+		"location": "Chicago IL",
+		"date": "9/23/2018",
+		"time": "2:40:55",
+		"result": "6327/9677",
+		"notes": "with friend",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Hot Chocolate 15k",
+		"location": "Chicago IL",
+		"date": "10/4/2018",
+		"time": "1:14:43",
+		"result": "711/12805",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "F3 Half Marathon",
+		"location": "Chicago IL",
+		"date": "1/26/2019",
+		"time": "2:04:13",
+		"result": "777/2448",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Ice Fest 5k",
+		"location": "St Joe MI",
+		"date": "2/2/2019",
+		"time": "25:33",
+		"result": "17/110",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Big Shoulders 5k",
+		"location": "Chicago IL",
+		"date": "9/7/2019",
+		"time": "1:59:58",
+		"result": "152/174",
+		"notes": "swim",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Prospect Park Half Marathon",
+		"location": "Brooklyn NY",
+		"date": "9/15/2019",
+		"time": "1:57:51",
+		"result": "43/114",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Run the Runway",
+		"location": "Wheeling IL",
+		"date": "8/21/2021",
+		"time": "21:17",
+		"result": "12/305",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Ravenswood Run",
+		"location": "Chicago IL",
+		"date": "4/30/2023",
+		"time": "33:08",
+		"result": "629/1272",
+		"notes": "with friend",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Chicagoland Spring Half Marathon",
+		"location": "Schaumburg IL",
+		"date": "5/7/2023",
+		"time": "1:45:49",
+		"result": "78/725",
+		"notes": "",
+		"blog_post": "", 
+		"distance": ""
+	},
+	{
+		"race_name": "Lake Mills Triathlon",
+		"location": "Lake Mills WI",
+		"date": "6/4/2023",
+		"time": "8:47/48:37/23:03/T-3:26/Total-1:23:53",
+		"result": "102/544",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Green Lake Triathlon",
+		"location": "Green Lake WI",
+		"date": "7/16/2023",
+		"time": "26:37/1:05:36/46:32/T-3:19/Total-2:22:04",
+		"result": "24/179",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	},
+	{
+		"race_name": "Madison Marathon",
+		"location": "Madison WI",
+		"date": "11/12/2023",
+		"time": "4:29:29",
+		"result": "",
+		"notes": "",
+		"blog_post": "",
+		"distance": ""
+	}
+]
+}
