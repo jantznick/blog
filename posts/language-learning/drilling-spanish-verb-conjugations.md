@@ -8,6 +8,9 @@ layout: layouts/post.njk
 ---
 
 ## Background
+
+![Regular Image Caption](/img/spanish-verb-conjugations.png)
+
 For the last two months I've been forcing myself to drill spanish verb conjugations in an effort to make them pavlovian in my daily usage of the spanish language. I'm still very early in this process but I've learned enough that I feel like writing this blog is worth it.
 
 I knew going into this that it would not be easy and it would not be fun. But since my method of learning spanish has switched to a method that is 95% fun and I had faith this effort would be worth the misery I decided to give it a go.
@@ -15,6 +18,8 @@ I knew going into this that it would not be easy and it would not be fun. But si
 I actually attempted this earlier this year in April for 2 weeks before slowing bowing out and giving up. My main point of failure at that point was not sticking to it every day and eventually, thanks to the spaced repitition algorithm the daily cards to review caught up to me and I completely lost interest. The key to using a space repitition app like Anki is you must keep with it everyday or else your reviews list will grow too big and will take a big mental effort to whittle it back down.
 
 ## Method
+
+![Regular Image Caption 2](/img/spanish-verb-conjugations2.png)
 
 I have been using the [Kofi method found here](https://www.asiteaboutnothing.net/w_ultimate_spanish_conjugation.php)
 

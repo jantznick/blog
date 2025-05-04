@@ -37,13 +37,13 @@ module.exports = function (eleventyConfig) {
   // Add the OJS format
   eleventyConfig.addTemplateFormats("ojs")
   eleventyConfig.addExtension("ojs", {
-      // Compile the notebook to HTML
-      compile: async (inputContent) => {
-          return async (data) => await compileObservable(inputContent, {
-              runtimePath: runtimeOutputPath,
-              inspectorPath: inspectorOutputPath,
-          })
-      }
+    // Compile the notebook to HTML
+    compile: async (inputContent) => {
+      return async (data) => await compileObservable(inputContent, {
+        runtimePath: runtimeOutputPath,
+        inspectorPath: inspectorOutputPath,
+      })
+    }
   })
 
   // Add plugins
@@ -98,9 +98,9 @@ module.exports = function (eleventyConfig) {
     html: true,
   })
   markdownLibrary.use(markdownItAttrs, {
-	leftDelimiter: '{',
-	rightDelimiter: '}',
-	allowedAttributes: []
+    leftDelimiter: '{',
+    rightDelimiter: '}',
+    allowedAttributes: []
   });
   markdownLibrary.use(markdownItFootnote);
   eleventyConfig.setLibrary("md", markdownLibrary);
