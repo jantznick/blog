@@ -3,9 +3,6 @@
 .pointer-events-none {
   pointer-events: none;
 }
-.invisible {
-  visibility: hidden;
-}
 .visible {
   visibility: visible;
 }
@@ -676,7 +673,7 @@ a.download-link:hover .download-icon {
   transform: scale(1.1);
 }
 a.download-link:hover .download-icon svg {
-  stroke: white;
+  stroke: black;
 }
 .download-icon svg {
   width: 1.25rem;

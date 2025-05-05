@@ -615,7 +615,7 @@ a.download-link:hover .download-icon {
   transform: scale(1.1); /* Slightly enlarge */
 }
 a.download-link:hover .download-icon svg {
-  stroke: white; /* Change SVG stroke to contrast with background */
+  stroke: black; /* Change SVG stroke to contrast with the white hover background */
 }
 
 .download-icon svg {
