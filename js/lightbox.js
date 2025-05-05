@@ -93,47 +93,67 @@ document.addEventListener("DOMContentLoaded", function () {
                 imageWrapper.appendChild(img); // Add image to wrapper
 
                 // --- Create and add caption INSIDE the wrapper, using custom CSS classes ---
-                if (imgData.dataset['caption'] && imgData.dataset['caption'].trim() !== '') { // Only add caption if alt text exists and is not empty
+                if (imgData.dataset['caption'] && imgData.dataset['caption'].trim() !== '') { // Only add caption if data-caption exists and is not empty
                     const slideCaptionWrapper = document.createElement("div");
-                    // Use a semantic class for custom CSS styling
-                    slideCaptionWrapper.classList.add("image-caption-wrapper");
+                    // Use a semantic class for custom CSS styling - Add flex display
+                    slideCaptionWrapper.classList.add("image-caption-wrapper", "flex", "justify-between", "items-center");
 
-                    const altText = imgData.dataset['caption'];
+                    const captionText = imgData.dataset['caption'];
                     const delimiter = "::";
                     let titleText = '';
                     let descriptionText = '';
 
-                    if (altText.includes(delimiter)) {
-                        const parts = altText.split(delimiter, 2);
+                    // --- Create wrapper for text content --- 
+                    const textWrapper = document.createElement('div');
+                    textWrapper.classList.add("caption-text-content"); // Add a class for potential styling
+
+                    if (captionText.includes(delimiter)) {
+                        const parts = captionText.split(delimiter, 2);
                         titleText = parts[0].trim();
                         descriptionText = parts[1].trim();
                     } else {
-                        titleText = altText.trim();
+                        descriptionText = captionText.trim();
                     }
 
+                    // --- Populate textWrapper --- 
                     if (titleText) {
                         const titleElement = document.createElement("span");
-                        // Use a semantic class for custom CSS styling
                         titleElement.classList.add("image-caption-title");
                         titleElement.textContent = titleText;
-                        slideCaptionWrapper.appendChild(titleElement);
+                        textWrapper.appendChild(titleElement);
                     }
 
                     if (descriptionText) {
                         const descriptionElement = document.createElement("span");
-                        // Use a semantic class for custom CSS styling
                         descriptionElement.classList.add("image-caption-description");
-                        // Add margin-top class (if needed) or handle spacing in CSS
                         if (titleText) {
-                            // We can still add utility classes if Tailwind *does* pick them up,
-                            // or handle this margin purely in CSS for .image-caption-description
                             descriptionElement.classList.add("mt-1"); 
                         }
                         descriptionElement.textContent = descriptionText;
-                        slideCaptionWrapper.appendChild(descriptionElement);
+                        textWrapper.appendChild(descriptionElement);
                     }
+                    // --- End textWrapper population ---
+                    
+                    // Append text wrapper to the main caption wrapper
+                    slideCaptionWrapper.appendChild(textWrapper);
 
-                    imageWrapper.appendChild(slideCaptionWrapper); // Add the caption wrapper to the image wrapper
+					const downloadWrapper = document.createElement("div");
+                    // Add download icon SVG wrapped in an anchor tag
+                    const imageUrl = imgData.src; // Get the src for the current image
+                    const filename = imageUrl.split('/').pop() || 'downloaded-image'; // Extract filename
+
+                    downloadWrapper.innerHTML = 
+                        `<a href="${imageUrl}" download="${filename}" class="download-link" title="Download image">` + // Add anchor tag with download attribute
+                          `<span class="download-icon">` + // Keep the icon span
+                            `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>` + 
+                          `</span>` +
+                        `</a>`;
+                    downloadWrapper.classList.add("caption-download-icon-container");
+
+                    // Append download icon wrapper to the main caption wrapper
+					slideCaptionWrapper.appendChild(downloadWrapper);
+
+                    imageWrapper.appendChild(slideCaptionWrapper); // Add the main caption wrapper to the image wrapper
                 }
                 // --- End of caption addition ---
 
