@@ -21,8 +21,14 @@
 .top-1\/2 {
   top: calc(1/2 * 100%);
 }
+.right-\[0\] {
+  right: 0;
+}
 .bottom-\[0\] {
   bottom: 0;
+}
+.left-\[0\] {
+  left: 0;
 }
 .z-10 {
   z-index: 10;
@@ -125,6 +131,9 @@
 .leading-none {
   --tw-leading: 1;
   line-height: 1;
+}
+.opacity-70 {
+  opacity: 70%;
 }
 .filter {
   filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
@@ -496,31 +505,62 @@ li.previous::after {
     width: 100%;
   }
 }
+.tmpl-post {
+  opacity: 0.9;
+  transition: opacity 0.2s ease-in-out;
+}
+.tmpl-post:hover {
+  cursor: pointer;
+  opacity: 1;
+}
 .tmpl-post img {
   width: 50%;
   max-width: unset;
-  opacity: 0.9;
-  transition: opacity 0.3s ease-in-out;
-  cursor: pointer;
 }
 .tmpl-post img:hover {
   opacity: 1;
 }
 .image-container {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+.image-container.align-left {
+  float: left;
+  margin-right: 1.5em;
+  margin-left: 0;
+  max-width: 50%;
+}
+.image-container.align-right {
+  float: right;
+  margin-left: 1.5em;
+  margin-right: 0;
+  max-width: 50%;
+}
+.image-container.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
-  margin: 1em 0;
+  max-width: 75%;
 }
 .image-container img {
+  width: 100%;
   max-width: 100%;
-  height: auto;
-  border: 1px solid #ccc;
-  padding: 5px;
-  cursor: pointer;
+  display: block;
 }
-.image-caption {
+.image-shortcode-caption {
   font-size: 0.9em;
-  color: #666;
+  font-style: italic;
+  background: white;
+  padding: 1em;
+  color: black;
   margin-top: 0.5em;
+  text-align: inherit;
+}
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 .lightbox {
   display: none;

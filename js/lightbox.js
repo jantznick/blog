@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // --- Populate Glide slides ---
             glideSlides.innerHTML = ''; // Clear existing slides
             pageImages.forEach(imgData => {
+				console.log(imgData);
                 const slide = document.createElement("li");
                 // Slide is just a flex container, centering the wrapper
                 slide.classList.add("glide__slide", "flex", "items-center", "justify-center", "h-full");
@@ -71,12 +72,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 imageWrapper.appendChild(img); // Add image to wrapper
 
                 // --- Create and add caption INSIDE the wrapper, using custom CSS classes ---
-                if (imgData.alt && imgData.alt.trim() !== '') { // Only add caption if alt text exists and is not empty
+                if (imgData.dataset['caption'] && imgData.dataset['caption'].trim() !== '') { // Only add caption if alt text exists and is not empty
                     const slideCaptionWrapper = document.createElement("div");
                     // Use a semantic class for custom CSS styling
                     slideCaptionWrapper.classList.add("image-caption-wrapper");
 
-                    const altText = imgData.alt;
+                    const altText = imgData.dataset['caption'];
                     const delimiter = "::";
                     let titleText = '';
                     let descriptionText = '';
@@ -86,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         titleText = parts[0].trim();
                         descriptionText = parts[1].trim();
                     } else {
-                        descriptionText = altText.trim();
+                        titleText = altText.trim();
                     }
 
                     if (titleText) {

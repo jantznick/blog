@@ -413,36 +413,84 @@ li.previous::after {
   }
 }
 
+.tmpl-post {
+	opacity: 0.9;
+	transition: opacity 0.2s ease-in-out; 
+}
+
+.tmpl-post:hover {
+	cursor: pointer;
+	opacity: 1;
+}
+
 .tmpl-post img {
   width: 50%;
   max-width: unset;
-  /* Add hover effect styles */
-  opacity: 0.9; /* Slightly transparent by default */
-  transition: opacity 0.3s ease-in-out; /* Smooth transition */
-  cursor: pointer; /* Indicate clickable */
 }
 
 .tmpl-post img:hover {
   opacity: 1; /* Fully opaque on hover */
 }
 
+/* Styles for Image Shortcode */
 .image-container {
-  text-align: center;
-  margin: 1em 0;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  /* Contain floats */
+  /* overflow: auto; */ /* Might uncomment if float clearing is needed */
 }
 
+/* Float left alignment */
+.image-container.align-left {
+  float: left;
+  margin-right: 1.5em;
+  margin-left: 0; /* Ensure no extra left margin */
+  max-width: 50%; /* Adjust as needed - prevents huge floated images */
+}
+
+/* Float right alignment */
+.image-container.align-right {
+  float: right;
+  margin-left: 1.5em;
+  margin-right: 0; /* Ensure no extra right margin */
+  max-width: 50%; /* Adjust as needed */
+}
+
+/* Center alignment */
+.image-container.align-center {
+  display: block; /* Make the figure a block element */
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center; /* Center the figcaption text */
+  /* Optional: Add max-width for centered images too */
+   max-width: 75%; 
+}
+
+/* Styles for the shortcode image itself (optional overrides) */
 .image-container img {
-  max-width: 100%;
-  height: auto;
-  border: 1px solid #ccc;
-  padding: 5px;
-  cursor: pointer;
+  /* Reset styles from .tmpl-post img if needed */
+  width: 100%; /* Make image fill the figure's width */
+  max-width: 100%; /* Override potential global max-width */
+  display: block; /* Remove extra space below image */
 }
 
-.image-caption {
+/* Styles for the shortcode caption */
+.image-shortcode-caption {
   font-size: 0.9em;
-  color: #666;
+  font-style: italic;
+  background: white;
+  padding: 1em;
+  color: black;
   margin-top: 0.5em;
+  text-align: inherit; /* Inherit text-align from figure (useful for center) */
+}
+
+/* Add a clearfix for elements *after* a floated image if needed */
+/* Example: Add <div class="clearfix"></div> in Markdown */
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .lightbox {

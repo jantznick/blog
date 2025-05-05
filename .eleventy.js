@@ -123,6 +123,67 @@ module.exports = function (eleventyConfig) {
     ghostMode: false
   });
 
+  // Image Shortcode
+  eleventyConfig.addShortcode("image", function(options) {
+    // Destructure options with defaults
+    const { 
+      src = '', 
+      alt = '', // Alt text for accessibility
+      caption = '', // Text for visible caption, may contain delimiter
+      alignment = 'none' 
+    } = options;
+
+    const validAlignments = ['left', 'right', 'center', 'none'];
+    const alignClass = validAlignments.includes(alignment) ? `align-${alignment}` : 'align-none';
+
+    if (!src) {
+      console.warn('Image shortcode called without a src parameter.');
+      return '';
+    }
+
+    // --- Caption Processing Logic --- 
+    let captionHtml = '';
+    if (caption && caption.trim() !== '') {
+      const delimiter = "::";
+      let titleText = '';
+      let descriptionText = '';
+      let captionContentHtml = ''; // Inner HTML for the figcaption
+
+      if (caption.includes(delimiter)) {
+          const parts = caption.split(delimiter, 2);
+          titleText = parts[0].trim();
+          descriptionText = parts[1].trim();
+      } else {
+          titleText = caption.trim();
+      }
+
+      // Build inner HTML for caption using semantic classes
+      if (titleText) {
+          captionContentHtml += `<span class="image-caption-title">${titleText}</span>`;
+      }
+      if (descriptionText) {
+          // Add spacing if title also exists (can use CSS adjacent sibling selector too)
+          const spacingClass = titleText ? " mt-1" : ""; // Or handle purely in CSS
+          captionContentHtml += `<span class="image-caption-description${spacingClass}">${descriptionText}</span>`;
+      }
+
+      // Wrap content in figcaption only if there's content
+      if (captionContentHtml) {
+          captionHtml = `<figcaption class="image-shortcode-caption absolute bottom-[0] left-[0] right-[0] p-2 bg-white opacity-70">${captionContentHtml}</figcaption>`;
+      }
+    }
+    // --- End Caption Processing ---
+
+    // Basic image structure
+    const imgHtml = `<img src="${src}" alt="${alt}" data-caption="${caption}" loading="lazy" decoding="async">`;
+
+    // Return the full figure HTML
+    return `<figure class="tmpl-post image-container ${alignClass} rounded-overflow relative">
+              ${imgHtml}
+              ${captionHtml}
+            </figure>`;
+  });
+
   return {
     // Control which files Eleventy will process
     // e.g.: *.md, *.njk, *.html, *.liquid
@@ -141,9 +202,9 @@ module.exports = function (eleventyConfig) {
 
     // -----------------------------------------------------------------
     // If your site deploys to a subdirectory, change `pathPrefix`.
-    // Don’t worry about leading and trailing slashes, we normalize these.
+    // Don't worry about leading and trailing slashes, we normalize these.
 
-    // If you don’t have a subdirectory, use "" or "/" (they do the same thing)
+    // If you don't have a subdirectory, use "" or "/" (they do the same thing)
     // This is only used for link URLs (it does not affect your file structure)
     // Best paired with the `url` filter: https://www.11ty.dev/docs/filters/url/
 
@@ -159,6 +220,8 @@ module.exports = function (eleventyConfig) {
       includes: "_includes",
       data: "_data",
       output: "dist"
-    }
+    },
+    passthroughFileCopy: true,
+    dataTemplateEngine: "njk"
   };
 };
