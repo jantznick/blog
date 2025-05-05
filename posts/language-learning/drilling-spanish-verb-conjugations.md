@@ -63,3 +63,5 @@ TBD - I have takeaways for this, but haven't put them down yet.
 ## Future
 
 I need to get better about actually putting this to use. I do feel like I have a somewhat pavlovian response to verb tenses, but it's not registering in my brain immediately. It is helping me understand and speak better though. I just need more practice in natural settings and with more natural content, not solely flashcards. This will come with time. Overall I am glad I forced myself to go through this and will continue working on it, I feel like I'm over the very tricky part. I am only 10 verbs in, but I am confident the remainder of the verbs will continue to go along faster.
+
+{% include "partials/lightbox-loader.njk" %}

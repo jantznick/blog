@@ -717,3 +717,40 @@ a.download-link:hover .download-icon svg {
      text-align: center; /* Center caption text on mobile */
   }
 }
+
+/* --- Responsive Styles for Tablet (e.g., 768px - 1023px) --- */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Keep float, maybe adjust max-width slightly if needed */
+  .image-container.align-left,
+  .image-container.align-right {
+    /* max-width: 45%; */ /* Example: slightly less width */
+    /* Keep float: left/right from default styles */
+  }
+
+  /* Adjust max-width for centered images on tablets */
+  .image-container.align-center {
+     max-width: 80%; /* Example: Wider than desktop default but not full */
+  }
+
+  /* Optional: Adjust shortcode caption styles for tablet if needed */
+  /* .image-shortcode-caption { font-size: 0.85em; } */
+
+  /* Optional: Adjust lightbox styles for tablet if needed (beyond Glide options) */
+  /* .image-caption-wrapper { padding: 0.6rem; } */
+}
+
+/* --- End Tablet Styles --- */
+
+/* Custom Styles for Glide Arrows in Lightbox */
+.lightbox .glide__arrow {
+  background-color: black;
+  /* Equivalent to Tailwind's shadow-lg */
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  /* Ensure text color remains white if not already set */
+  color: white;
+}
+
+/* Optional: Add a subtle hover effect if desired */
+.lightbox .glide__arrow:hover {
+   background-color: #333; /* Slightly lighter black on hover */
+}

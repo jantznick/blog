@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("DOM fully loaded and parsed");
-    const pageImages = document.querySelectorAll("img:not(.lightbox img):not(.glide img)"); // Renamed to avoid conflict
-    console.log(`Found ${pageImages.length} eligible images for lightbox`);
+    // Find all images on the page intended for the lightbox
+    // Exclude images already within a lightbox structure if the script runs multiple times
+    const pageImages = Array.from(document.querySelectorAll("img:not(.lightbox img):not(.glide img)"));
     if (pageImages.length === 0) return; // Don't setup lightbox if no images
 
     const lightbox = document.createElement("div");
@@ -22,20 +22,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const glideSlides = document.createElement("ul");
     glideSlides.classList.add("glide__slides", "h-full"); // Ensure slides container takes height
     glideTrack.appendChild(glideSlides);
-    // Slides (li > img) will be added dynamically
 
     // Optional: Add Glide Arrows if needed (can be styled/positioned)
     const glideArrows = document.createElement("div");
     glideArrows.setAttribute("data-glide-el", "controls");
     glideArrows.classList.add("glide__arrows");
-    // Added hover effect, increased padding
+    // Removed bg-black and shadow-lg, will style in CSS - Increased size
     glideArrows.innerHTML = `
-        <button class="glide__arrow glide__arrow--left absolute top-1/2 left-0 transform -translate-y-1/2 ml-2 md:ml-4 text-white text-4xl cursor-pointer bg-black bg-opacity-30 hover:bg-opacity-50 p-2 md:p-3 rounded-full focus:outline-none transition-colors duration-150" data-glide-dir="<">&#10094;</button>
-        <button class="glide__arrow glide__arrow--right absolute top-1/2 right-0 transform -translate-y-1/2 mr-2 md:mr-4 text-white text-4xl cursor-pointer bg-black bg-opacity-30 hover:bg-opacity-50 p-2 md:p-3 rounded-full focus:outline-none transition-colors duration-150" data-glide-dir=">">&#10095;</button>
+        <button class="glide__arrow glide__arrow--left absolute top-1/2 left-0 transform -translate-y-1/2 ml-2 md:ml-4 text-white text-5xl cursor-pointer p-3 md:p-4 rounded-full focus:outline-none transition-colors duration-150" data-glide-dir="<">&#10094;</button>
+        <button class="glide__arrow glide__arrow--right absolute top-1/2 right-0 transform -translate-y-1/2 mr-2 md:mr-4 text-white text-5xl cursor-pointer p-3 md:p-4 rounded-full focus:outline-none transition-colors duration-150" data-glide-dir=">">&#10095;</button>
     `;
     glide.appendChild(glideArrows);
 
     const close = document.createElement("span");
+    // Adjusted close button position slightly - Added background, hover, rounded-full, padding
     close.classList.add("close", "absolute", "top-0", "right-0", "m-2", "text-white", "text-2xl", "leading-none", "cursor-pointer", "z-10", "bg-black", "bg-opacity-30", "hover:bg-opacity-50", "rounded-full", "w-8", "h-8", "flex", "items-center", "justify-center", "transition-colors", "duration-150");
     close.innerHTML = "&times;";
     glide.appendChild(close);
@@ -44,10 +44,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     pageImages.forEach((image, index) => {
         // --- Create Wrapper and Icon --- 
-		console.log(image);
         if (image.closest('.lightbox-image-wrapper')) {
             // Already processed this image (e.g., if script runs twice)
-            console.log(`Skipping already wrapped image: ${image.src}`);
             return;
         }
         
@@ -69,7 +67,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Attach click listener to the image itself (or wrapper if preferred)
         image.addEventListener("click", () => {
-            console.log(`Image clicked: ${image.src}, index: ${index}`);
 
             // --- Populate Glide slides --- 
             // Ensure we use the *original* list of images, not ones inside other modals
@@ -162,57 +159,52 @@ document.addEventListener("DOMContentLoaded", function () {
                 glideSlides.appendChild(slide);
             });
 
-            console.log(`Populated ${pageImages.length} slides.`);
             lightbox.style.display = "flex"; // Show the modal first
 
             // Destroy previous instance if exists
             if (glideInstance) {
-                console.log("Destroying previous Glide instance");
                 glideInstance.destroy();
             }
 
             // --- Initialize Glide.js ---
-            console.log(`Initializing Glide starting at index: ${index}`);
             glideInstance = new Glide(glide, {
                 type: 'slider',
                 startAt: index,
-                // Desktop settings
+                // Default (Desktop) settings
                 perView: 3,
-				focusAt: 'center',
+		        focusAt: 'center',
                 peek: { before: 50, after: 50 },
-                // Responsive settings for mobile
+                // Responsive settings
                 breakpoints: {
-                    767: { // Screen width <= 767px
+                    1023: { // Tablet (<= 1023px)
+                         perView: 2,
+                         peek: { before: 25, after: 25 } // Slightly less peek
+                    },
+                    767: { // Mobile (<= 767px)
                         perView: 1,
                         peek: 0 // No peek on mobile
                     }
-                    // Add more breakpoints if needed (e.g., 1024)
                 }
             });
 
             glideInstance.mount();
-            console.log("Glide instance mounted.");
         });
     });
 
     close.addEventListener("click", (e) => {
-        e.stopPropagation(); // Prevent lightbox click closing
-        console.log("Close button clicked");
+        e.stopPropagation(); 
         lightbox.style.display = "none";
         if (glideInstance) {
-            console.log("Destroying Glide instance on close.");
             glideInstance.destroy();
             glideInstance = null;
         }
     });
 
     lightbox.addEventListener("click", (e) => {
-        // Close only if clicking the backdrop, not the glide content area
+        // Close only if clicking the backdrop itself
         if (e.target === lightbox) {
-            console.log("Lightbox background clicked");
             lightbox.style.display = "none";
             if (glideInstance) {
-                console.log("Destroying Glide instance on background click.");
                 glideInstance.destroy();
                 glideInstance = null;
             }
