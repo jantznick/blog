@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("DOM fully loaded and parsed");
-    const pageImages = document.querySelectorAll("img"); // Renamed to avoid conflict
-    console.log(`Found ${pageImages.length} images on page`);
+    const pageImages = document.querySelectorAll("img:not(.lightbox img):not(.glide img)"); // Renamed to avoid conflict
+    console.log(`Found ${pageImages.length} eligible images for lightbox`);
     if (pageImages.length === 0) return; // Don't setup lightbox if no images
 
     const lightbox = document.createElement("div");
@@ -42,19 +42,40 @@ document.addEventListener("DOMContentLoaded", function () {
     let glideInstance = null; // To hold the Glide instance
 
     pageImages.forEach((image, index) => {
-        // Don't add listeners to images already inside a potential future lightbox/glide structure
-        if (image.closest('.lightbox') || image.closest('.glide')) {
-             console.log(`Skipping image already in modal structure: ${image.src}`);
-             return;
+        // --- Create Wrapper and Icon --- 
+		console.log(image);
+        if (image.closest('.lightbox-image-wrapper')) {
+            // Already processed this image (e.g., if script runs twice)
+            console.log(`Skipping already wrapped image: ${image.src}`);
+            return;
         }
-        console.log(`Adding click listener for ${image.src}`);
+        
+        const wrapper = document.createElement('div');
+        // Use inline-block to wrap the image size, relative for icon positioning
+        wrapper.classList.add('lightbox-image-wrapper', 'relative', 'inline-block', 'align-bottom'); // align-bottom helps prevent extra space
+
+        const icon = document.createElement('span');
+        icon.classList.add('lightbox-indicator-icon', 'absolute', 'top-[1em]', 'right-[1em]'); // Position top-right
+        // Simple SVG Expand icon (customize appearance via CSS)
+        icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m4.5 4.5h-4.5m4.5 0v4.5m0-4.5L15 15" /></svg>`;
+        icon.setAttribute('aria-hidden', 'true'); // Hide decorative icon from screen readers
+        
+        // Insert wrapper before image, move image inside, add icon
+        image.parentNode.insertBefore(wrapper, image);
+        wrapper.appendChild(image);
+        wrapper.appendChild(icon);
+        // --- End Wrapper and Icon ---
+
+        // Attach click listener to the image itself (or wrapper if preferred)
         image.addEventListener("click", () => {
             console.log(`Image clicked: ${image.src}, index: ${index}`);
 
-            // --- Populate Glide slides ---
+            // --- Populate Glide slides --- 
+            // Ensure we use the *original* list of images, not ones inside other modals
+            const eligiblePageImages = Array.from(document.querySelectorAll("img:not(.lightbox img):not(.glide img)"));
+            
             glideSlides.innerHTML = ''; // Clear existing slides
-            pageImages.forEach(imgData => {
-				console.log(imgData);
+            eligiblePageImages.forEach(imgData => {
                 const slide = document.createElement("li");
                 // Slide is just a flex container, centering the wrapper
                 slide.classList.add("glide__slide", "flex", "items-center", "justify-center", "h-full");

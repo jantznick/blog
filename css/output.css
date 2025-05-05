@@ -21,8 +21,14 @@
 .top-1\/2 {
   top: calc(1/2 * 100%);
 }
+.top-\[1em\] {
+  top: 1em;
+}
 .right-\[0\] {
   right: 0;
+}
+.right-\[1em\] {
+  right: 1em;
 }
 .bottom-\[0\] {
   bottom: 0;
@@ -59,6 +65,9 @@
 }
 .inline {
   display: inline;
+}
+.inline-block {
+  display: inline-block;
 }
 .table {
   display: table;
@@ -127,6 +136,9 @@
 }
 .text-left {
   text-align: left;
+}
+.align-bottom {
+  vertical-align: bottom;
 }
 .leading-none {
   --tw-leading: 1;
@@ -635,6 +647,27 @@ li.previous::after {
 }
 .image-caption-title + .image-caption-description {
   margin-top: 0.25rem;
+}
+.lightbox-image-wrapper {
+  line-height: 0;
+}
+.lightbox-indicator-icon {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.8;
+  transition: opacity 0.2s ease-in-out;
+}
+.lightbox-image-wrapper:hover .lightbox-indicator-icon {
+  opacity: 1;
+}
+.lightbox-indicator-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
 }
 @property --tw-translate-x {
   syntax: "*";

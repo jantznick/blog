@@ -585,3 +585,32 @@ li.previous::after {
 .image-caption-title + .image-caption-description {
    margin-top: 0.25rem; /* mt-1 equivalent */
 }
+
+/* Styles for Lightbox Image Indicator */
+.lightbox-image-wrapper {
+  line-height: 0; /* Prevent extra space from wrapper */
+}
+
+.lightbox-indicator-icon {
+  /* Positioning is done via Tailwind classes: absolute top-1 right-1 */
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  color: white; /* Icon color */
+  padding: 0.25rem; /* p-1 */
+  border-radius: 0.25rem; /* rounded */
+  z-index: 5; /* Above image, below caption if absolutely positioned */
+  pointer-events: none; /* Icon doesn't intercept clicks */
+  opacity: 0.8; /* Slightly transparent */
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Optional: Show icon more clearly on hover of the wrapper */
+.lightbox-image-wrapper:hover .lightbox-indicator-icon {
+  opacity: 1;
+}
+
+/* SVG size (Tailwind w-5 h-5 = 1.25rem) */
+.lightbox-indicator-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block; /* Prevent extra space */
+}
