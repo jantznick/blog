@@ -138,17 +138,23 @@ document.addEventListener("DOMContentLoaded", function () {
                     slideCaptionWrapper.appendChild(textWrapper);
 
 					const downloadWrapper = document.createElement("div");
-                    // Add download icon SVG wrapped in an anchor tag
-                    const imageUrl = imgData.src; // Get the src for the current image
-                    const filename = imageUrl.split('/').pop() || 'downloaded-image'; // Extract filename
+                    const imageUrl = imgData.src;
+                    const filename = imageUrl.split('/').pop() || 'downloaded-image';
 
+                    // Keep the anchor for styling/semantics but remove direct download functionality
                     downloadWrapper.innerHTML = 
-                        `<a href="${imageUrl}" download="${filename}" class="download-link" title="Download image">` + // Add anchor tag with download attribute
-                          `<span class="download-icon">` + // Keep the icon span
+                        `<a href="#" class="download-link" title="Download image">` + // href="#" or remove href entirely
+                          `<span class="download-icon">` +
                             `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>` + 
                           `</span>` +
                         `</a>`;
                     downloadWrapper.classList.add("caption-download-icon-container");
+
+                    // Add click listener to the wrapper to trigger download manually
+                    downloadWrapper.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Stop GlideJS from interfering
+                        console.log('--- Download icon wrapper clicked! ---'); // Simple log for debugging
+                    });
 
                     // Append download icon wrapper to the main caption wrapper
 					slideCaptionWrapper.appendChild(downloadWrapper);
@@ -173,9 +179,10 @@ document.addEventListener("DOMContentLoaded", function () {
             // --- Initialize Glide.js ---
             console.log(`Initializing Glide starting at index: ${index}`);
             glideInstance = new Glide(glide, {
-                type: 'carousel',
+                type: 'slider',
                 startAt: index,
-                perView: 1,
+                perView: 3,
+				focusAt: 'center',
                 peek: { before: 50, after: 50 }
             });
 
