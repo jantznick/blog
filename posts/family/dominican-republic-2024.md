@@ -35,27 +35,27 @@ I(Nick) was having some ear issues after the flight and went to find a pharmacy.
 ## Santo Domingo Sights
 
 {% set santo_domingo_sights_images = [
-{ src: "/img/dr-pr-2024/boat-cave-stairs.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/boat-cave.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/cave-boat.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/cocoa-baking.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/cocoa-beans.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/cocoa-testing.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/cocoa-waiting.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/cora-cave-boat.jpeg", alt: "", caption: "" },
+{ src: "/img/dr-pr-2024/cocoa-waiting.jpeg", alt: "", caption: "Nick and the kids waiting to start the cocoa baking tour" },
+{ src: "/img/dr-pr-2024/kids-cocoa-frame.jpeg", alt: "", caption: "The kids pose in image frames every chance they get" },
+{ src: "/img/dr-pr-2024/cocoa-baking.jpeg", alt: "", caption: "Enjoying baking some cocoa" },
+{ src: "/img/dr-pr-2024/cocoa-beans.jpeg", alt: "", caption: "Kids playing with real(?) cocoa beans" },
+{ src: "/img/dr-pr-2024/cocoa-testing.jpeg", alt: "", caption: "Kids did not enjoy testing the dark chocolate so much" },
+{ src: "/img/dr-pr-2024/post-cocoa-return.jpeg", alt: "", caption: "Walking back from the Cocoa Tour::It was insanely hot and humid every day we were there" },
+{ src: "/img/dr-pr-2024/into-cave.jpeg", alt: "", caption: "Hudson and Rachel walking down into the cave" },
+{ src: "/img/dr-pr-2024/family-cave.jpeg", alt: "", caption: "All of us in one of the caves" },
+{ src: "/img/dr-pr-2024/rachel-cora-cave.jpeg", alt: "", caption: "" },
+{ src: "/img/dr-pr-2024/cave-boat.jpeg", alt: "", caption: "The boat to take us to the third cave in the system" },
+{ src: "/img/dr-pr-2024/cora-cave-boat.jpeg", alt: "", caption: "Cora on the boat ride to the third cave" },
+{ src: "/img/dr-pr-2024/rachel-cave-boat.jpeg", alt: "", caption: "Rachel and Hudson on the boat to the third cave" },
+{ src: "/img/dr-pr-2024/boat-cave.jpeg", alt: "", caption: "The third cave in the system" },
+{ src: "/img/dr-pr-2024/family-boat-cave.jpeg", alt: "", caption: "All of us in front of the third cave in the system" },
+{ src: "/img/dr-pr-2024/boat-cave-stairs.jpeg", alt: "", caption: "View of the boat launch from the other side of the cave, showing the stairs to get to the boat launch" },
+{ src: "/img/dr-pr-2024/kids-mall-tree.jpeg", alt: "", caption: "Merry Christmas from Santo Domingo" },
 { src: "/img/dr-pr-2024/cora-mall-tree.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/family-boat-cave.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/family-cave.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/hudson-aquarium-sand.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/into-cave.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/kids-cocoa-frame.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/kids-koi.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/kids-mall-aquarium-tunnel.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/kids-mall-tree.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/kids-mickey-icecream-shop.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/post-cocoa-return.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/rachel-cave-boat.jpeg", alt: "", caption: "" },
-{ src: "/img/dr-pr-2024/rachel-cora-cave.jpeg", alt: "", caption: "" }
+{ src: "/img/dr-pr-2024/hudson-aquarium-sand.jpeg", alt: "", caption: "Hudson playing in a sand table in the mall aquarium" },
+{ src: "/img/dr-pr-2024/kids-koi.jpeg", alt: "", caption: "Koi in the mall aquarium" },
+{ src: "/img/dr-pr-2024/kids-mall-aquarium-tunnel.jpeg", alt: "", caption: "Kids in the mall aquarium walk through tank" },
+{ src: "/img/dr-pr-2024/kids-mickey-icecream-shop.jpeg", alt: "", caption: "Kids with a Mickey Mouse in an Ice Cream shop" }
 ] %}
 
 {% imageCarousel id="santo-domingo-sights-carousel", images=santo_domingo_sights_images %}
