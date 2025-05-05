@@ -7,7 +7,26 @@ module.exports = {
     "./js/**/*.js"
   ],
   safelist: [
-    'bottom-0',
+    // Caption classes
+    'absolute',
+    'bottom-[0]',
+    'left-0',
+    'w-full',
+    'p-2',
+    'bg-white',
+    'text-black',
+    'text-sm',
+    'text-left',
+    'rounded-b-md',
+    'z-10',
+    'pointer-events-none',
+    // New caption part classes
+    'block',
+    'font-bold',
+    'mt-1',
+    'overflow-hidden',
+	'rounded-md',
+    // Add any other needed classes here
   ],
   theme: {
     extend: {},

@@ -9,7 +9,7 @@ layout: layouts/post.njk
 
 ## Background
 
-![Regular Image Caption](/img/spanish-verb-conjugations.png)
+![Caption Title::Regular Image Caption](/img/spanish-verb-conjugations.png)
 
 For the last two months I've been forcing myself to drill spanish verb conjugations in an effort to make them pavlovian in my daily usage of the spanish language. I'm still very early in this process but I've learned enough that I feel like writing this blog is worth it.
 

@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // --- Create an inner wrapper using GRID ---
                 const imageWrapper = document.createElement("div");
                 // Grid context for layering image and caption, constrain size
-                imageWrapper.classList.add("relative", "grid", "place-items-center", "max-w-full", "max-h-full");
+                imageWrapper.classList.add("relative", "grid", "place-items-center", "max-w-full", "max-h-full", "rounded-overflow");
 
                 const img = document.createElement("img");
                 img.src = imgData.src;
@@ -70,14 +70,48 @@ document.addEventListener("DOMContentLoaded", function () {
                 img.classList.add("object-contain", "max-w-full", "max-h-full", "w-auto", "h-auto", "rounded-md", "col-start-1", "row-start-1");
                 imageWrapper.appendChild(img); // Add image to wrapper
 
-                // --- Create and add caption INSIDE the wrapper, using absolute positioning relative to grid wrapper ---
-                if (imgData.alt) { // Only add caption if alt text exists
-                    const slideCaption = document.createElement("div");
-                    slideCaption.classList.add(
-                        "bg-white", "absolute", "left-[0]", "w-full", "p-2", "bg-white", "text-black", "text-sm", "text-left", "z-10", "pointer-events-none"
-                    );
-                    slideCaption.textContent = imgData.alt;
-                    imageWrapper.appendChild(slideCaption); // Add caption to wrapper
+                // --- Create and add caption INSIDE the wrapper, using custom CSS classes ---
+                if (imgData.alt && imgData.alt.trim() !== '') { // Only add caption if alt text exists and is not empty
+                    const slideCaptionWrapper = document.createElement("div");
+                    // Use a semantic class for custom CSS styling
+                    slideCaptionWrapper.classList.add("image-caption-wrapper");
+
+                    const altText = imgData.alt;
+                    const delimiter = "::";
+                    let titleText = '';
+                    let descriptionText = '';
+
+                    if (altText.includes(delimiter)) {
+                        const parts = altText.split(delimiter, 2);
+                        titleText = parts[0].trim();
+                        descriptionText = parts[1].trim();
+                    } else {
+                        descriptionText = altText.trim();
+                    }
+
+                    if (titleText) {
+                        const titleElement = document.createElement("span");
+                        // Use a semantic class for custom CSS styling
+                        titleElement.classList.add("image-caption-title");
+                        titleElement.textContent = titleText;
+                        slideCaptionWrapper.appendChild(titleElement);
+                    }
+
+                    if (descriptionText) {
+                        const descriptionElement = document.createElement("span");
+                        // Use a semantic class for custom CSS styling
+                        descriptionElement.classList.add("image-caption-description");
+                        // Add margin-top class (if needed) or handle spacing in CSS
+                        if (titleText) {
+                            // We can still add utility classes if Tailwind *does* pick them up,
+                            // or handle this margin purely in CSS for .image-caption-description
+                            descriptionElement.classList.add("mt-1"); 
+                        }
+                        descriptionElement.textContent = descriptionText;
+                        slideCaptionWrapper.appendChild(descriptionElement);
+                    }
+
+                    imageWrapper.appendChild(slideCaptionWrapper); // Add the caption wrapper to the image wrapper
                 }
                 // --- End of caption addition ---
 
