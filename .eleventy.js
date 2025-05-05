@@ -188,28 +188,37 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addShortcode("imageCarousel", function(options) {
     const { 
       id = `carousel-${Math.random().toString(36).substring(2, 15)}`,
-      images = [],
+      images = [], // Renamed from 'items' to be clearer
       // Allow overriding default Glide options via shortcode parameters if needed
       glideOptions = {}
     } = options;
 
-    if (!images || images.length === 0) {
-      return '<p>Image carousel requires an array of images.</p>';
+    // Changed 'items' to 'images' in the check
+    if (!images || images.length === 0) { 
+      return '<p>Image carousel requires an array of images or videos.</p>'; // Updated message
     }
 
     let slidesHtml = '';
-    images.forEach(imgData => {
-      // Add checks and fallbacks for potentially missing data
-      const src = imgData?.src || '';
-      const alt = imgData?.alt || '';
-      const rawCaption = imgData?.caption || ''; // Get raw caption or empty string
-      const caption = String(rawCaption || alt || ''); // Ensure caption is a string, fallback to alt, then empty
-      
-      if (!src) return; // Skip if no src
+    const videoExtensions = ['mp4', 'webm', 'ogg', 'mov']; // Common video extensions
 
-      // --- Caption Processing Logic (same as lightbox/image shortcode) --- 
-      let captionTextHtml = ''; // Renamed from captionContentHtml
-      if (caption.trim() !== '') { // Use the guaranteed string 'caption'
+    images.forEach(itemData => { // Changed 'imgData' to 'itemData'
+      // Add checks and fallbacks for potentially missing data
+      const src = itemData?.src || '';
+      const alt = itemData?.alt || ''; // Alt text primarily for images
+      const rawCaption = itemData?.caption || ''; 
+
+	  if (!src) return; // Skip if no src
+
+      const fileExtension = src.split('.').pop().toLowerCase();
+      const isVideo = videoExtensions.includes(fileExtension);
+	  
+      // Ensure caption is a string, fallback to alt if it makes sense for the item type, then empty
+      const caption = String(rawCaption || (!isVideo ? alt : '') || ''); 
+
+
+      // --- Caption Processing Logic (mostly same, uses 'caption' variable) ---
+      let captionTextHtml = ''; 
+      if (caption.trim() !== '') {
           const delimiter = "::";
           let titleText = '';
           let descriptionText = '';
@@ -219,7 +228,6 @@ module.exports = function (eleventyConfig) {
               titleText = parts[0].trim();
               descriptionText = parts[1].trim();
           } else {
-              // Default to description if no delimiter
               titleText = caption.trim(); 
           }
 
@@ -231,33 +239,36 @@ module.exports = function (eleventyConfig) {
               captionTextHtml += `<span class="image-caption-description${spacingClass}">${descriptionText}</span>`;
           }
       }
-      // Wrap the text content in its own div
       const textContentWrapper = captionTextHtml ? `<div class="caption-text-content">${captionTextHtml}</div>` : '';
-      
-      // Construct the full figcaption HTML - now only includes the text wrapper
       const figcaptionHtml = textContentWrapper ? `<figcaption class="inline-carousel-caption">${textContentWrapper}</figcaption>` : '';
       // --- End Caption Processing ---
 
-      // --- Image and Icon Structure --- 
-      // Use the safe 'src', 'alt', and 'caption' variables
-      const imgHtml = `<img src="${src}" alt="${alt}" data-caption="${caption}" loading="lazy" decoding="async" class="carousel-image">`; 
+      // --- Media Element and Optional Lightbox Structure ---
+      let mediaHtml = ''; // Will hold either <img> or <video> tag + wrappers
 
-      // Create indicator icon span
+      // Define the base media element using a ternary
+      const mediaElementHtml = isVideo
+          ? `<video src="${src}" muted loop playsinline class="carousel-media carousel-video w-full h-auto aspect-video object-cover rounded-t-md" data-caption="${caption}"></video>`
+          : `<img src="${src}" alt="${alt}" data-caption="${caption}" loading="lazy" decoding="async" class="carousel-media carousel-image w-full h-auto object-cover">`;
+
+      // Always include the lightbox wrapper and icon for potential lightbox activation
+      // The lightbox JS will handle whether to show image or video
       const iconHtml = 
         `<span class="lightbox-indicator-icon absolute top-1 right-1" aria-hidden="true">` + 
           `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9M20.25 20.25h-4.5m4.5 0v-4.5m0 4.5L15 15" /></svg>` + 
         `</span>`;
 
-      // Wrap image and icon in the lightbox wrapper - simplified classes
-      const imageWithIconHtml = 
-        `<div class="lightbox-image-wrapper relative">` + 
-          `${imgHtml}` +
+      // Wrap the media element (img or video) and icon in the lightbox wrapper
+      mediaHtml = 
+        `<div class="lightbox-image-wrapper relative">` + // Renamed class slightly for clarity? Or keep as is?
+          `${mediaElementHtml}` +
           `${iconHtml}` +
         `</div>`;
-      // --- End Image and Icon Structure ---
+      // --- End Media Element Structure ---
 
-      // Combine into slide content (image+icon wrapper first, then caption)
-      const slideContent = `<div class="relative rounded-overflow">${imageWithIconHtml}${figcaptionHtml}</div>`;
+      // Combine into slide content (media element first, then caption)
+      // Added base classes for consistency, removed conditional wrapper
+      const slideContent = `<div class="relative rounded-overflow bg-gray-100 dark:bg-gray-800 shadow-md">${mediaHtml}${figcaptionHtml}</div>`; 
 
       slidesHtml += `<li class="glide__slide">${slideContent}</li>`;
     });

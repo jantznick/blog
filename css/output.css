@@ -42,6 +42,9 @@
 .row-start-1 {
   grid-row-start: 1;
 }
+.row-start-2 {
+  grid-row-start: 2;
+}
 .container {
   width: 100%;
 }
@@ -124,6 +127,9 @@
 }
 .object-contain {
   object-fit: contain;
+}
+.object-cover {
+  object-fit: cover;
 }
 .text-left {
   text-align: left;
@@ -627,6 +633,36 @@ li.previous::after {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.svg-hidden {
+  display: none !important;
+}
+.svg-visible {
+  display: block !important;
+}
+.video-play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: black;
+  width: 6em;
+  height: 6em;
+  border-radius: 50%;
+  padding: 1em;
+  color: white;
+  filter: opacity(0.75);
+  transform: translate(-50%, -50%);
+}
+.video-mute-button {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  background: black;
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  padding: 1em;
+  color: white;
 }
 .rounded-overflow {
   overflow: hidden;
