@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // --- Glide.js structure ---
     const glide = document.createElement("div");
-    glide.classList.add("glide", "relative", "w-full", "h-full", "max-w-4xl", "max-h-[90vh]"); // Added size constraints
+    // Use less restrictive size constraints for better responsiveness
+    glide.classList.add("glide", "relative", "w-full", "max-w-full", "max-h-[95vh]"); // Updated max-w and max-h
     lightbox.appendChild(glide);
 
     const glideTrack = document.createElement("div");
@@ -175,9 +176,18 @@ document.addEventListener("DOMContentLoaded", function () {
             glideInstance = new Glide(glide, {
                 type: 'slider',
                 startAt: index,
+                // Desktop settings
                 perView: 3,
 				focusAt: 'center',
-                peek: { before: 50, after: 50 }
+                peek: { before: 50, after: 50 },
+                // Responsive settings for mobile
+                breakpoints: {
+                    767: { // Screen width <= 767px
+                        perView: 1,
+                        peek: 0 // No peek on mobile
+                    }
+                    // Add more breakpoints if needed (e.g., 1024)
+                }
             });
 
             glideInstance.mount();

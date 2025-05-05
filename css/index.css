@@ -656,3 +656,64 @@ a.download-link:hover .download-icon svg {
   height: 1.5rem;
   display: block; /* Prevent extra space */
 }
+
+/* --- Responsive Styles for Mobile (e.g., <= 767px) --- */
+@media (max-width: 767px) {
+  /* --- Lightbox Adjustments --- */
+  /* Reduce caption padding on mobile */
+  .image-caption-wrapper {
+    padding: 0.5rem; /* p-2 equivalent */
+    font-size: 0.75rem; /* text-xs equivalent */
+    line-height: 1rem;
+  }
+  
+  /* Reduce download icon size/padding on mobile */
+  .download-icon {
+     padding: 0.125rem; /* Smaller padding */
+  }
+  .download-icon svg {
+    width: 1rem; /* w-4 */
+    height: 1rem; /* h-4 */
+  }
+  
+  /* Reduce download icon container margin */
+  .caption-download-icon-container {
+    margin-right: 0.75rem; /* Smaller margin */
+  }
+
+  /* Adjust title/description font size if needed */
+  .image-caption-title {
+     font-size: 0.875rem; /* text-sm */
+     line-height: 1.25rem;
+  }
+   .image-caption-description {
+     font-size: 0.75rem; /* text-xs */
+     line-height: 1rem;
+  }
+
+  /* --- Image Shortcode Adjustments for Mobile --- */
+  .image-container.align-left,
+  .image-container.align-right {
+    float: none; /* Disable floating */
+    width: 100%; /* Use full width */
+    max-width: 100%; /* Override desktop max-width */
+    margin-left: auto; /* Reset horizontal margins */
+    margin-right: auto;
+  }
+
+  .image-container.align-center {
+    max-width: 100%; /* Ensure centered images can also use full width */
+  }
+
+  .image-container img {
+    /* Ensure image uses full container width */
+    width: 100%; 
+  }
+
+  .image-shortcode-caption {
+    /* Optional: Adjust caption margin/padding if needed for mobile */
+     padding-left: 0;
+     padding-right: 0;
+     text-align: center; /* Center caption text on mobile */
+  }
+}
