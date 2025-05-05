@@ -1,76 +1,148 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("DOM fully loaded and parsed");
-    const images = document.querySelectorAll("img");
-    console.log(`Found ${images.length} images`);
+    const pageImages = document.querySelectorAll("img"); // Renamed to avoid conflict
+    console.log(`Found ${pageImages.length} images on page`);
+    if (pageImages.length === 0) return; // Don't setup lightbox if no images
+
     const lightbox = document.createElement("div");
-    lightbox.classList.add("lightbox", "fixed", "inset-0", "bg-black", "bg-opacity-75", "flex", "flex-col", "items-center", "justify-center", "z-50", "hidden");
+    lightbox.classList.add("lightbox", "fixed", "inset-0", "bg-black", "bg-opacity-75", "flex", "flex-col", "items-center", "justify-center", "z-50", "hidden", "p-4"); // Added padding
     document.body.appendChild(lightbox);
 
-    const img = document.createElement("img");
-    img.classList.add("lightbox-content", "w-full", "h-auto", "object-contain");
-    lightbox.appendChild(img);
+    // --- Glide.js structure ---
+    const glide = document.createElement("div");
+    glide.classList.add("glide", "relative", "w-full", "h-full", "max-w-4xl", "max-h-[90vh]"); // Added size constraints
+    lightbox.appendChild(glide);
 
-    const caption = document.createElement("div");
-    caption.classList.add("text-white", "text-center", "mt-4", "w-full");
-    lightbox.appendChild(caption);
+    const glideTrack = document.createElement("div");
+    glideTrack.setAttribute("data-glide-el", "track");
+    glideTrack.classList.add("glide__track", "h-full");
+    glide.appendChild(glideTrack);
+
+    const glideSlides = document.createElement("ul");
+    glideSlides.classList.add("glide__slides", "h-full"); // Ensure slides container takes height
+    glideTrack.appendChild(glideSlides);
+    // Slides (li > img) will be added dynamically
+
+    // Optional: Add Glide Arrows if needed (can be styled/positioned)
+    const glideArrows = document.createElement("div");
+    glideArrows.setAttribute("data-glide-el", "controls");
+    glideArrows.classList.add("glide__arrows");
+    // Added hover effect, increased padding
+    glideArrows.innerHTML = `
+        <button class="glide__arrow glide__arrow--left absolute top-1/2 left-0 transform -translate-y-1/2 ml-2 md:ml-4 text-white text-4xl cursor-pointer bg-black bg-opacity-30 hover:bg-opacity-50 p-2 md:p-3 rounded-full focus:outline-none transition-colors duration-150" data-glide-dir="<">&#10094;</button>
+        <button class="glide__arrow glide__arrow--right absolute top-1/2 right-0 transform -translate-y-1/2 mr-2 md:mr-4 text-white text-4xl cursor-pointer bg-black bg-opacity-30 hover:bg-opacity-50 p-2 md:p-3 rounded-full focus:outline-none transition-colors duration-150" data-glide-dir=">">&#10095;</button>
+    `;
+    glide.appendChild(glideArrows);
 
     const close = document.createElement("span");
-    close.classList.add("close", "absolute", "top-0", "right-0", "m-4", "text-white", "text-2xl", "cursor-pointer");
+    close.classList.add("close", "absolute", "top-0", "right-0", "m-2", "text-white", "text-2xl", "leading-none", "cursor-pointer", "z-10", "bg-black", "bg-opacity-30", "hover:bg-opacity-50", "rounded-full", "w-8", "h-8", "flex", "items-center", "justify-center", "transition-colors", "duration-150");
     close.innerHTML = "&times;";
-    lightbox.appendChild(close);
+    glide.appendChild(close);
 
-    const prev = document.createElement("span");
-    prev.classList.add("prev", "absolute", "top-1/2", "left-0", "transform", "-translate-y-1/2", "m-4", "text-white", "text-2xl", "cursor-pointer");
-    prev.innerHTML = "&#10094;";
-    lightbox.appendChild(prev);
+    let glideInstance = null; // To hold the Glide instance
 
-    const next = document.createElement("span");
-    next.classList.add("next", "absolute", "top-1/2", "right-0", "transform", "-translate-y-1/2", "m-4", "text-white", "text-2xl", "cursor-pointer");
-    next.innerHTML = "&#10095;";
-    lightbox.appendChild(next);
-
-    if (images.length <= 1) {
-        prev.style.display = "none";
-        next.style.display = "none";
-    }
-
-    let currentIndex = 0;
-
-    function showImage(index) {
-        const image = images[index];
-        img.src = image.src;
-        caption.textContent = image.alt;
-        currentIndex = index;
-    }
-
-    images.forEach((image, index) => {
+    pageImages.forEach((image, index) => {
+        // Don't add listeners to images already inside a potential future lightbox/glide structure
+        if (image.closest('.lightbox') || image.closest('.glide')) {
+             console.log(`Skipping image already in modal structure: ${image.src}`);
+             return;
+        }
         console.log(`Adding click listener for ${image.src}`);
         image.addEventListener("click", () => {
-            console.log(`Image clicked: ${image.src}`);
-            lightbox.style.display = "flex";
-            showImage(index);
+            console.log(`Image clicked: ${image.src}, index: ${index}`);
+
+            // --- Populate Glide slides ---
+            glideSlides.innerHTML = ''; // Clear existing slides
+            pageImages.forEach(imgData => {
+                const slide = document.createElement("li");
+                // Slide is just a flex container, centering the wrapper
+                slide.classList.add("glide__slide", "flex", "items-center", "justify-center", "h-full");
+
+                // --- Create an inner wrapper using GRID ---
+                const imageWrapper = document.createElement("div");
+                // Grid context for layering image and caption, constrain size
+                imageWrapper.classList.add("relative", "grid", "place-items-center", "max-w-full", "max-h-full");
+
+                const img = document.createElement("img");
+                img.src = imgData.src;
+                img.alt = imgData.alt; // Keep alt text
+                // Image fills wrapper constraints, place in grid cell 1,1
+                img.classList.add("object-contain", "max-w-full", "max-h-full", "w-auto", "h-auto", "rounded-md", "col-start-1", "row-start-1");
+                imageWrapper.appendChild(img); // Add image to wrapper
+
+                // --- Create and add caption INSIDE the wrapper, using absolute positioning relative to grid wrapper ---
+                if (imgData.alt) { // Only add caption if alt text exists
+                    const slideCaption = document.createElement("div");
+                    slideCaption.classList.add(
+                        "bg-white", "absolute", "left-[0]", "w-full", "p-2", "bg-white", "text-black", "text-sm", "text-left", "z-10", "pointer-events-none"
+                    );
+                    slideCaption.textContent = imgData.alt;
+                    imageWrapper.appendChild(slideCaption); // Add caption to wrapper
+                }
+                // --- End of caption addition ---
+
+                slide.appendChild(imageWrapper); // Add the wrapper to the slide
+                glideSlides.appendChild(slide);
+            });
+
+            console.log(`Populated ${pageImages.length} slides.`);
+            lightbox.style.display = "flex"; // Show the modal first
+
+            // Destroy previous instance if exists
+            if (glideInstance) {
+                console.log("Destroying previous Glide instance");
+                glideInstance.destroy();
+            }
+
+            // --- Initialize Glide.js ---
+            console.log(`Initializing Glide starting at index: ${index}`);
+            glideInstance = new Glide(glide, {
+                type: 'carousel',
+                startAt: index,
+                perView: 1,
+                peek: { before: 50, after: 50 }
+            });
+
+            glideInstance.mount();
+            console.log("Glide instance mounted.");
         });
     });
 
-    close.addEventListener("click", () => {
+    close.addEventListener("click", (e) => {
+        e.stopPropagation(); // Prevent lightbox click closing
         console.log("Close button clicked");
         lightbox.style.display = "none";
-    });
-
-    prev.addEventListener("click", () => {
-        console.log("Previous button clicked");
-        showImage((currentIndex - 1 + images.length) % images.length);
-    });
-
-    next.addEventListener("click", () => {
-        console.log("Next button clicked");
-        showImage((currentIndex + 1) % images.length);
+        if (glideInstance) {
+            console.log("Destroying Glide instance on close.");
+            glideInstance.destroy();
+            glideInstance = null;
+        }
     });
 
     lightbox.addEventListener("click", (e) => {
+        // Close only if clicking the backdrop, not the glide content area
         if (e.target === lightbox) {
             console.log("Lightbox background clicked");
             lightbox.style.display = "none";
+            if (glideInstance) {
+                console.log("Destroying Glide instance on background click.");
+                glideInstance.destroy();
+                glideInstance = null;
+            }
         }
     });
+
+     // Optional: Add keyboard navigation
+     document.addEventListener('keydown', (e) => {
+         if (lightbox.style.display !== 'none' && glideInstance) {
+             if (e.key === 'ArrowLeft') {
+                 glideInstance.go('<');
+             } else if (e.key === 'ArrowRight') {
+                 glideInstance.go('>');
+             } else if (e.key === 'Escape') {
+                 close.click(); // Trigger close action
+             }
+         }
+     });
+
 });

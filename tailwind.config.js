@@ -4,7 +4,10 @@ module.exports = {
     "./_layouts/**/*.njk",
     "./posts/**/*.md",
     "./index.njk",
-    "./js/**/*.js",
+    "./js/**/*.js"
+  ],
+  safelist: [
+    'bottom-0',
   ],
   theme: {
     extend: {},
