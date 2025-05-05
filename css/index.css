@@ -437,7 +437,7 @@ li.previous::after {
   margin-top: 1.5em;
   margin-bottom: 1.5em;
   /* Contain floats */
-  /* overflow: auto; */ /* Might uncomment if float clearing is needed */
+  /* overflow: auto; Might uncomment if float clearing is needed */
 }
 
 /* Float left alignment */
@@ -445,7 +445,7 @@ li.previous::after {
   float: left;
   margin-right: 1.5em;
   margin-left: 0; /* Ensure no extra left margin */
-  max-width: 50%; /* Adjust as needed - prevents huge floated images */
+  max-width: 30%; /* Adjust as needed - prevents huge floated images */
 }
 
 /* Float right alignment */
@@ -453,7 +453,19 @@ li.previous::after {
   float: right;
   margin-left: 1.5em;
   margin-right: 0; /* Ensure no extra right margin */
-  max-width: 50%; /* Adjust as needed */
+  max-width: 30%; /* Adjust as needed */
+}
+
+.left-70 {
+	max-width: 65%;
+	margin-right: 35%;
+	margin-top: 2.5em;
+}
+
+.right-70 {
+	max-width: 65%;
+	margin-left: 35%;
+	margin-top: 2.5em;
 }
 
 /* Center alignment */
@@ -631,10 +643,13 @@ a.download-link:hover .download-icon svg {
 /* Styles for Lightbox Image Indicator */
 .lightbox-image-wrapper {
   line-height: 0; /* Prevent extra space from wrapper */
+  position: relative; /* Ensure this is set if not inline */
 }
 
 .lightbox-indicator-icon {
-  /* Positioning is done via Tailwind classes: absolute top-1 right-1 */
+  position: absolute; /* Explicitly set positioning */
+  top: 0.25rem;       /* top-1 equivalent */
+  right: 0.25rem;      /* right-1 equivalent */
   background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
   color: white; /* Icon color */
   padding: 0.25rem; /* p-1 */
@@ -716,16 +731,70 @@ a.download-link:hover .download-icon svg {
      padding-right: 0;
      text-align: center; /* Center caption text on mobile */
   }
+
+  /* --- Center Expand Icon in Inline Carousel on Mobile --- */
+  .inline-carousel .lightbox-indicator-icon {
+    top: 50%;
+    left: 50%;
+    right: auto; /* Override the default right positioning */
+    transform: translate(-50%, -50%);
+    /* Optional: Increase size slightly for easier tapping? */
+    padding: 0.5rem; /* Increased padding */
+    border-radius: 0.375rem; /* slightly larger rounding to match padding */
+  }
+
+  .inline-carousel .lightbox-indicator-icon svg {
+      width: 3rem; /* Increased SVG size (w-8) */
+      height: 3rem; /* Increased SVG size (h-8) */
+  }
+  /* --- End Mobile Styles for Inline Carousel Arrows --- */
+
+  /* --- Inline Carousel Arrows (Hidden by Default) --- */
+  .inline-carousel .glide__arrows {
+    display: block !important; /* Show arrows container on mobile, force override */
+  }
+
+  .inline-carousel .glide__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10; /* Ensure arrows are above slides */
+    border: none;
+    padding: 0.5rem; /* Slightly smaller padding for mobile */
+    margin: 0 0.5rem; /* Add some horizontal margin */
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+    color: white;
+    border-radius: 50%; /* Circular shape */
+    width: 36px; /* Fixed size */
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem; /* Arrow icon size */
+    transition: background-color 0.2s ease;
+  }
+
+  .inline-carousel .glide__arrow:hover {
+    background-color: rgba(0, 0, 0, 0.6); /* Darker on hover */
+  }
+
+  .inline-carousel .glide__arrow--left {
+    left: 0;
+  }
+
+  .inline-carousel .glide__arrow--right {
+    right: 0;
+  }
+
+  .inline-carousel .glide__arrow--disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
 }
 
 /* --- Responsive Styles for Tablet (e.g., 768px - 1023px) --- */
 @media (min-width: 768px) and (max-width: 1023px) {
-  /* Keep float, maybe adjust max-width slightly if needed */
-  .image-container.align-left,
-  .image-container.align-right {
-    /* max-width: 45%; */ /* Example: slightly less width */
-    /* Keep float: left/right from default styles */
-  }
 
   /* Adjust max-width for centered images on tablets */
   .image-container.align-center {
@@ -741,16 +810,81 @@ a.download-link:hover .download-icon svg {
 
 /* --- End Tablet Styles --- */
 
-/* Custom Styles for Glide Arrows in Lightbox */
-.lightbox .glide__arrow {
-  background-color: black;
-  /* Equivalent to Tailwind's shadow-lg */
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  /* Ensure text color remains white if not already set */
-  color: white;
+/* === Inline Carousel Specific Styles === */
+.inline-carousel {
+  max-width: 90%; /* Or adjust as needed */
+  margin: 1.5rem auto; /* Center it */
+  position: relative; /* Needed for absolute positioning of arrows */
 }
 
-/* Optional: Add a subtle hover effect if desired */
-.lightbox .glide__arrow:hover {
-   background-color: #333; /* Slightly lighter black on hover */
+.inline-carousel .glide__slide {
+  /* Ensure slides center content if needed, adjust as necessary */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #eee; */ /* Optional: for visualizing slide bounds */
+  min-height: 150px; /* Optional: give slides a minimum height */
+  border-radius: 8px; /* Match image rounding */
+  overflow: hidden; /* Ensure content respects border radius */
 }
+
+.inline-carousel .carousel-image {
+  display: block; /* Ensure image behaves like a block */
+  width: 100%;   /* Make image fill slide width */
+  height: auto;  /* Maintain aspect ratio */
+  object-fit: cover; /* Cover the slide area, might crop */
+  max-height: 400px; /* Example max height */
+  min-height: 25em;
+}
+
+.inline-carousel .inline-carousel-caption {
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   padding: 0.5rem 0.75rem; /* Slightly smaller padding */
+   background: rgba(0, 0, 0, 0.6); /* Darker background */
+   color: white;
+   font-size: 0.8rem;
+   display: flex; /* Use flex for layout inside caption */
+   justify-content: space-between; /* Space out text and potential icons */
+   align-items: center;
+   opacity: 0; /* Hide by default */
+   transition: opacity 0.3s ease-in-out;
+   border-bottom-left-radius: 8px; /* Match slide rounding */
+   border-bottom-right-radius: 8px;
+}
+
+/* Style for the wrapper containing title/description */
+.inline-carousel .inline-carousel-caption .caption-text-content {
+  flex-grow: 1; /* Allow text content to take available space */
+  /* Text alignment can be handled here or on parent */
+  /* text-align: left; */ 
+}
+
+.inline-carousel .glide__slide:hover .inline-carousel-caption {
+    opacity: 1; /* Show caption on slide hover */
+}
+
+.inline-carousel .inline-carousel-caption .image-caption-title {
+  font-weight: bold;
+  display: block; /* Ensure title is on its own line if description exists */
+  /* margin-right: 0.5rem; */ /* Remove margin-right as they now stack */
+}
+
+.inline-carousel .inline-carousel-caption .image-caption-description {
+  display: block; /* Take full width below title */
+}
+
+/* Add margin-top for spacing between title and description within the text wrapper */
+.inline-carousel .caption-text-content .image-caption-title + .image-caption-description {
+  margin-top: 0.2rem; /* Adjust spacing as needed */
+}
+
+/* --- Inline Carousel Arrows (Hidden by Default) --- */
+.inline-carousel .glide__arrows {
+  display: none; /* Hide arrows on larger screens */
+}
+
+/* === Lightbox Specific Styles === */
+/* ... existing styles ... */

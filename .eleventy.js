@@ -184,6 +184,125 @@ module.exports = function (eleventyConfig) {
             </figure>`;
   });
 
+  // Inline Image Carousel Shortcode
+  eleventyConfig.addShortcode("imageCarousel", function(options) {
+    const { 
+      id = `carousel-${Math.random().toString(36).substring(2, 15)}`,
+      images = [],
+      // Allow overriding default Glide options via shortcode parameters if needed
+      glideOptions = {}
+    } = options;
+
+    if (!images || images.length === 0) {
+      return '<p>Image carousel requires an array of images.</p>';
+    }
+
+    let slidesHtml = '';
+    images.forEach(imgData => {
+      // Add checks and fallbacks for potentially missing data
+      const src = imgData?.src || '';
+      const alt = imgData?.alt || '';
+      const rawCaption = imgData?.caption || ''; // Get raw caption or empty string
+      const caption = String(rawCaption || alt || ''); // Ensure caption is a string, fallback to alt, then empty
+      
+      if (!src) return; // Skip if no src
+
+      // --- Caption Processing Logic (same as lightbox/image shortcode) --- 
+      let captionTextHtml = ''; // Renamed from captionContentHtml
+      if (caption.trim() !== '') { // Use the guaranteed string 'caption'
+          const delimiter = "::";
+          let titleText = '';
+          let descriptionText = '';
+
+          if (caption.includes(delimiter)) {
+              const parts = caption.split(delimiter, 2);
+              titleText = parts[0].trim();
+              descriptionText = parts[1].trim();
+          } else {
+              // Default to description if no delimiter
+              titleText = caption.trim(); 
+          }
+
+          if (titleText) {
+              captionTextHtml += `<span class="image-caption-title">${titleText}</span>`;
+          }
+          if (descriptionText) {
+              const spacingClass = titleText ? " mt-1" : ""; 
+              captionTextHtml += `<span class="image-caption-description${spacingClass}">${descriptionText}</span>`;
+          }
+      }
+      // Wrap the text content in its own div
+      const textContentWrapper = captionTextHtml ? `<div class="caption-text-content">${captionTextHtml}</div>` : '';
+      
+      // Construct the full figcaption HTML - now only includes the text wrapper
+      const figcaptionHtml = textContentWrapper ? `<figcaption class="inline-carousel-caption">${textContentWrapper}</figcaption>` : '';
+      // --- End Caption Processing ---
+
+      // --- Image and Icon Structure --- 
+      // Use the safe 'src', 'alt', and 'caption' variables
+      const imgHtml = `<img src="${src}" alt="${alt}" data-caption="${caption}" loading="lazy" decoding="async" class="carousel-image">`; 
+
+      // Create indicator icon span
+      const iconHtml = 
+        `<span class="lightbox-indicator-icon absolute top-1 right-1" aria-hidden="true">` + 
+          `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9M20.25 20.25h-4.5m4.5 0v-4.5m0 4.5L15 15" /></svg>` + 
+        `</span>`;
+
+      // Wrap image and icon in the lightbox wrapper - simplified classes
+      const imageWithIconHtml = 
+        `<div class="lightbox-image-wrapper relative">` + 
+          `${imgHtml}` +
+          `${iconHtml}` +
+        `</div>`;
+      // --- End Image and Icon Structure ---
+
+      // Combine into slide content (image+icon wrapper first, then caption)
+      const slideContent = `<div class="relative rounded-overflow">${imageWithIconHtml}${figcaptionHtml}</div>`;
+
+      slidesHtml += `<li class="glide__slide">${slideContent}</li>`;
+    });
+
+    // Define default Glide options for this type of carousel - MATCHING LIGHTBOX
+    const defaultOptions = {
+      type: 'slider',
+      // startAt: 0, // Default is 0, no need to set explicitly unless overriding
+      perView: 4,
+      gap: 10, // Keep the gap from original inline options
+      peek: { before: 50, after: 50 },
+      breakpoints: {
+          1023: { // Tablet (<= 1023px)
+                perView: 2,
+                peek: { before: 25, after: 25 } // Slightly less peek
+          },
+          767: { // Mobile (<= 767px)
+              perView: 1,
+              peek: 0 // No peek on mobile
+          }
+      }
+    };
+    // Merge defaults with any passed-in options
+    const finalOptions = { ...defaultOptions, ...glideOptions };
+
+    // Escape double quotes for the HTML attribute value
+    const optionsJsonString = JSON.stringify(finalOptions);
+    const encodedOptions = optionsJsonString.replace(/"/g, "&quot;");
+
+    // Full Glide HTML structure without arrows
+    const carouselHtml = `<div class="glide inline-carousel" id="${id}" data-glide-options="${encodedOptions}">
+<div class="glide__track" data-glide-el="track">
+<ul class="glide__slides">
+${slidesHtml}
+</ul>
+</div>
+<div class="glide__arrows" data-glide-el="controls">
+  <button class="glide__arrow glide__arrow--left inline-carousel-arrow" data-glide-dir="<">&#10094;</button>
+  <button class="glide__arrow glide__arrow--right inline-carousel-arrow" data-glide-dir=">">&#10095;</button>
+</div>
+</div>`; // Removed the glide__arrows div -> Now closing the main glide div
+
+    return carouselHtml;
+  });
+
   return {
     // Control which files Eleventy will process
     // e.g.: *.md, *.njk, *.html, *.liquid

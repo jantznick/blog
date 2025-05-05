@@ -27,10 +27,6 @@ module.exports = {
     'overflow-hidden',
 	'rounded-md',
     // Add any other needed classes here
-    // Arrow size classes
-    'text-5xl',
-    'p-3',
-    'md:p-4',
   ],
   theme: {
     extend: {},

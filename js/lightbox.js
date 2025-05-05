@@ -1,41 +1,39 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Find all images on the page intended for the lightbox
-    // Exclude images already within a lightbox structure if the script runs multiple times
-    const pageImages = Array.from(document.querySelectorAll("img:not(.lightbox img):not(.glide img)"));
+    // Include images in posts OR in inline carousels (but not clones or lightbox itself)
+    const pageImages = Array.from(document.querySelectorAll(".tmpl-post img, .inline-carousel .carousel-image:not(.glide__slide--clone .carousel-image)"));
+    
     if (pageImages.length === 0) return; // Don't setup lightbox if no images
 
     const lightbox = document.createElement("div");
-    lightbox.classList.add("lightbox", "fixed", "inset-0", "bg-black", "bg-opacity-75", "flex", "flex-col", "items-center", "justify-center", "z-50", "hidden", "p-4"); // Added padding
+    lightbox.classList.add("lightbox", "fixed", "inset-0", "bg-black", "bg-opacity-75", "flex", "flex-col", "items-center", "justify-center", "z-50", "hidden", "p-4"); 
     document.body.appendChild(lightbox);
 
     // --- Glide.js structure ---
     const glide = document.createElement("div");
-    // Use less restrictive size constraints for better responsiveness
-    glide.classList.add("glide", "relative", "w-full", "max-w-full", "max-h-[95vh]"); // Updated max-w and max-h
+    glide.classList.add("glide", "relative", "w-full", "max-w-full", "max-h-[95vh]"); 
     lightbox.appendChild(glide);
 
     const glideTrack = document.createElement("div");
     glideTrack.setAttribute("data-glide-el", "track");
-    glideTrack.classList.add("glide__track", "h-full");
+    glideTrack.classList.add("glide__track"); // Removed h-full if autoHeight CSS is used
     glide.appendChild(glideTrack);
 
     const glideSlides = document.createElement("ul");
-    glideSlides.classList.add("glide__slides", "h-full"); // Ensure slides container takes height
+    glideSlides.classList.add("glide__slides"); // Removed h-full
     glideTrack.appendChild(glideSlides);
 
-    // Optional: Add Glide Arrows if needed (can be styled/positioned)
+    // --- REMOVED dynamic arrow creation, using static ones in HTML now? No, keeping dynamic lightbox arrows.
     const glideArrows = document.createElement("div");
     glideArrows.setAttribute("data-glide-el", "controls");
     glideArrows.classList.add("glide__arrows");
-    // Removed bg-black and shadow-lg, will style in CSS - Increased size
     glideArrows.innerHTML = `
-        <button class="glide__arrow glide__arrow--left absolute top-1/2 left-0 transform -translate-y-1/2 ml-2 md:ml-4 text-white text-5xl cursor-pointer p-3 md:p-4 rounded-full focus:outline-none transition-colors duration-150" data-glide-dir="<">&#10094;</button>
-        <button class="glide__arrow glide__arrow--right absolute top-1/2 right-0 transform -translate-y-1/2 mr-2 md:mr-4 text-white text-5xl cursor-pointer p-3 md:p-4 rounded-full focus:outline-none transition-colors duration-150" data-glide-dir=">">&#10095;</button>
+        <button class="glide__arrow glide__arrow--left absolute top-1/2 left-0 transform -translate-y-1/2 ml-2 md:ml-4 text-5xl cursor-pointer p-3 md:p-4 rounded-full focus:outline-none transition-colors duration-150" data-glide-dir="<">&#10094;</button>
+        <button class="glide__arrow glide__arrow--right absolute top-1/2 right-0 transform -translate-y-1/2 mr-2 md:mr-4 text-5xl cursor-pointer p-3 md:p-4 rounded-full focus:outline-none transition-colors duration-150" data-glide-dir=">">&#10095;</button>
     `;
     glide.appendChild(glideArrows);
-
+    
     const close = document.createElement("span");
-    // Adjusted close button position slightly - Added background, hover, rounded-full, padding
     close.classList.add("close", "absolute", "top-0", "right-0", "m-2", "text-white", "text-2xl", "leading-none", "cursor-pointer", "z-10", "bg-black", "bg-opacity-30", "hover:bg-opacity-50", "rounded-full", "w-8", "h-8", "flex", "items-center", "justify-center", "transition-colors", "duration-150");
     close.innerHTML = "&times;";
     glide.appendChild(close);
@@ -43,77 +41,62 @@ document.addEventListener("DOMContentLoaded", function () {
     let glideInstance = null; // To hold the Glide instance
 
     pageImages.forEach((image, index) => {
-        // --- Create Wrapper and Icon --- 
-        if (image.closest('.lightbox-image-wrapper')) {
-            // Already processed this image (e.g., if script runs twice)
-            return;
-        }
-        
-        const wrapper = document.createElement('div');
-        // Use inline-block to wrap the image size, relative for icon positioning
-        wrapper.classList.add('lightbox-image-wrapper', 'relative', 'inline-block', 'align-bottom'); // align-bottom helps prevent extra space
+        // --- REMOVED Wrapper and Icon dynamic creation --- 
+        // The shortcode now generates the .lightbox-image-wrapper and icon
 
-        const icon = document.createElement('span');
-        icon.classList.add('lightbox-indicator-icon', 'absolute', 'top-[1em]', 'right-[1em]'); // Position top-right
-        // Simple SVG Expand icon (customize appearance via CSS)
-        icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9M20.25 20.25h-4.5m4.5 0v-4.5m0 4.5L15 15" /></svg>`;
-        icon.setAttribute('aria-hidden', 'true'); // Hide decorative icon from screen readers
-        
-        // Insert wrapper before image, move image inside, add icon
-        image.parentNode.insertBefore(wrapper, image);
-        wrapper.appendChild(image);
-        wrapper.appendChild(icon);
-        // --- End Wrapper and Icon ---
-
-        // Attach click listener to the image itself (or wrapper if preferred)
+        // Attach click listener to the image itself
         image.addEventListener("click", () => {
 
             // --- Populate Glide slides --- 
-            // Ensure we use the *original* list of images, not ones inside other modals
-            const eligiblePageImages = Array.from(document.querySelectorAll("img:not(.lightbox img):not(.glide img)"));
+            // Ensure we use the *same* query selector here to get the list of *all* eligible images
+            const eligiblePageImages = Array.from(document.querySelectorAll(".tmpl-post img, .inline-carousel .carousel-image:not(.glide__slide--clone .carousel-image)"));
             
             glideSlides.innerHTML = ''; // Clear existing slides
             eligiblePageImages.forEach(imgData => {
                 const slide = document.createElement("li");
                 // Slide is just a flex container, centering the wrapper
-                slide.classList.add("glide__slide", "flex", "items-center", "justify-center", "h-full");
+                slide.classList.add("glide__slide", "flex", "items-center", "justify-center");
 
                 // --- Create an inner wrapper using GRID ---
                 const imageWrapper = document.createElement("div");
-                // Grid context for layering image and caption, constrain size
-                imageWrapper.classList.add("relative", "grid", "place-items-center", "max-w-full", "max-h-full", "rounded-overflow");
+                // Grid context for layering image and caption, constrain width only
+                imageWrapper.classList.add("relative", "grid", "place-items-center", "max-w-full");
 
                 const img = document.createElement("img");
-                img.src = imgData.src;
-                img.alt = imgData.alt; // Keep alt text
-                // Image fills wrapper constraints, place in grid cell 1,1
-                img.classList.add("object-contain", "max-w-full", "max-h-full", "w-auto", "h-auto", "rounded-md", "col-start-1", "row-start-1");
+                img.src = imgData?.src || ''; // Added check for imgData.src
+                img.alt = imgData?.alt || ''; // Added check and fallback for alt
+                // Image fills wrapper width constraint, remove height constraint
+                img.classList.add("object-contain", "max-w-full", "w-auto", "h-auto", "rounded-md", "col-start-1", "row-start-1");
                 imageWrapper.appendChild(img); // Add image to wrapper
 
                 // --- Create and add caption INSIDE the wrapper, using custom CSS classes ---
-                if (imgData.dataset['caption'] && imgData.dataset['caption'].trim() !== '') { // Only add caption if data-caption exists and is not empty
-                    const slideCaptionWrapper = document.createElement("div");
-                    // Use a semantic class for custom CSS styling - Add flex display
-                    slideCaptionWrapper.classList.add("image-caption-wrapper", "flex", "justify-between", "items-center");
+                // Ensure we have strings to work with, even if attributes are missing
+                const rawCaption = imgData?.dataset?.['caption'] || ''; 
+                const rawAlt = imgData?.alt || '';
+                const captionSource = String(rawCaption || rawAlt || ''); // Guarantee a string
+                
+                // --- Always create the main caption/icon container ---
+                const slideCaptionWrapper = document.createElement("div");
+                slideCaptionWrapper.classList.add("image-caption-wrapper", "flex", "justify-between", "items-center");
 
-                    const captionText = imgData.dataset['caption'];
+                // --- Conditionally create and add caption text ---
+                if (captionSource.trim() !== '') {
                     const delimiter = "::";
                     let titleText = '';
                     let descriptionText = '';
 
-                    // --- Create wrapper for text content --- 
                     const textWrapper = document.createElement('div');
-                    textWrapper.classList.add("caption-text-content"); // Add a class for potential styling
+                    textWrapper.classList.add("caption-text-content"); 
 
-                    if (captionText.includes(delimiter)) {
-                        const parts = captionText.split(delimiter, 2);
+                    if (captionSource.includes(delimiter)) {
+                        const parts = captionSource.split(delimiter, 2);
                         titleText = parts[0].trim();
                         descriptionText = parts[1].trim();
                     } else {
-                        titleText = captionText.trim();
+                        // If no delimiter, assume it's just the title (or description if preferred)
+                        titleText = captionSource.trim(); 
                     }
 
-                    // --- Populate textWrapper --- 
                     if (titleText) {
                         const titleElement = document.createElement("span");
                         titleElement.classList.add("image-caption-title");
@@ -130,36 +113,38 @@ document.addEventListener("DOMContentLoaded", function () {
                         descriptionElement.textContent = descriptionText;
                         textWrapper.appendChild(descriptionElement);
                     }
-                    // --- End textWrapper population ---
                     
-                    // Append text wrapper to the main caption wrapper
-                    slideCaptionWrapper.appendChild(textWrapper);
-
-					const downloadWrapper = document.createElement("div");
-                    const imageUrl = imgData.src;
-                    const filename = imageUrl.split('/').pop() || 'downloaded-image';
-
-                    // Revert to using a functional anchor tag with download attribute
-                    downloadWrapper.innerHTML = 
-                        `<a href="${imageUrl}" download="${filename}" class="download-link" title="Download image">` +
-                          `<span class="download-icon">` +
-                            `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>` + 
-                          `</span>` +
-                        `</a>`;
-                    downloadWrapper.classList.add("caption-download-icon-container");
-
-                    // Append download icon wrapper to the main caption wrapper
-					slideCaptionWrapper.appendChild(downloadWrapper);
-
-                    imageWrapper.appendChild(slideCaptionWrapper); // Add the main caption wrapper to the image wrapper
+                    // Only append text wrapper if it has content
+                    if (textWrapper.hasChildNodes()) {
+                        slideCaptionWrapper.appendChild(textWrapper);
+                    }
                 }
-                // --- End of caption addition ---
+                // --- End of conditional caption text creation ---
 
-                slide.appendChild(imageWrapper); // Add the wrapper to the slide
+                // --- Always create and add download icon --- 
+                const downloadWrapper = document.createElement("div");
+                const imageUrl = imgData.src;
+                const filename = imageUrl ? (imageUrl.split('/').pop() || 'downloaded-image') : 'downloaded-image';
+
+                downloadWrapper.innerHTML = 
+                    `<a href="${imageUrl || '#'}" download="${filename}" class="download-link" title="Download image">` +
+                      `<span class="download-icon">` +
+                        `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>` + 
+                      `</span>` +
+                    `</a>`;
+                downloadWrapper.classList.add("caption-download-icon-container"); 
+
+                slideCaptionWrapper.appendChild(downloadWrapper); // Append icon TO the caption wrapper
+                // --- End of download icon addition ---
+
+                // --- Always add the caption wrapper (might contain only icon) to the image wrapper ---
+                imageWrapper.appendChild(slideCaptionWrapper);
+
+                slide.appendChild(imageWrapper);
                 glideSlides.appendChild(slide);
             });
 
-            lightbox.style.display = "flex"; // Show the modal first
+            lightbox.style.display = "flex";
 
             // Destroy previous instance if exists
             if (glideInstance) {
@@ -167,22 +152,24 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             // --- Initialize Glide.js ---
+            // The `index` here should be the index of the clicked image 
+            // within the full `pageImages` (or `eligiblePageImages`) list
             glideInstance = new Glide(glide, {
                 type: 'slider',
-                startAt: index,
+                startAt: index, // Use the index from the initial forEach loop
                 // Default (Desktop) settings
                 perView: 3,
 		        focusAt: 'center',
                 peek: { before: 50, after: 50 },
                 // Responsive settings
                 breakpoints: {
-                    1023: { // Tablet (<= 1023px)
+                    1023: { 
                          perView: 2,
-                         peek: { before: 25, after: 25 } // Slightly less peek
+                         peek: { before: 25, after: 25 } 
                     },
-                    767: { // Mobile (<= 767px)
+                    767: { 
                         perView: 1,
-                        peek: 0 // No peek on mobile
+                        peek: 0 
                     }
                 }
             });
@@ -221,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
              } else if (e.key === 'Escape') {
                  close.click(); // Trigger close action
              }
-         }
-     });
+        }
+    });
 
 });

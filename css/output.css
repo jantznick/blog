@@ -21,14 +21,8 @@
 .top-1\/2 {
   top: calc(1/2 * 100%);
 }
-.top-\[1em\] {
-  top: 1em;
-}
 .right-\[0\] {
   right: 0;
-}
-.right-\[1em\] {
-  right: 1em;
 }
 .bottom-\[0\] {
   bottom: 0;
@@ -66,9 +60,6 @@
 .inline {
   display: inline;
 }
-.inline-block {
-  display: inline-block;
-}
 .table {
   display: table;
 }
@@ -80,9 +71,6 @@
 }
 .max-h-\[95vh\] {
   max-height: 95vh;
-}
-.max-h-full {
-  max-height: 100%;
 }
 .w-auto {
   width: auto;
@@ -139,9 +127,6 @@
 }
 .text-left {
   text-align: left;
-}
-.align-bottom {
-  vertical-align: bottom;
 }
 .leading-none {
   --tw-leading: 1;
@@ -543,13 +528,23 @@ li.previous::after {
   float: left;
   margin-right: 1.5em;
   margin-left: 0;
-  max-width: 50%;
+  max-width: 30%;
 }
 .image-container.align-right {
   float: right;
   margin-left: 1.5em;
   margin-right: 0;
-  max-width: 50%;
+  max-width: 30%;
+}
+.left-70 {
+  max-width: 65%;
+  margin-right: 35%;
+  margin-top: 2.5em;
+}
+.right-70 {
+  max-width: 65%;
+  margin-left: 35%;
+  margin-top: 2.5em;
 }
 .image-container.align-center {
   display: block;
@@ -685,8 +680,12 @@ a.download-link:hover .download-icon svg {
 }
 .lightbox-image-wrapper {
   line-height: 0;
+  position: relative;
 }
 .lightbox-indicator-icon {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
   padding: 0.25rem;
@@ -746,19 +745,116 @@ a.download-link:hover .download-icon svg {
     padding-right: 0;
     text-align: center;
   }
+  .inline-carousel .lightbox-indicator-icon {
+    top: 50%;
+    left: 50%;
+    right: auto;
+    transform: translate(-50%, -50%);
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+  }
+  .inline-carousel .lightbox-indicator-icon svg {
+    width: 3rem;
+    height: 3rem;
+  }
+  .inline-carousel .glide__arrows {
+    display: block !important;
+  }
+  .inline-carousel .glide__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    border: none;
+    padding: 0.5rem;
+    margin: 0 0.5rem;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: background-color 0.2s ease;
+  }
+  .inline-carousel .glide__arrow:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+  .inline-carousel .glide__arrow--left {
+    left: 0;
+  }
+  .inline-carousel .glide__arrow--right {
+    right: 0;
+  }
+  .inline-carousel .glide__arrow--disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
   .image-container.align-center {
     max-width: 80%;
   }
 }
-.lightbox .glide__arrow {
-  background-color: black;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  color: white;
+.inline-carousel {
+  max-width: 90%;
+  margin: 1.5rem auto;
+  position: relative;
 }
-.lightbox .glide__arrow:hover {
-  background-color: #333;
+.inline-carousel .glide__slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.inline-carousel .carousel-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  max-height: 400px;
+  min-height: 25em;
+}
+.inline-carousel .inline-carousel-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.5rem 0.75rem;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.inline-carousel .inline-carousel-caption .caption-text-content {
+  flex-grow: 1;
+}
+.inline-carousel .glide__slide:hover .inline-carousel-caption {
+  opacity: 1;
+}
+.inline-carousel .inline-carousel-caption .image-caption-title {
+  font-weight: bold;
+  display: block;
+}
+.inline-carousel .inline-carousel-caption .image-caption-description {
+  display: block;
+}
+.inline-carousel .caption-text-content .image-caption-title + .image-caption-description {
+  margin-top: 0.2rem;
+}
+.inline-carousel .glide__arrows {
+  display: none;
 }
 @property --tw-translate-x {
   syntax: "*";
