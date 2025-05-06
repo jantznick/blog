@@ -55,7 +55,7 @@ I(Nick) was having some ear issues after the flight and went to find a pharmacy.
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/hudson-aquarium-sand.jpeg", alt: "", caption: "Hudson playing in a sand table in the mall aquarium" },
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/kids-koi.jpeg", alt: "", caption: "Koi in the mall aquarium" },
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/kids-mall-aquarium-tunnel.jpeg", alt: "", caption: "Kids in the mall aquarium walk through tank" },
-{ src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/IMG_6351.mov", alt: "", caption: "Cora going down a slide at the mall" },
+{ src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/IMG_6351.MOV", alt: "", caption: "Cora going down a slide at the mall" },
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/kids-mickey-icecream-shop.jpeg", alt: "", caption: "Kids with a Mickey Mouse in an Ice Cream shop" }
 ] %}
 
