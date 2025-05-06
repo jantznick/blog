@@ -89,7 +89,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					lightboxMediaElement.playsInline = true; // Important for iOS
 					// Add necessary classes for styling and consistency
 					lightboxMediaElement.classList.add("rounded-overflow", "lightbox-media", "lightbox-video", "object-contain", "max-w-full", "w-auto", "h-auto", "rounded-md", "row-start-1", "col-start-1"); 
-					lightboxMediaElement.style.transform = 'rotate(180deg)';
 					lightboxMediaElement.title = slideMediaElement.alt || '';
 				} else {
 					lightboxMediaElement = document.createElement('img');

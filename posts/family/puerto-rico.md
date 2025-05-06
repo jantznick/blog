@@ -8,7 +8,7 @@ layout: layouts/post.njk
 
 ## Story
 
-We then went to Puerto Rico
+We then went to Puerto Rico.
 
 {% set puerto_rico_images = [
 { src: "/img/dr-pr-2024/cora-aguadilla-chair.jpeg", caption: "Cora in Aguadilla" },
