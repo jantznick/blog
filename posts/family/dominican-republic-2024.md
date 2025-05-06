@@ -36,6 +36,7 @@ I(Nick) was having some ear issues after the flight and went to find a pharmacy.
 
 {% set santo_domingo_sights_images = [
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/IMG_6351.MOV", alt: "", caption: "Cora going down a slide at the mall" },
+{ src: "/img/dr-pr-2024/264IMG_6351.MOV", alt: "", caption: "Cora going down a slide at the mall" },
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/cocoa-waiting.jpeg", alt: "", caption: "Nick and the kids waiting to start the cocoa baking tour" },
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/kids-cocoa-frame.jpeg", alt: "", caption: "The kids pose in image frames every chance they get" },
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/cocoa-baking.jpeg", alt: "", caption: "Enjoying baking some cocoa" },
