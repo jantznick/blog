@@ -1,5 +1,5 @@
 ---
-title: Our trip to the Dominican Republic
+title: Caribbean Vacation Part 1 - Dominican Republic
 description: We went to the Dominican Republic!
 date: 2024-12-10
 tags: family
@@ -56,7 +56,8 @@ I(Nick) was having some ear issues after the flight and went to find a pharmacy.
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/kids-koi.jpeg", alt: "", caption: "Koi in the mall aquarium" },
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/kids-mall-aquarium-tunnel.jpeg", alt: "", caption: "Kids in the mall aquarium walk through tank" },
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/IMG_6351.MOV", alt: "", caption: "Cora going down a slide at the mall" },
-{ src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/kids-mickey-icecream-shop.jpeg", alt: "", caption: "Kids with a Mickey Mouse in an Ice Cream shop" }
+{ src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/kids-mickey-icecream-shop.jpeg", alt: "", caption: "Kids with a Mickey Mouse in an Ice Cream shop" },
+{ src: "/img/dr-pr-2024/IMG_3083.MOV", alt: "", caption: "Kids with the Pigeons" }
 ] %}
 
 {% imageCarousel id="santo-domingo-sights-carousel", images=santo_domingo_sights_images %}
