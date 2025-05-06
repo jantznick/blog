@@ -35,6 +35,7 @@ I(Nick) was having some ear issues after the flight and went to find a pharmacy.
 ## Santo Domingo Sights
 
 {% set santo_domingo_sights_images = [
+{ src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/IMG_6351.MOV", alt: "", caption: "Cora going down a slide at the mall" },
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/cocoa-waiting.jpeg", alt: "", caption: "Nick and the kids waiting to start the cocoa baking tour" },
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/kids-cocoa-frame.jpeg", alt: "", caption: "The kids pose in image frames every chance they get" },
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/cocoa-baking.jpeg", alt: "", caption: "Enjoying baking some cocoa" },
@@ -55,7 +56,6 @@ I(Nick) was having some ear issues after the flight and went to find a pharmacy.
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/hudson-aquarium-sand.jpeg", alt: "", caption: "Hudson playing in a sand table in the mall aquarium" },
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/kids-koi.jpeg", alt: "", caption: "Koi in the mall aquarium" },
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/kids-mall-aquarium-tunnel.jpeg", alt: "", caption: "Kids in the mall aquarium walk through tank" },
-{ src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/IMG_6351.MOV", alt: "", caption: "Cora going down a slide at the mall" },
 { src: "https://nickjantzblog.s3.us-east-1.amazonaws.com/dr-pr-2024/kids-mickey-icecream-shop.jpeg", alt: "", caption: "Kids with a Mickey Mouse in an Ice Cream shop" },
 { src: "/img/dr-pr-2024/IMG_3083.MOV", alt: "", caption: "Kids with the Pigeons" }
 ] %}
