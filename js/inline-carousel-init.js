@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
     inlineCarousels.forEach(carouselElement => {
         const carouselId = carouselElement.id;
         const optionsString = carouselElement.dataset.glideOptions;
-		console.log(optionsString);
         let options = {};
 
         if (!carouselId) {
@@ -29,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
             options = {}; // Use default Glide options if parsing fails
         }
 
-        // console.log(`Initializing carousel #${carouselId} with options:`, options);
         new Glide(carouselElement, options).mount();
     });
 }); 

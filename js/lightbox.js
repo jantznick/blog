@@ -75,22 +75,21 @@ document.addEventListener("DOMContentLoaded", function () {
 				// Use grid with explicit rows for media and caption. Center content horizontally.
 				slideContentWrapper.classList.add("relative", "grid", "place-items-center", "max-w-full"); // Added gap and padding
 
-				// --- Determine if item is image or video --- 
-				const src = slideMediaElement.src || ''; // Get src from the found media element
+				const src = slideMediaElement.src || ''; 
 				const isVideo = slideMediaElement.tagName === 'VIDEO'; // Check tag name
 
 				// --- Create Media Element (Image or Video) --- 
 				let lightboxMediaElement; // Use a different name to avoid conflict
 				if (isVideo) {
 					lightboxMediaElement = document.createElement('video');
-					lightboxMediaElement.src = src;
+					lightboxMediaElement.src = src; // Use the original src
 					// lightboxMediaElement.controls = true;
 					lightboxMediaElement.muted = true;
 					lightboxMediaElement.loop = true; // Optional: remove if looping is not desired
 					lightboxMediaElement.playsInline = true; // Important for iOS
 					// Add necessary classes for styling and consistency
-					lightboxMediaElement.classList.add("rounded-overflow", "lightbox-media", "lightbox-video", "object-contain", "max-w-full", "w-auto", "h-auto", "rounded-md", "row-start-1", "col-start-1"); // Explicitly row 1
-					// Set title for accessibility, maybe from alt if provided
+					lightboxMediaElement.classList.add("rounded-overflow", "lightbox-media", "lightbox-video", "object-contain", "max-w-full", "w-auto", "h-auto", "rounded-md", "row-start-1", "col-start-1"); 
+					lightboxMediaElement.style.transform = 'rotate(180deg)';
 					lightboxMediaElement.title = slideMediaElement.alt || '';
 				} else {
 					lightboxMediaElement = document.createElement('img');
@@ -103,20 +102,37 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (isVideo) {
 					const playPauseWrapper = document.createElement("div");
 					playPauseWrapper.classList.add("video-play-button");
+					const elements = [lightboxMediaElement, playPauseWrapper];
+					elements.forEach(element => {
+						element.addEventListener("click", () => {
+							lightboxMediaElement.play();
+							playPauseWrapper.classList.add('svg-hidden');
+							lightboxMediaElement.addEventListener('click', () => {
+								playPauseWrapper.classList.remove('svg-hidden');
+								lightboxMediaElement.pause();
+							})
+						});
+					});
 					playPauseWrapper.innerHTML =
 							`<span class="video-play-icon">` +
 								`<svg class="control-icon icon-play w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347c.75.411.75 1.559 0 1.97l-11.54 6.347c-.75.411-1.667-.13-1.667-.986V5.653Z" /></svg>` +
-								`<svg class="control-icon icon-pause w-6 h-6 svg-hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" /></svg>` +
 							`</span>` ;
 					slideContentWrapper.appendChild(playPauseWrapper);
 
 					const muteButton = document.createElement("div");
 					muteButton.classList.add("video-mute-button");
+					muteButton.addEventListener("click", () => {
+						lightboxMediaElement.muted = !lightboxMediaElement.muted;
+						document.getElementById('muted-icon').classList.toggle('svg-hidden');
+						document.getElementById('unmuted-icon').classList.toggle('svg-hidden');
+					});
 					muteButton.innerHTML =
-							`<span class="download-icon">` +
-								`<svg class="control-icon icon-mute w-6 h-6 svg-hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75L19.5 12l-2.25 2.25M19.5 12H15m-3 3L7.5 12l2.25-2.25M15 12H9" /></svg>` +
-								`<svg class="control-icon icon-unmute w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75L19.5 12l-2.25 2.25M19.5 12H15m-3 3L7.5 12l2.25-2.25M15 12H9" /></svg>` +
-							`</span>` ;
+						`<span class="video-mute-icon">` +
+							// Updated path for muted speaker icon
+							`<svg id="muted-icon" class="icon-mute w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25M17.25 9.75L19.5 12M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg>` +
+							// Updated path for unmuted speaker icon
+							`<svg id="unmuted-icon" class="control-icon svg-hidden icon-unmute w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg>` +
+						`</span>` ;
 					slideContentWrapper.appendChild(muteButton);
 				}
 
