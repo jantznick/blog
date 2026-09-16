@@ -184,35 +184,45 @@ module.exports = function (eleventyConfig) {
             </figure>`;
 	});
 
-	// Inline Image Carousel Shortcode (Swiper)
+	// Inline Image Carousel Shortcode (Glide — restored from 45b24d5)
 	eleventyConfig.addShortcode("imageCarousel", function (options) {
 		const {
 			id = `carousel-${Math.random().toString(36).substring(2, 15)}`,
-			images = [],
+			images = [], // Renamed from 'items' to be clearer
+			// Allow overriding default Glide options via shortcode parameters if needed
+			glideOptions = {}
 		} = options;
 
+		// Changed 'items' to 'images' in the check
 		if (!images || images.length === 0) {
-			return '<p>Image carousel requires an array of images or videos.</p>';
+			return '<p>Image carousel requires an array of images or videos.</p>'; // Updated message
 		}
 
-		const videoExtensions = ['mp4', 'webm', 'ogg', 'mov', 'm4v'];
 		let slidesHtml = '';
+		const videoExtensions = ['mp4', 'webm', 'ogg', 'mov', 'm4v']; // Common video extensions
 
-		images.forEach((itemData, index) => {
+		images.forEach(itemData => { // Changed 'imgData' to 'itemData'
+			// Add checks and fallbacks for potentially missing data
 			const src = itemData?.src || '';
-			const alt = itemData?.alt || '';
+			const alt = itemData?.alt || ''; // Alt text primarily for images
 			const rawCaption = itemData?.caption || '';
-			if (!src) return;
 
-			const fileExtension = src.split('.').pop().toLowerCase().split('?')[0];
+			if (!src) return; // Skip if no src
+
+			const fileExtension = src.split('.').pop().toLowerCase();
 			const isVideo = videoExtensions.includes(fileExtension);
+
+			// Ensure caption is a string, fallback to alt if it makes sense for the item type, then empty
 			const caption = String(rawCaption || (!isVideo ? alt : '') || '');
 
+
+			// --- Caption Processing Logic (mostly same, uses 'caption' variable) ---
 			let captionTextHtml = '';
 			if (caption.trim() !== '') {
-				const delimiter = '::';
+				const delimiter = "::";
 				let titleText = '';
 				let descriptionText = '';
+
 				if (caption.includes(delimiter)) {
 					const parts = caption.split(delimiter, 2);
 					titleText = parts[0].trim();
@@ -220,55 +230,100 @@ module.exports = function (eleventyConfig) {
 				} else {
 					titleText = caption.trim();
 				}
+
 				if (titleText) {
 					captionTextHtml += `<span class="image-caption-title">${titleText}</span>`;
 				}
 				if (descriptionText) {
-					const spacingClass = titleText ? ' mt-1' : '';
+					const spacingClass = titleText ? " mt-1" : "";
 					captionTextHtml += `<span class="image-caption-description${spacingClass}">${descriptionText}</span>`;
 				}
 			}
-			const figcaptionHtml = captionTextHtml
-				? `<figcaption class="inline-carousel-caption"><div class="caption-text-content">${captionTextHtml}</div></figcaption>`
-				: '';
+			const textContentWrapper = captionTextHtml ? `<div class="caption-text-content">${captionTextHtml}</div>` : '';
+			const figcaptionHtml = textContentWrapper ? `<figcaption class="inline-carousel-caption">${textContentWrapper}</figcaption>` : '';
+			// --- End Caption Processing ---
 
-			const escapedCaption = caption
-				.replace(/&/g, '&amp;')
-				.replace(/"/g, '&quot;')
-				.replace(/</g, '&lt;');
+			// --- Media Element and Optional Lightbox Structure ---
+			let mediaHtml = ''; // Will hold either <img> or <video> tag + wrappers
 
-			let mediaInner;
-			if (isVideo) {
-				mediaInner =
-					`<a href="${src}" class="carousel-zoom-link" data-pswp-type="video" data-pswp-src="${src}" data-pswp-width="1920" data-pswp-height="1080" data-caption="${escapedCaption}">` +
-					`<video src="${src}" muted loop playsinline preload="metadata" class="carousel-media carousel-video" data-caption="${escapedCaption}"></video>` +
-					`<span class="carousel-video-badge" aria-hidden="true">▶</span>` +
-					`</a>`;
-			} else {
-				// Omit fake width/height — lightbox.js sets real naturalWidth/naturalHeight
-				mediaInner =
-					`<a href="${src}" class="carousel-zoom-link" data-pswp-src="${src}" data-caption="${escapedCaption}">` +
-					`<img src="${src}" alt="${alt.replace(/"/g, '&quot;')}" data-caption="${escapedCaption}" loading="lazy" decoding="async" class="carousel-media carousel-image">` +
-					`</a>`;
-			}
+			// Define the base media element using a ternary
+			const mediaElementHtml = isVideo
+				? `<video src="${src}" muted loop playsinline class="carousel-media carousel-video w-full h-auto aspect-video object-cover rounded-t-md" data-caption="${caption}"></video>`
+				: `<img src="${src}" alt="${alt}" data-caption="${caption}" loading="lazy" decoding="async" class="carousel-media carousel-image w-full h-auto object-cover">`;
 
-			slidesHtml +=
-				`<div class="swiper-slide">` +
-				`<figure class="carousel-slide-card">` +
-				`${mediaInner}` +
-				`${figcaptionHtml}` +
-				`</figure>` +
+			// Always include the lightbox wrapper and icon for potential lightbox activation
+			// The lightbox JS will handle whether to show image or video
+			const iconHtml =
+				`<span class="lightbox-indicator-icon absolute top-1 right-1" aria-hidden="true">` +
+				`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9M20.25 20.25h-4.5m4.5 0v-4.5m0 4.5L15 15" /></svg>` +
+				`</span>`;
+
+			const playPauseHtml =
+				`<div class="video-play-button">` +
+					`<span class="video-play-icon">` +
+						`<svg class="control-icon icon-play w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347c.75.411.75 1.559 0 1.97l-11.54 6.347c-.75.411-1.667-.13-1.667-.986V5.653Z" /></svg>` +
+						`<svg class="control-icon icon-pause w-6 h-6 svg-hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" /></svg>` +
+					`</span>` +
 				`</div>`;
+
+			// Wrap the media element (img or video) and icon in the lightbox wrapper
+			mediaHtml =
+				`<div class="lightbox-image-wrapper relative">` + // Renamed class slightly for clarity? Or keep as is?
+				`${mediaElementHtml}` +
+				`${iconHtml}` +
+				`${isVideo ? playPauseHtml : ''}` +
+				`</div>`;
+			// --- End Media Element Structure ---
+
+			// Combine into slide content (media element first, then caption)
+			// Added base classes for consistency, removed conditional wrapper
+			const slideContent = `<div class="relative rounded-overflow bg-gray-100 dark:bg-gray-800 shadow-md">${mediaHtml}${figcaptionHtml}</div>`;
+
+			slidesHtml += `<li class="glide__slide">${slideContent}</li>`;
 		});
 
-		return (
-			`<div class="swiper inline-carousel" id="${id}">` +
-			`<div class="swiper-wrapper">${slidesHtml}</div>` +
-			`<div class="swiper-button-prev" aria-label="Previous slide"></div>` +
-			`<div class="swiper-button-next" aria-label="Next slide"></div>` +
-			`</div>`
-		);
+		// Define default Glide options for this type of carousel - MATCHING LIGHTBOX
+		const defaultOptions = {
+			type: 'slider',
+			// startAt: 0, // Default is 0, no need to set explicitly unless overriding
+			perView: 4,
+			gap: 10, // Keep the gap from original inline options
+			peek: { before: 50, after: 50 },
+			breakpoints: {
+				1023: { // Tablet (<= 1023px)
+					perView: 2,
+					peek: { before: 25, after: 25 } // Slightly less peek
+				},
+				767: { // Mobile (<= 767px)
+					perView: 1,
+					peek: 0 // No peek on mobile
+				}
+			}
+		};
+		// Merge defaults with any passed-in options
+		const finalOptions = { ...defaultOptions, ...glideOptions };
+
+		// Escape double quotes for the HTML attribute value
+		const optionsJsonString = JSON.stringify(finalOptions);
+		const encodedOptions = optionsJsonString.replace(/"/g, "&quot;");
+
+		// Full Glide HTML structure without arrows
+		const carouselHtml = `<div class="glide inline-carousel" id="${id}" data-glide-options="${encodedOptions}">
+<div class="glide__track" data-glide-el="track">
+<ul class="glide__slides">
+${slidesHtml}
+</ul>
+</div>
+<div class="glide__arrows" data-glide-el="controls">
+  <button class="glide__arrow glide__arrow--left inline-carousel-arrow" data-glide-dir="<">&#10094;</button>
+  <button class="glide__arrow glide__arrow--right inline-carousel-arrow" data-glide-dir=">">&#10095;</button>
+</div>
+</div>`; // Removed the glide__arrows div -> Now closing the main glide div
+
+		return carouselHtml;
 	});
+
+
 
 	return {
 		// Control which files Eleventy will process

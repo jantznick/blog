@@ -6,5 +6,6 @@
 {% set albumImages = photoAlbums[albumId] %}
 {% if albumImages and albumImages.length %}
 {% imageCarousel id=carouselId or albumId, images=albumImages %}
-{% include "partials/photo-media-loader.njk" %}
+{% include "partials/lightbox-loader.njk" %}
+{% include "partials/inline-carousel-loader.njk" %}
 {% endif %}

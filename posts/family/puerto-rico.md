@@ -21,4 +21,5 @@ Eventually we drove east toward San Juan, with a swimming stop at Manantial Ojo 
 
 {% imageCarousel id="puerto-rico-carousel", images=puerto_rico_images %}
 
-{% include "partials/photo-media-loader.njk" %}
+{% include "partials/lightbox-loader.njk" %}
+{% include "partials/inline-carousel-loader.njk" %}
