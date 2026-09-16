@@ -7,10 +7,14 @@ templateClass: tmpl-post
 </h1>
 <div class="post-tags">
   {%- for tag in tags | filterTagList %}
-  {%- set tagUrl %}/{{ tag | slugify }}/{% endset %}
+    {%- set tagUrl %}/{{ tag | slugify }}/{% endset %}
   <a href="{{ tagUrl | url }}" class="post-tag">{{ tag }}</a>
   {%- endfor %}
 </div>
+
+{%- if aiAssisted %}
+<p class="ai-disclaimer">Post written by AI. Photo captions are manual.</p>
+{%- endif %}
 
 {# {%- for tag in tags | filterTagList %}
 {%- set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}

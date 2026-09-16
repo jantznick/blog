@@ -78,6 +78,24 @@ main {
   justify-content: flex-start;
   flex-wrap: wrap;
 }
+
+main > * {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+#post-content {
+  width: 100%;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+#post-content img,
+#post-content video {
+  max-width: 100%;
+  height: auto;
+}
 main h1 {
   width: 100%;
   display: flex;
@@ -365,6 +383,8 @@ li.previous::after {
   }
   main {
     width: 100%;
+    padding: 0.75rem;
+    overflow-x: hidden;
   }
   .home{
     width: unset;
@@ -397,6 +417,8 @@ li.previous::after {
     display: flex;
     justify-content: end;
     align-items: center;
+    min-width: 44px;
+    min-height: 44px;
   }
 
   ul.nav {
@@ -411,15 +433,20 @@ li.previous::after {
   ol.postlist {
     width: 100%;
   }
+
+  .postlist,
+  .tmpl-post,
+  article {
+    max-width: 100%;
+  }
+
+  pre, table, .jp-RenderedHTMLCommon {
+    max-width: 100%;
+    overflow-x: auto;
+  }
 }
 
 .tmpl-post {
-	opacity: 0.9;
-	transition: opacity 0.2s ease-in-out; 
-}
-
-.tmpl-post:hover {
-	cursor: pointer;
 	opacity: 1;
 }
 
@@ -428,8 +455,10 @@ li.previous::after {
   max-width: unset;
 }
 
-.tmpl-post img:hover {
-  opacity: 1; /* Fully opaque on hover */
+.tmpl-post .inline-carousel img,
+.tmpl-post .lightbox-media {
+  width: auto;
+  max-width: 100%;
 }
 
 /* Styles for Image Shortcode */
@@ -508,13 +537,202 @@ li.previous::after {
 .lightbox {
   display: none;
   position: fixed;
+  inset: 0;
   z-index: 1000;
-  left: 0;
-  top: 0;
   width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.9);
+  height: 100dvh;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.92);
+  align-items: center;
+  justify-content: center;
+  padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+  touch-action: none;
+}
+
+.lightbox.is-open,
+.lightbox:not([hidden]) {
+  display: flex;
+}
+
+.lightbox[hidden] {
+  display: none !important;
+}
+
+body.lightbox-open {
+  overflow: hidden;
+  touch-action: none;
+}
+
+body.lightbox-open .inline-carousel,
+body.lightbox-open .inline-carousel * {
+  pointer-events: none !important;
+}
+
+.lightbox-stage {
+  position: relative;
+  width: min(96vw, 1200px);
+  height: min(88dvh, 88vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-media-host {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-media {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0.375rem;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.lightbox-caption-bar {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 42rem;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  border-radius: 0.375rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  box-sizing: border-box;
+}
+
+.lightbox-caption-text {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.lightbox-close,
+.lightbox-nav {
+  position: absolute;
+  z-index: 20;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease;
+}
+
+.lightbox-close:hover,
+.lightbox-nav:hover,
+.lightbox-close:focus-visible,
+.lightbox-nav:focus-visible {
+  background: rgba(0, 0, 0, 0.7);
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.lightbox-close {
+  top: max(0.75rem, env(safe-area-inset-top, 0px));
+  right: max(0.75rem, env(safe-area-inset-right, 0px));
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.lightbox-nav {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  font-size: 1.5rem;
+}
+
+.lightbox-prev {
+  left: max(0.5rem, env(safe-area-inset-left, 0px));
+}
+
+.lightbox-next {
+  right: max(0.5rem, env(safe-area-inset-right, 0px));
+}
+
+.lightbox-nav[hidden],
+.lightbox-counter[hidden],
+.lightbox-video-btn[hidden],
+.lightbox-caption-bar[hidden] {
+  display: none !important;
+}
+
+.lightbox-counter {
+  position: absolute;
+  top: max(0.9rem, env(safe-area-inset-top, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 0.875rem;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  z-index: 20;
+}
+
+.lightbox-video-btn {
+  position: absolute;
+  z-index: 15;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-play-btn {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+.lightbox-mute-btn {
+  top: max(4.25rem, calc(env(safe-area-inset-top, 0px) + 3.5rem));
+  left: max(0.75rem, env(safe-area-inset-left, 0px));
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
+.lightbox-video-btn svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
+}
+
+.lightbox-play-btn svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+/* Legacy glide lightbox hooks (kept harmless if old markup appears) */
+.lightbox-glide {
+  width: min(96vw, 1200px);
+  height: min(92dvh, 92vh);
+  margin: 0 auto;
 }
 
 .lightbox-content {
@@ -548,29 +766,36 @@ li.previous::after {
   margin-top: 1rem;
 }
 
+.ai-disclaimer {
+  width: 100%;
+  text-align: center;
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  opacity: 0.75;
+  font-style: italic;
+}
+
 /* Custom Lightbox Caption Styles */
 
-/* Wrapper for the caption overlay */
+/* Wrapper for the caption overlay (legacy + shared title styles) */
 .image-caption-wrapper {
   position: absolute;
   bottom: 0px;
   left: 0px;
   width: 100%;
-  padding: 0.75rem; /* p-3 equivalent */
-  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
-  color: white; /* White text for contrast */
-  font-size: 0.875rem; /* text-sm */
-  line-height: 1.25rem; /* text-sm */
+  padding: 0.75rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   text-align: left;
-  border-bottom-left-radius: 0.375rem; /* rounded-b-md */
-  border-bottom-right-radius: 0.375rem; /* rounded-b-md */
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
   z-index: 10;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* Optional: Add a subtle transition if you ever enable pointer-events */
-  /* transition: background-color 0.3s ease; */
 }
 
 .svg-hidden {
@@ -690,13 +915,7 @@ a.download-link:hover .download-icon svg {
   border-radius: 0.25rem; /* rounded */
   z-index: 5; /* Above image, below caption if absolutely positioned */
   pointer-events: none; /* Icon doesn't intercept clicks */
-  opacity: 0.8; /* Slightly transparent */
-  transition: opacity 0.2s ease-in-out;
-}
-
-/* Optional: Show icon more clearly on hover of the wrapper */
-.lightbox-image-wrapper:hover .lightbox-indicator-icon {
-  opacity: 1;
+  opacity: 0.9;
 }
 
 /* SVG size (Tailwind w-5 h-5 = 1.25rem) */
@@ -708,109 +927,139 @@ a.download-link:hover .download-icon svg {
 
 /* --- Responsive Styles for Mobile (e.g., <= 767px) --- */
 @media (max-width: 767px) {
-  /* --- Lightbox Adjustments --- */
-  /* Reduce caption padding on mobile */
-  .image-caption-wrapper {
-    padding: 0.5rem; /* p-2 equivalent */
-    font-size: 0.75rem; /* text-xs equivalent */
-    line-height: 1rem;
-  }
-  
-  /* Reduce download icon size/padding on mobile */
-  .download-icon {
-     padding: 0.125rem; /* Smaller padding */
-  }
-  .download-icon svg {
-    width: 1rem; /* w-4 */
-    height: 1rem; /* h-4 */
-  }
-  
-  /* Reduce download icon container margin */
-  .caption-download-icon-container {
-    margin-right: 0.75rem; /* Smaller margin */
+  .lightbox-stage {
+    width: 100%;
+    height: min(92dvh, 92vh);
+    padding: 0 0.25rem;
   }
 
-  /* Adjust title/description font size if needed */
+  .lightbox-caption-bar,
+  .image-caption-wrapper {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  .download-icon {
+     padding: 0.125rem;
+  }
+  .download-icon svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .caption-download-icon-container {
+    margin-right: 0.75rem;
+  }
+
   .image-caption-title {
-     font-size: 0.875rem; /* text-sm */
+     font-size: 0.875rem;
      line-height: 1.25rem;
   }
    .image-caption-description {
-     font-size: 0.75rem; /* text-xs */
+     font-size: 0.75rem;
      line-height: 1rem;
+  }
+
+  .lightbox-close,
+  .lightbox-nav {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .lightbox-nav {
+    /* Keep clear of content; slightly inset for thumbs */
+    opacity: 0.9;
   }
 
   /* --- Image Shortcode Adjustments for Mobile --- */
   .image-container.align-left,
   .image-container.align-right {
-    float: none; /* Disable floating */
-    width: 100%; /* Use full width */
-    max-width: 100%; /* Override desktop max-width */
-    margin-left: auto; /* Reset horizontal margins */
+    float: none;
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
     margin-right: auto;
   }
 
   .image-container.align-center {
-    max-width: 100%; /* Ensure centered images can also use full width */
+    max-width: 100%;
   }
 
   .image-container img {
-    /* Ensure image uses full container width */
-    width: 100%; 
+    width: 100%;
   }
 
   .image-shortcode-caption {
-    /* Optional: Adjust caption margin/padding if needed for mobile */
      padding-left: 0;
      padding-right: 0;
-     text-align: center; /* Center caption text on mobile */
+     text-align: center;
   }
 
-  /* --- Center Expand Icon in Inline Carousel on Mobile --- */
+  .tmpl-post img {
+    width: 100%;
+  }
+
+  .inline-carousel {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .inline-carousel .carousel-image,
+  .inline-carousel .carousel-video {
+    max-height: 70vh;
+    min-height: 12rem;
+  }
+
+  /* Captions can't rely on hover on touch devices */
+  .inline-carousel .inline-carousel-caption {
+    opacity: 1;
+  }
+
   .inline-carousel .lightbox-indicator-icon {
-    top: 50%;
-    left: 50%;
-    right: auto; /* Override the default right positioning */
-    transform: translate(-50%, -50%);
-    /* Optional: Increase size slightly for easier tapping? */
-    padding: 0.5rem; /* Increased padding */
-    border-radius: 0.375rem; /* slightly larger rounding to match padding */
+    top: 0.5rem;
+    right: 0.5rem;
+    left: auto;
+    transform: none;
+    padding: 0.4rem;
+    border-radius: 0.375rem;
+    background-color: rgba(0, 0, 0, 0.55);
   }
 
   .inline-carousel .lightbox-indicator-icon svg {
-      width: 3rem; /* Increased SVG size (w-8) */
-      height: 3rem; /* Increased SVG size (h-8) */
+      width: 1.5rem;
+      height: 1.5rem;
   }
-  /* --- End Mobile Styles for Inline Carousel Arrows --- */
 
-  /* --- Inline Carousel Arrows (Hidden by Default) --- */
   .inline-carousel .glide__arrows {
-    display: block !important; /* Show arrows container on mobile, force override */
+    display: block !important;
   }
 
   .inline-carousel .glide__arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 10; /* Ensure arrows are above slides */
+    z-index: 10;
     border: none;
-    padding: 0.5rem; /* Slightly smaller padding for mobile */
-    margin: 0 0.5rem; /* Add some horizontal margin */
+    padding: 0;
+    margin: 0 0.35rem;
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.4);
     color: white;
-    border-radius: 50%; /* Circular shape */
-    width: 36px; /* Fixed size */
-    height: 36px;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem; /* Arrow icon size */
+    font-size: 1.35rem;
     transition: background-color 0.2s ease;
   }
 
-  .inline-carousel .glide__arrow:hover {
-    background-color: rgba(0, 0, 0, 0.6); /* Darker on hover */
+  .inline-carousel .glide__arrow:hover,
+  .inline-carousel .glide__arrow:active {
+    background-color: rgba(0, 0, 0, 0.65);
   }
 
   .inline-carousel .glide__arrow--left {
@@ -824,6 +1073,11 @@ a.download-link:hover .download-icon svg {
   .inline-carousel .glide__arrow--disabled {
     opacity: 0.3;
     cursor: default;
+  }
+
+  .inline-carousel .video-play-button {
+    width: 4rem;
+    height: 4rem;
   }
 }
 
@@ -851,6 +1105,12 @@ a.download-link:hover .download-icon svg {
   position: relative; /* Needed for absolute positioning of arrows */
 }
 
+/* Glide vendor CSS had overflow:scroll on the track, which made
+   trackpad/mouse movement over the carousel feel like accidental dragging. */
+.inline-carousel .glide__track {
+  overflow: hidden;
+}
+
 .inline-carousel .glide__slide {
   /* Ensure slides center content if needed, adjust as necessary */
   display: flex;
@@ -871,6 +1131,31 @@ a.download-link:hover .download-icon svg {
   min-height: 25em;
 }
 
+.inline-carousel .carousel-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  max-height: 400px;
+  min-height: 12rem;
+  background: #111;
+}
+
+.inline-carousel .video-play-button {
+  pointer-events: auto;
+  z-index: 6;
+}
+
+.inline-carousel .video-play-button.is-playing {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.inline-carousel .lightbox-image-wrapper {
+  cursor: zoom-in;
+  touch-action: pan-y;
+}
+
 .inline-carousel .inline-carousel-caption {
    position: absolute;
    bottom: 0;
@@ -883,8 +1168,7 @@ a.download-link:hover .download-icon svg {
    display: flex; /* Use flex for layout inside caption */
    justify-content: space-between; /* Space out text and potential icons */
    align-items: center;
-   opacity: 0; /* Hide by default */
-   transition: opacity 0.3s ease-in-out;
+   opacity: 1; /* Always visible — no hover behavior */
    border-bottom-left-radius: 8px; /* Match slide rounding */
    border-bottom-right-radius: 8px;
 }
@@ -892,18 +1176,11 @@ a.download-link:hover .download-icon svg {
 /* Style for the wrapper containing title/description */
 .inline-carousel .inline-carousel-caption .caption-text-content {
   flex-grow: 1; /* Allow text content to take available space */
-  /* Text alignment can be handled here or on parent */
-  /* text-align: left; */ 
-}
-
-.inline-carousel .glide__slide:hover .inline-carousel-caption {
-    opacity: 1; /* Show caption on slide hover */
 }
 
 .inline-carousel .inline-carousel-caption .image-caption-title {
   font-weight: bold;
   display: block; /* Ensure title is on its own line if description exists */
-  /* margin-right: 0.5rem; */ /* Remove margin-right as they now stack */
 }
 
 .inline-carousel .inline-carousel-caption .image-caption-description {
@@ -915,9 +1192,9 @@ a.download-link:hover .download-icon svg {
   margin-top: 0.2rem; /* Adjust spacing as needed */
 }
 
-/* --- Inline Carousel Arrows (Hidden by Default) --- */
+/* --- Inline Carousel Arrows: click only --- */
 .inline-carousel .glide__arrows {
-  display: none; /* Hide arrows on larger screens */
+  display: block;
 }
 
 /* === Lightbox Specific Styles === */

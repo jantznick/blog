@@ -1,4 +1,4 @@
-/*! tailwindcss v4.1.5 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.3.3 | MIT License | https://tailwindcss.com */
 @layer properties;
 .pointer-events-none {
   pointer-events: none;
@@ -9,17 +9,11 @@
 .absolute {
   position: absolute;
 }
-.fixed {
-  position: fixed;
-}
 .relative {
   position: relative;
 }
 .static {
   position: static;
-}
-.top-1\/2 {
-  top: calc(1/2 * 100%);
 }
 .right-\[0\] {
   right: 0;
@@ -32,21 +26,6 @@
 }
 .z-10 {
   z-index: 10;
-}
-.z-50 {
-  z-index: 50;
-}
-.col-start-1 {
-  grid-column-start: 1;
-}
-.row-start-1 {
-  grid-row-start: 1;
-}
-.row-start-2 {
-  grid-row-start: 2;
-}
-.container {
-  width: 100%;
 }
 .block {
   display: block;
@@ -69,74 +48,30 @@
 .h-auto {
   height: auto;
 }
-.h-full {
-  height: 100%;
-}
-.max-h-\[95vh\] {
-  max-height: 95vh;
-}
-.w-auto {
-  width: auto;
-}
 .w-full {
   width: 100%;
-}
-.max-w-full {
-  max-width: 100%;
 }
 .grow {
   flex-grow: 1;
 }
-.-translate-y-1\/2 {
-  --tw-translate-y: calc(calc(1/2 * 100%) * -1);
-  translate: var(--tw-translate-x) var(--tw-translate-y);
-}
 .transform {
   transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
-}
-.cursor-pointer {
-  cursor: pointer;
 }
 .resize {
   resize: both;
 }
-.flex-col {
-  flex-direction: column;
-}
-.place-items-center {
-  place-items: center;
-}
-.items-center {
-  align-items: center;
-}
-.justify-between {
-  justify-content: space-between;
-}
-.justify-center {
-  justify-content: center;
-}
 .overflow-hidden {
   overflow: hidden;
-}
-.rounded-full {
-  border-radius: calc(infinity * 1px);
 }
 .border {
   border-style: var(--tw-border-style);
   border-width: 1px;
-}
-.object-contain {
-  object-fit: contain;
 }
 .object-cover {
   object-fit: cover;
 }
 .text-left {
   text-align: left;
-}
-.leading-none {
-  --tw-leading: 1;
-  line-height: 1;
 }
 .opacity-70 {
   opacity: 70%;
@@ -145,30 +80,13 @@
   filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
 }
 .transition {
-  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, visibility, content-visibility, overlay, pointer-events;
+  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
   transition-timing-function: var(--tw-ease, ease);
   transition-duration: var(--tw-duration, 0s);
-}
-.transition-colors {
-  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
-  transition-timing-function: var(--tw-ease, ease);
-  transition-duration: var(--tw-duration, 0s);
-}
-.duration-150 {
-  --tw-duration: 150ms;
-  transition-duration: 150ms;
-}
-.focus\:outline-none {
-  &:focus {
-    --tw-outline-style: none;
-    outline-style: none;
-  }
 }
 :root {
   --font-family: -apple-system, system-ui, sans-serif;
   --font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
-}
-:root {
   --color-gray-20: #e0e0e0;
   --color-gray-50: #C0C0C0;
   --color-gray-90: #333;
@@ -220,6 +138,20 @@ main {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
+}
+main > * {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+#post-content {
+  width: 100%;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+#post-content img, #post-content video {
+  max-width: 100%;
+  height: auto;
 }
 main h1 {
   width: 100%;
@@ -466,6 +398,8 @@ li.previous::after {
   }
   main {
     width: 100%;
+    padding: 0.75rem;
+    overflow-x: hidden;
   }
   .home {
     width: unset;
@@ -498,6 +432,8 @@ li.previous::after {
     display: flex;
     justify-content: end;
     align-items: center;
+    min-width: 44px;
+    min-height: 44px;
   }
   ul.nav {
     display: flex;
@@ -510,18 +446,24 @@ li.previous::after {
   ol.postlist {
     width: 100%;
   }
+  .postlist, .tmpl-post, article {
+    max-width: 100%;
+  }
+  pre, table, .jp-RenderedHTMLCommon {
+    max-width: 100%;
+    overflow-x: auto;
+  }
 }
 .tmpl-post {
-  opacity: 0.9;
-  transition: opacity 0.2s ease-in-out;
-}
-.tmpl-post:hover {
-  cursor: pointer;
   opacity: 1;
 }
 .tmpl-post img {
   width: 50%;
   max-width: unset;
+}
+.tmpl-post .inline-carousel img, .tmpl-post .lightbox-media {
+  width: auto;
+  max-width: 100%;
 }
 .tmpl-post img:hover {
   opacity: 1;
@@ -581,13 +523,169 @@ li.previous::after {
 .lightbox {
   display: none;
   position: fixed;
+  inset: 0;
   z-index: 1000;
-  left: 0;
-  top: 0;
   width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.9);
+  height: 100dvh;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.92);
+  align-items: center;
+  justify-content: center;
+  padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+  touch-action: none;
+}
+.lightbox.is-open, .lightbox:not([hidden]) {
+  display: flex;
+}
+.lightbox[hidden] {
+  display: none !important;
+}
+body.lightbox-open {
+  overflow: hidden;
+  touch-action: none;
+}
+body.lightbox-open .inline-carousel, body.lightbox-open .inline-carousel * {
+  pointer-events: none !important;
+}
+.lightbox-stage {
+  position: relative;
+  width: min(96vw, 1200px);
+  height: min(88dvh, 88vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-media-host {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-media {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0.375rem;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.lightbox-caption-bar {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 42rem;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  border-radius: 0.375rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  box-sizing: border-box;
+}
+.lightbox-caption-text {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.lightbox-close, .lightbox-nav {
+  position: absolute;
+  z-index: 20;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease;
+}
+.lightbox-close:hover, .lightbox-nav:hover, .lightbox-close:focus-visible, .lightbox-nav:focus-visible {
+  background: rgba(0, 0, 0, 0.7);
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+.lightbox-close {
+  top: max(0.75rem, env(safe-area-inset-top, 0px));
+  right: max(0.75rem, env(safe-area-inset-right, 0px));
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+.lightbox-nav {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  font-size: 1.5rem;
+}
+.lightbox-prev {
+  left: max(0.5rem, env(safe-area-inset-left, 0px));
+}
+.lightbox-next {
+  right: max(0.5rem, env(safe-area-inset-right, 0px));
+}
+.lightbox-nav[hidden], .lightbox-counter[hidden], .lightbox-video-btn[hidden], .lightbox-caption-bar[hidden] {
+  display: none !important;
+}
+.lightbox-counter {
+  position: absolute;
+  top: max(0.9rem, env(safe-area-inset-top, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 0.875rem;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  z-index: 20;
+}
+.lightbox-video-btn {
+  position: absolute;
+  z-index: 15;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-play-btn {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4.5rem;
+  height: 4.5rem;
+}
+.lightbox-mute-btn {
+  top: max(4.25rem, calc(env(safe-area-inset-top, 0px) + 3.5rem));
+  left: max(0.75rem, env(safe-area-inset-left, 0px));
+  width: 2.75rem;
+  height: 2.75rem;
+}
+.lightbox-video-btn svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
+}
+.lightbox-play-btn svg {
+  width: 2rem;
+  height: 2rem;
+}
+.lightbox-glide {
+  width: min(96vw, 1200px);
+  height: min(92dvh, 92vh);
+  margin: 0 auto;
 }
 .lightbox-content {
   margin: auto;
@@ -614,6 +712,14 @@ li.previous::after {
   display: flex;
   justify-content: center;
   margin-top: 1rem;
+}
+.ai-disclaimer {
+  width: 100%;
+  text-align: center;
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  opacity: 0.75;
+  font-style: italic;
 }
 .image-caption-wrapper {
   position: absolute;
@@ -740,7 +846,12 @@ a.download-link:hover .download-icon svg {
   display: block;
 }
 @media (max-width: 767px) {
-  .image-caption-wrapper {
+  .lightbox-stage {
+    width: 100%;
+    height: min(92dvh, 92vh);
+    padding: 0 0.25rem;
+  }
+  .lightbox-caption-bar, .image-caption-wrapper {
     padding: 0.5rem;
     font-size: 0.75rem;
     line-height: 1rem;
@@ -763,6 +874,13 @@ a.download-link:hover .download-icon svg {
     font-size: 0.75rem;
     line-height: 1rem;
   }
+  .lightbox-close, .lightbox-nav {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+  .lightbox-nav {
+    opacity: 0.9;
+  }
   .image-container.align-left, .image-container.align-right {
     float: none;
     width: 100%;
@@ -781,17 +899,33 @@ a.download-link:hover .download-icon svg {
     padding-right: 0;
     text-align: center;
   }
+  .tmpl-post img {
+    width: 100%;
+  }
+  .inline-carousel {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .inline-carousel .carousel-image, .inline-carousel .carousel-video {
+    max-height: 70vh;
+    min-height: 12rem;
+  }
+  .inline-carousel .inline-carousel-caption {
+    opacity: 1;
+  }
   .inline-carousel .lightbox-indicator-icon {
-    top: 50%;
-    left: 50%;
-    right: auto;
-    transform: translate(-50%, -50%);
-    padding: 0.5rem;
+    top: 0.5rem;
+    right: 0.5rem;
+    left: auto;
+    transform: none;
+    padding: 0.4rem;
     border-radius: 0.375rem;
+    background-color: rgba(0, 0, 0, 0.55);
   }
   .inline-carousel .lightbox-indicator-icon svg {
-    width: 3rem;
-    height: 3rem;
+    width: 1.5rem;
+    height: 1.5rem;
   }
   .inline-carousel .glide__arrows {
     display: block !important;
@@ -802,22 +936,22 @@ a.download-link:hover .download-icon svg {
     transform: translateY(-50%);
     z-index: 10;
     border: none;
-    padding: 0.5rem;
-    margin: 0 0.5rem;
+    padding: 0;
+    margin: 0 0.35rem;
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.4);
     color: white;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     transition: background-color 0.2s ease;
   }
-  .inline-carousel .glide__arrow:hover {
-    background-color: rgba(0, 0, 0, 0.6);
+  .inline-carousel .glide__arrow:hover, .inline-carousel .glide__arrow:active {
+    background-color: rgba(0, 0, 0, 0.65);
   }
   .inline-carousel .glide__arrow--left {
     left: 0;
@@ -828,6 +962,10 @@ a.download-link:hover .download-icon svg {
   .inline-carousel .glide__arrow--disabled {
     opacity: 0.3;
     cursor: default;
+  }
+  .inline-carousel .video-play-button {
+    width: 4rem;
+    height: 4rem;
   }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -855,6 +993,27 @@ a.download-link:hover .download-icon svg {
   object-fit: cover;
   max-height: 400px;
   min-height: 25em;
+}
+.inline-carousel .carousel-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  max-height: 400px;
+  min-height: 12rem;
+  background: #111;
+}
+.inline-carousel .video-play-button {
+  pointer-events: auto;
+  z-index: 6;
+}
+.inline-carousel .video-play-button.is-playing {
+  opacity: 0;
+  pointer-events: none;
+}
+.inline-carousel .lightbox-image-wrapper {
+  cursor: zoom-in;
+  touch-action: pan-y;
 }
 .inline-carousel .inline-carousel-caption {
   position: absolute;
@@ -892,21 +1051,6 @@ a.download-link:hover .download-icon svg {
 .inline-carousel .glide__arrows {
   display: none;
 }
-@property --tw-translate-x {
-  syntax: "*";
-  inherits: false;
-  initial-value: 0;
-}
-@property --tw-translate-y {
-  syntax: "*";
-  inherits: false;
-  initial-value: 0;
-}
-@property --tw-translate-z {
-  syntax: "*";
-  inherits: false;
-  initial-value: 0;
-}
 @property --tw-rotate-x {
   syntax: "*";
   inherits: false;
@@ -931,10 +1075,6 @@ a.download-link:hover .download-icon svg {
   syntax: "*";
   inherits: false;
   initial-value: solid;
-}
-@property --tw-leading {
-  syntax: "*";
-  inherits: false;
 }
 @property --tw-blur {
   syntax: "*";
@@ -989,23 +1129,15 @@ a.download-link:hover .download-icon svg {
   syntax: "*";
   inherits: false;
 }
-@property --tw-duration {
-  syntax: "*";
-  inherits: false;
-}
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
-      --tw-translate-x: 0;
-      --tw-translate-y: 0;
-      --tw-translate-z: 0;
       --tw-rotate-x: initial;
       --tw-rotate-y: initial;
       --tw-rotate-z: initial;
       --tw-skew-x: initial;
       --tw-skew-y: initial;
       --tw-border-style: solid;
-      --tw-leading: initial;
       --tw-blur: initial;
       --tw-brightness: initial;
       --tw-contrast: initial;
@@ -1019,7 +1151,6 @@ a.download-link:hover .download-icon svg {
       --tw-drop-shadow-color: initial;
       --tw-drop-shadow-alpha: 100%;
       --tw-drop-shadow-size: initial;
-      --tw-duration: initial;
     }
   }
 }

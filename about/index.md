@@ -7,4 +7,6 @@ eleventyNavigation:
   order: 3
 ---
 
-I am a person that writes stuff. It's all personal. Sometimes it's to show something that could help my professional career. Sometimes it's to show something to family and friends. Once it was a way to show my coding ability in a job interview. Mostly it's a place for me to put things I want to have easy access to later.
+I am a person that writes stuff. Mostly family trips, triathlon, and whatever else I feel like putting down so I (and family and friends) can find it later.
+
+Most if not all of these posts are vaguelly written by AI, but this blog is mostly for the pictures anyways. And everything was strictly what I told AI we did.

@@ -3,9 +3,9 @@ layout: layouts/page.njk
 title: Triathlon
 templateClass: tmpl-page
 key: triathlon
-eleventyNavigation:
-  key: Triathlon
-  order: 4
+# eleventyNavigation:
+#   key: Triathlon
+#   order: 4
 ---
 
 I am a person that does triathlons and other endurance sports. Blog posts and/or clarification for many of these coming soon.

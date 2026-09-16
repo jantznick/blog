@@ -1,281 +1,402 @@
-document.addEventListener("DOMContentLoaded", function () {
-	// Find all *wrappers* containing lightbox-able media
-	// Includes wrappers in posts OR in inline carousels (but not clones)
-	const mediaWrappers = Array.from(document.querySelectorAll(
-		".tmpl-post .lightbox-image-wrapper, .inline-carousel .lightbox-image-wrapper:not(.glide__slide--clone .lightbox-image-wrapper)"
-	));
+/**
+ * Fullscreen media lightbox for post images/videos.
+ * Works with standalone images and Glide inline carousels.
+ * Mobile: swipe, large tap targets, scroll lock. Desktop: arrows + keyboard.
+ */
+(function () {
+	const VIDEO_EXT = /\.(mp4|webm|ogg|mov|m4v)(\?|$)/i;
+	const SWIPE_THRESHOLD = 50;
+	const CLICK_MOVE_TOLERANCE = 10;
 
-	if (mediaWrappers.length === 0) return;
+	function isClone(el) {
+		return Boolean(el.closest(".glide__slide--clone"));
+	}
 
-	const lightbox = document.createElement("div");
-	lightbox.classList.add("lightbox", "fixed", "inset-0", "bg-black", "bg-opacity-75", "flex", "flex-col", "items-center", "justify-center", "z-50", "hidden", "p-4");
-	document.body.appendChild(lightbox);
+	function isVideoSrc(src) {
+		return VIDEO_EXT.test(src || "");
+	}
 
-	// --- Glide.js structure ---
-	const glide = document.createElement("div");
-	glide.classList.add("glide", "relative", "w-full", "max-w-full", "max-h-[95vh]");
-	lightbox.appendChild(glide);
+	function parseCaption(raw) {
+		const text = String(raw || "").trim();
+		if (!text) return { title: "", description: "" };
+		const delimiter = "::";
+		if (text.includes(delimiter)) {
+			const [title, description] = text.split(delimiter, 2);
+			return { title: title.trim(), description: (description || "").trim() };
+		}
+		return { title: text, description: "" };
+	}
 
-	const glideTrack = document.createElement("div");
-	glideTrack.setAttribute("data-glide-el", "track");
-	glideTrack.classList.add("glide__track"); // Removed h-full if autoHeight CSS is used
-	glide.appendChild(glideTrack);
+	function collectWrappers(clickedWrapper) {
+		const carousel = clickedWrapper.closest(".inline-carousel");
+		const root = carousel || document.querySelector("main") || document;
+		const selector = carousel
+			? ".glide__slide:not(.glide__slide--clone) .lightbox-image-wrapper"
+			: ".lightbox-image-wrapper";
 
-	const glideSlides = document.createElement("ul");
-	glideSlides.classList.add("glide__slides"); // Removed h-full
-	glideTrack.appendChild(glideSlides);
-
-	// --- Video Extensions Definition ---
-	const videoExtensions = ['mp4', 'webm', 'ogg', 'mov'];
-
-	// --- REMOVED dynamic arrow creation, using static ones in HTML now? No, keeping dynamic lightbox arrows.
-	const glideArrows = document.createElement("div");
-	glideArrows.setAttribute("data-glide-el", "controls");
-	glideArrows.classList.add("glide__arrows");
-	glideArrows.innerHTML = `
-        <button class="glide__arrow glide__arrow--left absolute top-1/2 left-0 transform -translate-y-1/2 ml-2 md:ml-4 text-5xl cursor-pointer p-3 md:p-4 rounded-full focus:outline-none transition-colors duration-150" data-glide-dir="<">&#10094;</button>
-        <button class="glide__arrow glide__arrow--right absolute top-1/2 right-0 transform -translate-y-1/2 mr-2 md:mr-4 text-5xl cursor-pointer p-3 md:p-4 rounded-full focus:outline-none transition-colors duration-150" data-glide-dir=">">&#10095;</button>
-    `;
-	glide.appendChild(glideArrows);
-
-	const close = document.createElement("span");
-	close.classList.add("close", "absolute", "top-0", "right-0", "m-2", "text-white", "text-2xl", "leading-none", "cursor-pointer", "z-10", "bg-black", "bg-opacity-30", "hover:bg-opacity-50", "rounded-full", "w-8", "h-8", "flex", "items-center", "justify-center", "transition-colors", "duration-150");
-	close.innerHTML = "&times;";
-	glide.appendChild(close);
-
-	let glideInstance = null; // To hold the Glide instance
-
-	// Iterate over the *wrappers* and attach listener to each
-	mediaWrappers.forEach((wrapper, index) => {
-		// Find the media element (img or video) within this wrapper
-		const mediaElement = wrapper.querySelector('img, video');
-		if (!mediaElement) return; // Skip if no media found inside
-
-		// Attach click listener to the *wrapper*
-		wrapper.addEventListener("click", () => {
-
-			// --- Populate Glide slides ---
-			// Query for *all* wrappers again to build the full gallery
-			const allWrappers = Array.from(document.querySelectorAll(
-				".tmpl-post .lightbox-image-wrapper, .inline-carousel .lightbox-image-wrapper:not(.glide__slide--clone .lightbox-image-wrapper)"
-			));
-
-			glideSlides.innerHTML = ''; // Clear existing slides
-
-			// Iterate through all wrappers to build slides
-			allWrappers.forEach(currentWrapper => {
-				// Find the media element inside the current wrapper for the slide
-				const slideMediaElement = currentWrapper.querySelector('img, video');
-				if (!slideMediaElement) return; // Skip if this wrapper is empty
-
-				const slide = document.createElement("li");
-				slide.classList.add("glide__slide", "flex", "items-center", "justify-center");
-
-				const slideContentWrapper = document.createElement("div");
-				// Use grid with explicit rows for media and caption. Center content horizontally.
-				slideContentWrapper.classList.add("relative", "grid", "place-items-center", "max-w-full"); // Added gap and padding
-
-				const src = slideMediaElement.src || ''; 
-				const isVideo = slideMediaElement.tagName === 'VIDEO'; // Check tag name
-
-				// --- Create Media Element (Image or Video) --- 
-				let lightboxMediaElement; // Use a different name to avoid conflict
-				if (isVideo) {
-					lightboxMediaElement = document.createElement('video');
-					lightboxMediaElement.src = src; // Use the original src
-					// lightboxMediaElement.controls = true;
-					lightboxMediaElement.muted = true;
-					lightboxMediaElement.loop = true; // Optional: remove if looping is not desired
-					lightboxMediaElement.playsInline = true; // Important for iOS
-					// Add necessary classes for styling and consistency
-					lightboxMediaElement.classList.add("rounded-overflow", "lightbox-media", "lightbox-video", "object-contain", "max-w-full", "w-auto", "h-auto", "rounded-md", "row-start-1", "col-start-1"); 
-					lightboxMediaElement.title = slideMediaElement.alt || '';
-				} else {
-					lightboxMediaElement = document.createElement('img');
-					lightboxMediaElement.src = src;
-					lightboxMediaElement.alt = slideMediaElement.alt || '';
-					lightboxMediaElement.classList.add("rounded-overflow", "lightbox-media", "lightbox-image", "object-contain", "max-w-full", "w-auto", "h-auto", "rounded-md", "row-start-1", "col-start-1"); // Explicitly row 1
-				}
-				slideContentWrapper.appendChild(lightboxMediaElement); // Add the media element to the slide content wrapper
-
-				if (isVideo) {
-					const playPauseWrapper = document.createElement("div");
-					playPauseWrapper.classList.add("video-play-button");
-					const elements = [lightboxMediaElement, playPauseWrapper];
-					elements.forEach(element => {
-						element.addEventListener("click", () => {
-							lightboxMediaElement.play();
-							playPauseWrapper.classList.add('svg-hidden');
-							lightboxMediaElement.addEventListener('click', () => {
-								playPauseWrapper.classList.remove('svg-hidden');
-								lightboxMediaElement.pause();
-							})
-						});
-					});
-					playPauseWrapper.innerHTML =
-							`<span class="video-play-icon">` +
-								`<svg class="control-icon icon-play w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347c.75.411.75 1.559 0 1.97l-11.54 6.347c-.75.411-1.667-.13-1.667-.986V5.653Z" /></svg>` +
-							`</span>` ;
-					slideContentWrapper.appendChild(playPauseWrapper);
-
-					const muteButton = document.createElement("div");
-					muteButton.classList.add("video-mute-button");
-					muteButton.addEventListener("click", () => {
-						lightboxMediaElement.muted = !lightboxMediaElement.muted;
-						document.getElementById('muted-icon').classList.toggle('svg-hidden');
-						document.getElementById('unmuted-icon').classList.toggle('svg-hidden');
-					});
-					muteButton.innerHTML =
-						`<span class="video-mute-icon">` +
-							// Updated path for muted speaker icon
-							`<svg id="muted-icon" class="icon-mute w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25M17.25 9.75L19.5 12M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg>` +
-							// Updated path for unmuted speaker icon
-							`<svg id="unmuted-icon" class="control-icon svg-hidden icon-unmute w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg>` +
-						`</span>` ;
-					slideContentWrapper.appendChild(muteButton);
-				}
-
-				// --- Create and add caption --- 
-				// Get caption/alt from the *original* media element in the page, not the cloned one
-				const rawCaption = slideMediaElement.dataset?.caption || (slideMediaElement.closest('.lightbox-image-wrapper')?.querySelector('img[data-caption], video[data-caption]')?.dataset?.caption) || ''; // More robust caption finding
-				const rawAlt = slideMediaElement.alt || '';
-				const captionSource = String(rawCaption || (!isVideo ? rawAlt : '') || '');
-
-				// --- Always create the main caption/icon container ---
-				const slideCaptionWrapper = document.createElement("div");
-				// Place this wrapper in the second row, spanning the column. Ensure it takes necessary width.
-				slideCaptionWrapper.classList.add("image-caption-wrapper", "flex", "justify-between", "items-center", "w-full", "max-w-xl", "row-start-2", "col-start-1"); // Explicitly row 2, add width constraints
-
-				// --- Conditionally create and add caption text ---
-				if (captionSource.trim() !== '') {
-					const delimiter = "::";
-					let titleText = '';
-					let descriptionText = '';
-
-					const textWrapper = document.createElement('div');
-					textWrapper.classList.add("caption-text-content");
-
-					if (captionSource.includes(delimiter)) {
-						const parts = captionSource.split(delimiter, 2);
-						titleText = parts[0].trim();
-						descriptionText = parts[1].trim();
-					} else {
-						// If no delimiter, assume it's just the title (or description if preferred)
-						titleText = captionSource.trim();
-					}
-
-					if (titleText) {
-						const titleElement = document.createElement("span");
-						titleElement.classList.add("image-caption-title");
-						titleElement.textContent = titleText;
-						textWrapper.appendChild(titleElement);
-					}
-
-					if (descriptionText) {
-						const descriptionElement = document.createElement("span");
-						descriptionElement.classList.add("image-caption-description");
-						if (titleText) {
-							descriptionElement.classList.add("mt-1");
-						}
-						descriptionElement.textContent = descriptionText;
-						textWrapper.appendChild(descriptionElement);
-					}
-
-					// Only append text wrapper if it has content
-					if (textWrapper.hasChildNodes()) {
-						slideCaptionWrapper.appendChild(textWrapper);
-					}
-				}
-				// --- End of conditional caption text creation ---
-
-				// --- Always create and add download icon --- 
-				const downloadWrapper = document.createElement("div");
-				const mediaUrl = slideMediaElement.src; // Use the correct src
-				const filename = mediaUrl ? (mediaUrl.split('/').pop() || (isVideo ? 'downloaded-video' : 'downloaded-image')) : (isVideo ? 'downloaded-video' : 'downloaded-image'); // Default filename based on type
-
-				downloadWrapper.innerHTML =
-					`<a href="${mediaUrl || '#'}" download="${filename}" class="download-link" title="Download ${isVideo ? 'video' : 'image'}">` + // Dynamic title
-					`<span class="download-icon">` +
-					`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>` +
-					`</span>` +
-					`</a>`;
-				downloadWrapper.classList.add("caption-download-icon-container");
-
-				slideCaptionWrapper.appendChild(downloadWrapper); // Append icon TO the caption wrapper
-				// --- End of download icon addition ---
-
-				// --- Always add the caption wrapper (might contain only icon) to the slide content wrapper --- 
-				// Ensure it's added AFTER potentially adding text to it
-				slideContentWrapper.appendChild(slideCaptionWrapper);
-
-				slide.appendChild(slideContentWrapper);
-				glideSlides.appendChild(slide);
-			});
-
-			lightbox.style.display = "flex";
-
-			// Destroy previous instance if exists
-			if (glideInstance) {
-				glideInstance.destroy();
-			}
-
-			// Initialize Glide.js starting at the *index* of the clicked *wrapper*
-			glideInstance = new Glide(glide, {
-				type: 'slider',
-				startAt: index, // Use the index from the initial mediaWrappers.forEach loop
-				// Default (Desktop) settings
-				perView: 3,
-				gap: 10,
-				focusAt: 'center',
-				peek: { before: 50, after: 50 },
-				// Responsive settings
-				breakpoints: {
-					1023: {
-						perView: 2,
-						peek: { before: 25, after: 25 }
-					},
-					767: {
-						perView: 1,
-						peek: 0
-					}
-				}
-			});
-
-			glideInstance.mount();
+		return Array.from(root.querySelectorAll(selector)).filter((wrapper) => {
+			if (isClone(wrapper)) return false;
+			return Boolean(wrapper.querySelector("img, video"));
 		});
-	});
+	}
 
-	close.addEventListener("click", (e) => {
-		e.stopPropagation();
-		lightbox.style.display = "none";
-		if (glideInstance) {
-			glideInstance.destroy();
-			glideInstance = null;
+	function mediaFromWrapper(wrapper) {
+		const media = wrapper.querySelector("img, video");
+		if (!media) return null;
+		const src = media.currentSrc || media.src || media.getAttribute("src") || "";
+		if (!src) return null;
+		const captionRaw = media.dataset.caption || media.getAttribute("data-caption") || "";
+		const alt = media.getAttribute("alt") || "";
+		const video = media.tagName === "VIDEO" || isVideoSrc(src);
+		return { src, alt, captionRaw, video };
+	}
+
+	function createEl(tag, className, attrs) {
+		const el = document.createElement(tag);
+		if (className) el.className = className;
+		if (attrs) {
+			Object.entries(attrs).forEach(([key, value]) => {
+				if (value === undefined || value === null) return;
+				if (key === "text") el.textContent = value;
+				else if (key === "html") el.innerHTML = value;
+				else el.setAttribute(key, value);
+			});
 		}
-	});
+		return el;
+	}
 
-	lightbox.addEventListener("click", (e) => {
-		// Close only if clicking the backdrop itself
-		if (e.target === lightbox) {
-			lightbox.style.display = "none";
-			if (glideInstance) {
-				glideInstance.destroy();
-				glideInstance = null;
+	document.addEventListener("DOMContentLoaded", () => {
+		const shell = createEl("div", "lightbox", {
+			role: "dialog",
+			"aria-modal": "true",
+			"aria-label": "Photo viewer",
+			hidden: "true",
+		});
+
+		const stage = createEl("div", "lightbox-stage");
+		const mediaHost = createEl("div", "lightbox-media-host");
+		const captionBar = createEl("div", "lightbox-caption-bar");
+		const captionText = createEl("div", "lightbox-caption-text");
+		const downloadLink = createEl("a", "download-link lightbox-download", {
+			title: "Download",
+			download: "",
+		});
+		downloadLink.innerHTML =
+			'<span class="download-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg></span>';
+
+		captionBar.appendChild(captionText);
+		captionBar.appendChild(downloadLink);
+
+		const closeBtn = createEl("button", "lightbox-close", {
+			type: "button",
+			"aria-label": "Close",
+			html: "&times;",
+		});
+		const prevBtn = createEl("button", "lightbox-nav lightbox-prev", {
+			type: "button",
+			"aria-label": "Previous",
+			html: "&#10094;",
+		});
+		const nextBtn = createEl("button", "lightbox-nav lightbox-next", {
+			type: "button",
+			"aria-label": "Next",
+			html: "&#10095;",
+		});
+		const counter = createEl("div", "lightbox-counter");
+
+		const playBtn = createEl("button", "lightbox-video-btn lightbox-play-btn", {
+			type: "button",
+			"aria-label": "Play video",
+			hidden: "true",
+		});
+		playBtn.innerHTML =
+			'<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347c.75.411.75 1.559 0 1.97l-11.54 6.347c-.75.411-1.667-.13-1.667-.986V5.653Z" /></svg>';
+
+		const muteBtn = createEl("button", "lightbox-video-btn lightbox-mute-btn", {
+			type: "button",
+			"aria-label": "Toggle mute",
+			hidden: "true",
+		});
+		muteBtn.innerHTML =
+			'<svg class="icon-muted" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" /></svg>' +
+			'<svg class="icon-unmuted svg-hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" /></svg>';
+
+		stage.appendChild(mediaHost);
+		stage.appendChild(captionBar);
+		stage.appendChild(playBtn);
+		stage.appendChild(muteBtn);
+		shell.appendChild(stage);
+		shell.appendChild(closeBtn);
+		shell.appendChild(prevBtn);
+		shell.appendChild(nextBtn);
+		shell.appendChild(counter);
+		document.body.appendChild(shell);
+
+		let items = [];
+		let index = 0;
+		let currentMedia = null;
+		let open = false;
+		let touchStartX = 0;
+		let touchStartY = 0;
+		let touchDeltaX = 0;
+
+		function setInlineCarouselsBlocked(blocked) {
+			document.querySelectorAll(".inline-carousel").forEach((carousel) => {
+				carousel.classList.toggle("is-lightbox-blocked", blocked);
+				const glide = carousel.__inlineGlideInstance;
+				if (!glide) return;
+				if (blocked && typeof glide.disable === "function") glide.disable();
+				if (!blocked && typeof glide.enable === "function") glide.enable();
+			});
+		}
+
+		function updateChrome() {
+			const multi = items.length > 1;
+			prevBtn.hidden = !multi;
+			nextBtn.hidden = !multi;
+			counter.hidden = !multi;
+			if (multi) counter.textContent = `${index + 1} / ${items.length}`;
+		}
+
+		function stopMedia() {
+			if (currentMedia && currentMedia.tagName === "VIDEO") {
+				currentMedia.pause();
+				currentMedia.removeAttribute("src");
+				currentMedia.load();
 			}
+			currentMedia = null;
 		}
-	});
 
-	// Optional: Add keyboard navigation
-	document.addEventListener('keydown', (e) => {
-		if (lightbox.style.display !== 'none' && glideInstance) {
-			if (e.key === 'ArrowLeft') {
-				glideInstance.go('<');
-			} else if (e.key === 'ArrowRight') {
-				glideInstance.go('>');
-			} else if (e.key === 'Escape') {
-				close.click(); // Trigger close action
+		function updateMuteIcons(muted) {
+			const mutedIcon = muteBtn.querySelector(".icon-muted");
+			const unmutedIcon = muteBtn.querySelector(".icon-unmuted");
+			if (!mutedIcon || !unmutedIcon) return;
+			mutedIcon.classList.toggle("svg-hidden", !muted);
+			unmutedIcon.classList.toggle("svg-hidden", muted);
+		}
+
+		function render() {
+			const item = items[index];
+			if (!item) return;
+
+			stopMedia();
+			mediaHost.innerHTML = "";
+
+			const { title, description } = parseCaption(item.captionRaw || item.alt);
+			captionText.innerHTML = "";
+			if (title) {
+				captionText.appendChild(createEl("span", "image-caption-title", { text: title }));
 			}
-		}
-	});
+			if (description) {
+				const desc = createEl("span", "image-caption-description", { text: description });
+				if (title) desc.classList.add("mt-1");
+				captionText.appendChild(desc);
+			}
+			captionBar.hidden = !(title || description);
 
-});
+			const filename = (item.src.split("/").pop() || "download").split("?")[0];
+			downloadLink.href = item.src;
+			downloadLink.setAttribute("download", filename);
+			downloadLink.title = item.video ? "Download video" : "Download image";
+
+			if (item.video) {
+				const video = createEl("video", "lightbox-media lightbox-video", {
+					playsinline: "",
+					preload: "metadata",
+				});
+				video.src = item.src;
+				video.muted = true;
+				video.loop = true;
+				video.setAttribute("playsinline", "");
+				mediaHost.appendChild(video);
+				currentMedia = video;
+				playBtn.hidden = false;
+				muteBtn.hidden = false;
+				updateMuteIcons(true);
+				video.addEventListener("play", () => {
+					playBtn.hidden = true;
+				});
+				video.addEventListener("pause", () => {
+					playBtn.hidden = false;
+				});
+			} else {
+				const img = createEl("img", "lightbox-media lightbox-image", {
+					alt: item.alt || title || "",
+					src: item.src,
+				});
+				mediaHost.appendChild(img);
+				currentMedia = img;
+				playBtn.hidden = true;
+				muteBtn.hidden = true;
+			}
+
+			updateChrome();
+		}
+
+		function closeLightbox() {
+			if (!open) return;
+			open = false;
+			stopMedia();
+			shell.hidden = true;
+			shell.classList.remove("is-open");
+			document.body.classList.remove("lightbox-open");
+			setInlineCarouselsBlocked(false);
+		}
+
+		function openLightbox(wrappers, startIndex) {
+			items = wrappers.map(mediaFromWrapper).filter(Boolean);
+			if (!items.length) return;
+			index = Math.max(0, Math.min(startIndex, items.length - 1));
+			open = true;
+			document.body.classList.add("lightbox-open");
+			setInlineCarouselsBlocked(true);
+			shell.hidden = false;
+			shell.classList.add("is-open");
+			render();
+			closeBtn.focus({ preventScroll: true });
+		}
+
+		function go(delta) {
+			if (items.length < 2) return;
+			index = (index + delta + items.length) % items.length;
+			render();
+		}
+
+		function bindOpenHandlers() {
+			document.querySelectorAll(".lightbox-image-wrapper").forEach((wrapper) => {
+				if (wrapper.dataset.lightboxBound === "1") return;
+				wrapper.dataset.lightboxBound = "1";
+
+				let pointerStart = null;
+				let moved = false;
+
+				wrapper.addEventListener("pointerdown", (e) => {
+					if (e.button !== undefined && e.button !== 0) return;
+					if (e.pointerType === "mouse" && e.buttons !== 1) return;
+					pointerStart = { x: e.clientX, y: e.clientY };
+					moved = false;
+				});
+
+				wrapper.addEventListener("pointermove", (e) => {
+					if (!pointerStart) return;
+					// Ignore hover moves — only track while a button is held (or touch)
+					if (e.pointerType === "mouse" && e.buttons !== 1) {
+						pointerStart = null;
+						moved = false;
+						return;
+					}
+					const dx = Math.abs(e.clientX - pointerStart.x);
+					const dy = Math.abs(e.clientY - pointerStart.y);
+					if (dx > CLICK_MOVE_TOLERANCE || dy > CLICK_MOVE_TOLERANCE) {
+						moved = true;
+					}
+				});
+
+				wrapper.addEventListener("pointerup", (e) => {
+					const start = pointerStart;
+					pointerStart = null;
+					if (!start || moved) return;
+					if (e.target.closest(".glide__arrow, .video-play-button, a, button")) return;
+
+					const wrappers = collectWrappers(wrapper);
+					const startIndex = wrappers.indexOf(wrapper);
+					if (startIndex < 0) return;
+					e.preventDefault();
+					e.stopPropagation();
+					openLightbox(wrappers, startIndex);
+				});
+
+				wrapper.addEventListener("pointercancel", () => {
+					pointerStart = null;
+					moved = false;
+				});
+			});
+		}
+
+		// Re-bind after Glide mounts clones / late content
+		bindOpenHandlers();
+		setTimeout(bindOpenHandlers, 0);
+		setTimeout(bindOpenHandlers, 500);
+
+		closeBtn.addEventListener("click", (e) => {
+			e.stopPropagation();
+			closeLightbox();
+		});
+		prevBtn.addEventListener("click", (e) => {
+			e.stopPropagation();
+			go(-1);
+		});
+		nextBtn.addEventListener("click", (e) => {
+			e.stopPropagation();
+			go(1);
+		});
+		shell.addEventListener("click", (e) => {
+			if (e.target === shell) closeLightbox();
+		});
+
+		playBtn.addEventListener("click", (e) => {
+			e.stopPropagation();
+			if (!currentMedia || currentMedia.tagName !== "VIDEO") return;
+			currentMedia.play().catch(() => {});
+		});
+
+		muteBtn.addEventListener("click", (e) => {
+			e.stopPropagation();
+			if (!currentMedia || currentMedia.tagName !== "VIDEO") return;
+			currentMedia.muted = !currentMedia.muted;
+			updateMuteIcons(currentMedia.muted);
+		});
+
+		mediaHost.addEventListener("click", (e) => {
+			e.stopPropagation();
+			if (!currentMedia || currentMedia.tagName !== "VIDEO") return;
+			if (currentMedia.paused) {
+				currentMedia.play().catch(() => {});
+			} else {
+				currentMedia.pause();
+			}
+		});
+
+		downloadLink.addEventListener("click", (e) => e.stopPropagation());
+
+		document.addEventListener("keydown", (e) => {
+			if (!open) return;
+			if (e.key === "Escape") closeLightbox();
+			else if (e.key === "ArrowLeft") go(-1);
+			else if (e.key === "ArrowRight") go(1);
+		});
+
+		shell.addEventListener(
+			"touchstart",
+			(e) => {
+				if (!open || !e.changedTouches[0]) return;
+				touchStartX = e.changedTouches[0].clientX;
+				touchStartY = e.changedTouches[0].clientY;
+				touchDeltaX = 0;
+			},
+			{ passive: true }
+		);
+
+		shell.addEventListener(
+			"touchmove",
+			(e) => {
+				if (!open || !e.changedTouches[0]) return;
+				touchDeltaX = e.changedTouches[0].clientX - touchStartX;
+			},
+			{ passive: true }
+		);
+
+		shell.addEventListener(
+			"touchend",
+			(e) => {
+				if (!open || !e.changedTouches[0]) return;
+				const dx = e.changedTouches[0].clientX - touchStartX;
+				const dy = e.changedTouches[0].clientY - touchStartY;
+				if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy)) return;
+				if (dx < 0) go(1);
+				else go(-1);
+			},
+			{ passive: true }
+		);
+	});
+})();
