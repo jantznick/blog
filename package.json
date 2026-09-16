@@ -41,7 +41,9 @@
     "markdown-it-anchor": "^8.6.4",
     "markdown-it-attrs": "^4.3.1",
     "markdown-it-footnote": "^4.0.0",
+    "photoswipe": "^5.4.4",
     "postcss": "^8.5.3",
+    "swiper": "^11.2.10",
     "tailwindcss": "^4.1.5"
   }
 }

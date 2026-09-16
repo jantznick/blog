@@ -1,2 +1,6 @@
 node_modules/
 dist/
+
+# Immich export dumps — keep album-root media only
+*.zip
+img/**/immich-*/

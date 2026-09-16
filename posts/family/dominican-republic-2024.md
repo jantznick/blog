@@ -30,5 +30,4 @@ Then we flew west to Puerto Rico.
 
 {% imageCarousel id="travel-day-carousel", images=travel_day_images %}
 
-{% include "partials/lightbox-loader.njk" %}
-{% include "partials/inline-carousel-loader.njk" %}
+{% include "partials/photo-media-loader.njk" %}

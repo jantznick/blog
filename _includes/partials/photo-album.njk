@@ -2,15 +2,9 @@
   Usage in a post:
     {% set albumId = "mexico-feb-2024" %}
     {% include "partials/photo-album.njk" %}
-
-  Optional custom carousel id:
-    {% set albumId = "mexico-feb-2024" %}
-    {% set carouselId = "mexico-carousel" %}
-    {% include "partials/photo-album.njk" %}
 #}
 {% set albumImages = photoAlbums[albumId] %}
 {% if albumImages and albumImages.length %}
 {% imageCarousel id=carouselId or albumId, images=albumImages %}
-{% include "partials/lightbox-loader.njk" %}
-{% include "partials/inline-carousel-loader.njk" %}
+{% include "partials/photo-media-loader.njk" %}
 {% endif %}
